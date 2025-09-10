@@ -1,5 +1,6 @@
 package com.rtr.store_manager_api.domain.entity
 
+import at.favre.lib.crypto.bcrypt.BCrypt
 import jakarta.persistence.*
 import java.util.*
 
@@ -10,15 +11,28 @@ data class User(
     val id: UUID = UUID.randomUUID(),
 
     @Column(nullable = false)
-    val name: String,
+    var name: String,
 
     @Column(nullable = false, unique = true)
-    val email: String,
+    var email: String,
 
     @Column(name = "password_hash", nullable = false)
-    val passwordHash: String,
+    var password: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", nullable = false)
-    val role: UserRole
+    var role: UserRole
 ) : BaseEntity()
+{
+    fun encodePassword(rawPassword: String) {
+        this.password = BCrypt.withDefaults()
+            .hashToString(12, rawPassword.toCharArray())
+    }
+
+    fun checkPassword(rawPassword: String): Boolean {
+        return BCrypt.verifyer()
+            .verify(rawPassword.toCharArray(), this.password)
+            .verified
+    }
+
+}

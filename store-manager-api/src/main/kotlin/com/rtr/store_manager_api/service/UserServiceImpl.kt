@@ -1,0 +1,95 @@
+package com.rtr.store_manager_api.service
+
+import com.rtr.store_manager_api.domain.entity.User
+import com.rtr.store_manager_api.dto.UserRequestDTO
+import com.rtr.store_manager_api.dto.UserResponseDTO
+import com.rtr.store_manager_api.repository.UserRepository
+import com.rtr.store_manager_api.exception.ResourceNotFoundException
+import com.rtr.store_manager_api.exception.RtrRuleException
+import com.rtr.store_manager_api.repository.UserRoleRepository
+import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.stereotype.Service
+
+@Service
+class UserServiceImpl(
+    private val userRepository: UserRepository,
+    private val passwordEncoder: PasswordEncoder,
+    private val userRoleRepository: UserRoleRepository
+) : UserService {
+
+    override fun createUser(userInput: UserRequestDTO): UserResponseDTO {
+        if (userRepository.existsByEmail(userInput.email)) {
+            throw RtrRuleException("E-mail já registrado: ${userInput.email}")
+        }
+
+        val role = userRoleRepository.findByName(userInput.roleName)
+            ?: throw RtrRuleException("Cargo não encontrado: ${userInput.roleName}")
+
+        val user = User(
+            name = userInput.name,
+            email = userInput.email,
+            password = passwordEncoder.encode(userInput.password),
+            role = role
+        )
+
+        return userRepository.save(user).toDTO()
+    }
+
+    override fun getAllUsers(username: String?, email: String?, role: String?): List<UserResponseDTO> {
+        val users = userRepository.findAll()
+
+        return users.filter { user ->
+            (username == null || user.name.contains(username, ignoreCase = true)) &&
+                    (email == null || user.email.contains(email, ignoreCase = true)) &&
+                    (role == null || user.role.name.equals(role, ignoreCase = true))
+        }.map { it.toDTO() }
+    }
+
+    override fun getUserById(id: String): UserResponseDTO {
+        val user = userRepository.findById(id)
+            .orElseThrow { ResourceNotFoundException("Usuário não encontrado com o id: $id") }
+        return user.toDTO()
+    }
+
+    override fun updateUser(id: String, userInput: UserRequestDTO): UserResponseDTO {
+        val existingUser = userRepository.findById(id)
+            .orElseThrow { ResourceNotFoundException("Usuário não encontrado com o id: $id") }
+
+        existingUser.name = userInput.name
+        existingUser.email = userInput.email
+        existingUser.role = userRoleRepository.findByName(userInput.roleName)
+            ?: throw RtrRuleException("Cargo não encontrado: ${userInput.roleName}")
+
+        return userRepository.save(existingUser).toDTO()
+    }
+
+    override fun deleteUser(id: String): Boolean {
+        val existingUser = userRepository.findById(id)
+            .orElseThrow { ResourceNotFoundException("Usuário não encontrado com o id: $id") }
+
+        userRepository.delete(existingUser)
+        return true
+    }
+
+    override fun validateUser(email: String, rawPassword: String): UserResponseDTO {
+        val user = userRepository.findByEmail(email)
+            ?: throw ResourceNotFoundException("Usuário não encontrado com o e-mail: $email")
+
+        if (!passwordEncoder.matches(rawPassword, user.password)) {
+            throw RtrRuleException("Senha inválida para o usuário $email")
+        }
+
+        return user.toDTO()
+    }
+
+    private fun User.toDTO(): UserResponseDTO {
+        return UserResponseDTO(
+            id = this.id.toString(),
+            name = this.name,
+            email = this.email,
+            roleName = this.role.name,
+            createdAt = this.createdAt,
+            updatedAt = this.updatedAt
+        )
+    }
+}
