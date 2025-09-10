@@ -9,6 +9,7 @@ import com.rtr.store_manager_api.exception.RtrRuleException
 import com.rtr.store_manager_api.repository.UserRoleRepository
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class UserServiceImpl(
@@ -51,23 +52,34 @@ class UserServiceImpl(
         return user.toDTO()
     }
 
-    override fun updateUser(id: String, userInput: UserRequestDTO): UserResponseDTO {
+    override fun updateUser(id: String, userInput: UserRequestDTO, userId: String): UserResponseDTO {
         val existingUser = userRepository.findById(id)
             .orElseThrow { ResourceNotFoundException("Usuário não encontrado com o id: $id") }
+
+        val validateUserId = userRepository.findById(userId)
+            .orElseThrow { ResourceNotFoundException("User-id enviado na header não encontrado: $id") }
 
         existingUser.name = userInput.name
         existingUser.email = userInput.email
         existingUser.role = userRoleRepository.findByName(userInput.roleName)
             ?: throw RtrRuleException("Cargo não encontrado: ${userInput.roleName}")
-
+        existingUser.updatedAt = LocalDateTime.now()
+        existingUser.updatedBy = validateUserId.id
         return userRepository.save(existingUser).toDTO()
     }
 
-    override fun deleteUser(id: String): Boolean {
+    override fun deleteUser(id: String, userId: String): Boolean {
         val existingUser = userRepository.findById(id)
             .orElseThrow { ResourceNotFoundException("Usuário não encontrado com o id: $id") }
 
-        userRepository.delete(existingUser)
+        val validateUserId = userRepository.findById(userId)
+            .orElseThrow { ResourceNotFoundException("User-id enviado na header não encontrado: $id") }
+
+        existingUser.deleted = true
+        existingUser.updatedAt = LocalDateTime.now()
+        existingUser.updatedBy = validateUserId.id
+
+        userRepository.save(existingUser)
         return true
     }
 

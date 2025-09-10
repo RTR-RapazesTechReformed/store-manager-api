@@ -36,15 +36,19 @@ class UserController(private val userService: UserService) {
     @PutMapping("/{id}")
     fun updateUser(
         @PathVariable id: String,
+        @RequestHeader("user-id") userId: String,
         @RequestBody user: UserRequestDTO
     ): ResponseEntity<UserResponseDTO> {
-        val updatedUser = userService.updateUser(id, user)
+        val updatedUser = userService.updateUser(id, user, userId)
         return ResponseEntity.ok(updatedUser)
     }
 
     @DeleteMapping("/{id}")
-    fun deleteUser(@PathVariable id: String): ResponseEntity<Void> {
-        userService.deleteUser(id)
+    fun deleteUser(
+        @RequestHeader("user-id") userId: String,
+        @PathVariable id: String
+    ): ResponseEntity<Void> {
+        userService.deleteUser(id, userId)
         return ResponseEntity.noContent().build()
     }
 }
