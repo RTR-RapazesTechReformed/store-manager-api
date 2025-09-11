@@ -1,13 +1,11 @@
 package com.rtr.store_manager_api.dto
 
-import com.rtr.store_manager_api.domain.entity.Permission
 import java.time.LocalDateTime
 
-data class UserRoleResponseDTO(
-    val id: String,
+data class PermissionResponseDTO (
+    val id: String? = null,
     val name: String,
     val description: String,
-    val permissions: MutableSet<Permission> = mutableSetOf(),
     val createdAt: LocalDateTime?,
     val updatedAt: LocalDateTime?
 )

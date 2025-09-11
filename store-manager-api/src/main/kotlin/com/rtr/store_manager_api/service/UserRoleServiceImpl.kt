@@ -1,10 +1,12 @@
 package com.rtr.store_manager_api.service
 
+import com.rtr.store_manager_api.domain.entity.Permission
 import com.rtr.store_manager_api.domain.entity.UserRole
 import com.rtr.store_manager_api.dto.UserRoleRequestDTO
 import com.rtr.store_manager_api.dto.UserRoleResponseDTO
 import com.rtr.store_manager_api.exception.ResourceNotFoundException
 import com.rtr.store_manager_api.exception.RtrRuleException
+import com.rtr.store_manager_api.repository.PermissionRepository
 import com.rtr.store_manager_api.repository.UserRepository
 import com.rtr.store_manager_api.repository.UserRoleRepository
 import org.springframework.stereotype.Service
@@ -14,26 +16,33 @@ import java.util.*
 @Service
 class UserRoleServiceImpl(
     private val userRoleRepository: UserRoleRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val permissionRepository: PermissionRepository
 ) : UserRoleService {
 
     override fun createRole(dto: UserRoleRequestDTO, userId: String): UserRoleResponseDTO {
         val creator = userRepository.findById(userId)
             .orElseThrow { ResourceNotFoundException("User-id enviado na header não encontrado: $userId") }
 
+        val permissions: MutableSet<Permission> = dto.permissions
+            .map { permId ->
+                permissionRepository.findById(permId)
+                    .orElseThrow { ResourceNotFoundException("Permissão não encontrada: $permId") }
+            }
+            .toMutableSet()
+
         val role = UserRole(
             id = UUID.randomUUID().toString(),
             name = dto.name,
             description = dto.description,
-            permissions = dto.permissions.toMutableSet(), // atribui permissões
-        )
+            permissions = permissions,
+        ).apply {
+            createdBy = creator.id
+            updatedBy = creator.id
+        }
 
-        role.createdBy = creator.id
-        role.updatedBy = creator.id
-        role.createdAt = LocalDateTime.now()
-        role.updatedAt = LocalDateTime.now()
-
-        return userRoleRepository.save(role).toDTO()
+        val saved = userRoleRepository.save(role)
+        return saved.toDTO()
     }
 
     override fun getAllRoles(): List<UserRoleResponseDTO> {

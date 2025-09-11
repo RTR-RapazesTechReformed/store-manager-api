@@ -15,9 +15,12 @@ data class UserRole(
     @Column(nullable = false)
     var description: String,
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "role_permission", joinColumns = [JoinColumn(name = "role_id")])
-    @Column(name = "permission")
-    var permissions: MutableSet<String> = mutableSetOf(),
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "role_permission",
+        joinColumns = [JoinColumn(name = "role_id")],
+        inverseJoinColumns = [JoinColumn(name = "permission_id")]
+    )
+    var permissions: MutableSet<Permission> = mutableSetOf(),
 
 ): BaseEntity()
