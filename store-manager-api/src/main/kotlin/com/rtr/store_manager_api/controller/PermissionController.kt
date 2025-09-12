@@ -9,7 +9,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import java.net.URI
 
 @RestController
-@RequestMapping("/api/permissions")
+@RequestMapping("/store-manager-api/permissions")
 class PermissionController(
     private val permissionService: PermissionService
 ) {
