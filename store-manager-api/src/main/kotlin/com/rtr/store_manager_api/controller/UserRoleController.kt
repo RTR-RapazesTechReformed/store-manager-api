@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/store-manager-api/roles")
+    @RequestMapping("/store-manager-api/roles")
 class UserRoleController(
     private val userRoleService: UserRoleService
 ) {

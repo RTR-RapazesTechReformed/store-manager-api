@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/store-manager-api/auth")
 class AuthController(
     private val authService: AuthService
 ) {
@@ -24,7 +24,7 @@ class AuthController(
         return ResponseEntity.status(HttpStatus.OK).body(response)
     }
 
-    @PostMapping("/logout/{sessionId}")
+        @PostMapping("/logout/{sessionId}")
     fun logout(@PathVariable sessionId: String): ResponseEntity<LogoutResponseDTO> {
         val response = authService.logout(sessionId)
         return ResponseEntity.status(HttpStatus.OK).body(response)
