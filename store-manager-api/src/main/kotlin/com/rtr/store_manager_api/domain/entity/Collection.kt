@@ -1,7 +1,7 @@
 package com.rtr.store_manager_api.domain.entity
 
 import jakarta.persistence.*
-import java.time.LocalDateTime
+import java.time.LocalDate
 import java.util.*
 
 @Entity
@@ -15,5 +15,6 @@ data class Collection(
 
     val abbreviation: String? = null,
 
-    val releaseDate: LocalDateTime? = null
+    @Column(name = "release_date")
+    val releaseDate: LocalDate? = null
 ) : BaseEntity()
