@@ -3,10 +3,9 @@ package com.rtr.store_manager_api.controller
 import com.rtr.store_manager_api.dto.PermissionRequestDTO
 import com.rtr.store_manager_api.dto.PermissionResponseDTO
 import com.rtr.store_manager_api.service.PermissionService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder
-import java.net.URI
 
 @RestController
 @RequestMapping("/store-manager-api/permissions")
@@ -20,12 +19,8 @@ class PermissionController(
         @RequestHeader("user-id") userId: String
     ): ResponseEntity<PermissionResponseDTO> {
         val created = permissionService.createPermission(dto, userId)
-        val location: URI = ServletUriComponentsBuilder
-            .fromCurrentRequest()
-            .path("/{id}")
-            .buildAndExpand(created.id)
-            .toUri()
-        return ResponseEntity.created(location).body(created)
+
+        return  ResponseEntity.status(HttpStatus.CREATED).body(created)
     }
 
     @GetMapping

@@ -8,7 +8,6 @@ import com.rtr.store_manager_api.repository.UserSessionRepository
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
-import java.util.*
 
 @Service
 class AuthServiceImpl(
@@ -35,7 +34,7 @@ class AuthServiceImpl(
 
         return LoginResponseDTO(
             sessionId = session.id,
-            userId = user.id.toString(),
+            userId = user.id,
             active = session.active
         )
     }

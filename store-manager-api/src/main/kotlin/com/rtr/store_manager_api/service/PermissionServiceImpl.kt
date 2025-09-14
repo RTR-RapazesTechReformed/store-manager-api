@@ -5,28 +5,22 @@ import com.rtr.store_manager_api.dto.PermissionRequestDTO
 import com.rtr.store_manager_api.dto.PermissionResponseDTO
 import com.rtr.store_manager_api.exception.ResourceNotFoundException
 import com.rtr.store_manager_api.repository.PermissionRepository
-import com.rtr.store_manager_api.repository.UserRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.util.*
 
 @Service
 class PermissionServiceImpl(
-    private val permissionRepository: PermissionRepository,
-    private val userRepository: UserRepository
+    private val permissionRepository: PermissionRepository
 ) : PermissionService {
 
     override fun createPermission(dto: PermissionRequestDTO, userId: String): PermissionResponseDTO {
-        val creator = userRepository.findById(userId)
-            .orElseThrow { ResourceNotFoundException("Usuário não encontrado: $userId") }
-
         val permission = Permission(
-            id = UUID.randomUUID().toString(),
             name = dto.name,
             description = dto.description
         ).apply {
-            createdBy = creator.id
-            updatedBy = creator.id
+            createdBy = userId
+            updatedBy = userId
         }
 
         return permissionRepository.save(permission).toDTO()
@@ -45,13 +39,10 @@ class PermissionServiceImpl(
         val existing = permissionRepository.findById(id)
             .orElseThrow { ResourceNotFoundException("Permissão não encontrada: $id") }
 
-        val updater = userRepository.findById(userId)
-            .orElseThrow { ResourceNotFoundException("Usuário não encontrado: $userId") }
-
         existing.name = dto.name
         existing.description = dto.description
         existing.updatedAt = LocalDateTime.now()
-        existing.updatedBy = updater.id
+        existing.updatedBy = userId
 
         return permissionRepository.save(existing).toDTO()
     }
@@ -60,12 +51,9 @@ class PermissionServiceImpl(
         val existing = permissionRepository.findById(id)
             .orElseThrow { ResourceNotFoundException("Permissão não encontrada: $id") }
 
-        val deleter = userRepository.findById(userId)
-            .orElseThrow { ResourceNotFoundException("Usuário não encontrado: $userId") }
-
         existing.deleted = true
         existing.updatedAt = LocalDateTime.now()
-        existing.updatedBy = deleter.id
+        existing.updatedBy = userId
         permissionRepository.save(existing)
 
         return true
@@ -77,6 +65,9 @@ class PermissionServiceImpl(
             name = name,
             description = description,
             createdAt = createdAt,
-            updatedAt = updatedAt
+            updatedAt = updatedAt,
+            createdBy = createdBy,
+            updatedBy = updatedBy,
+            delete = deleted
         )
 }

@@ -1,14 +1,13 @@
 package com.rtr.store_manager_api.domain.entity
 
 import jakarta.persistence.*
-import java.util.*
 
 @Entity
 @Table(name = "inventory")
 data class Inventory(
     @Id
     @Column(name = "product_id")
-    val productId: UUID,
+    val productId: String,
 
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId

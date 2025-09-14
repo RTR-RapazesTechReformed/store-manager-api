@@ -9,7 +9,7 @@ import java.util.*
 @Table(name = "product")
 data class Product(
     @Id
-    val id: UUID = UUID.randomUUID(),
+    val id: String = UUID.randomUUID().toString(),
 
     @Column(nullable = false)
     val name: String,

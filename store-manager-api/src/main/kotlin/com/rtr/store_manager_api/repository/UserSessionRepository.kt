@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
 interface UserSessionRepository : JpaRepository<UserSession, String> {
-    fun findByUserIdAndActive(userId: UUID, active: Boolean): Optional<UserSession>
+    fun findByUserIdAndActive(userId: String, active: Boolean): Optional<UserSession>
 }

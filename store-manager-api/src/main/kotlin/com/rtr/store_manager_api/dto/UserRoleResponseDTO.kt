@@ -8,6 +8,9 @@ data class UserRoleResponseDTO(
     val name: String,
     val description: String,
     val permissions: MutableSet<Permission> = mutableSetOf(),
+    val createdBy: String?,
+    val updatedBy: String?,
     val createdAt: LocalDateTime?,
-    val updatedAt: LocalDateTime?
+    val updatedAt: LocalDateTime?,
+    val delete: Boolean
 )

@@ -7,6 +7,9 @@ data class UserResponseDTO(
     val name: String,
     val email: String,
     val roleName: String,
+    val createdBy: String?,
+    val updatedBy: String?,
     val createdAt: LocalDateTime?,
-    val updatedAt: LocalDateTime?
+    val updatedAt: LocalDateTime?,
+    val delete: Boolean
 )

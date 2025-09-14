@@ -21,9 +21,6 @@ class UserRoleServiceImpl(
 ) : UserRoleService {
 
     override fun createRole(dto: UserRoleRequestDTO, userId: String): UserRoleResponseDTO {
-        val creator = userRepository.findById(userId)
-            .orElseThrow { ResourceNotFoundException("User-id enviado na header não encontrado: $userId") }
-
         val permissions: MutableSet<Permission> = dto.permissions
             .map { permId ->
                 permissionRepository.findById(permId)
@@ -37,8 +34,8 @@ class UserRoleServiceImpl(
             description = dto.description,
             permissions = permissions,
         ).apply {
-            createdBy = creator.id
-            updatedBy = creator.id
+            createdBy = userId
+            updatedBy = userId
         }
 
         val saved = userRoleRepository.save(role)
@@ -62,12 +59,9 @@ class UserRoleServiceImpl(
         val role = userRoleRepository.findById(id)
             .orElseThrow { ResourceNotFoundException("Cargo não encontrado com o id: $id") }
 
-        val updater = userRepository.findById(userId)
-            .orElseThrow { ResourceNotFoundException("User-id enviado na header não encontrado: $userId") }
-
         role.name = dto.name
         role.description = dto.description
-        role.updatedBy = updater.id
+        role.updatedBy = userId
         role.updatedAt = LocalDateTime.now()
 
         return userRoleRepository.save(role).toDTO()
@@ -77,16 +71,13 @@ class UserRoleServiceImpl(
         val role = userRoleRepository.findById(id)
             .orElseThrow { ResourceNotFoundException("Cargo não encontrado com o id: $id") }
 
-        val deleter = userRepository.findById(userId)
-            .orElseThrow { ResourceNotFoundException("User-id enviado na header não encontrado: $userId") }
-
         val usersWithRole = userRepository.existsByRoleIdAndDeletedFalse(role.id)
         if (usersWithRole) {
             throw RtrRuleException("Não é possível deletar a role '${role.name}' pois ela está sendo utilizada por usuários ativos")
         }
 
         role.deleted = true
-        role.updatedBy = deleter.id
+        role.updatedBy = userId
         role.updatedAt = LocalDateTime.now()
 
         userRoleRepository.save(role)
@@ -100,7 +91,10 @@ class UserRoleServiceImpl(
             description = this.description,
             permissions = this.permissions,
             createdAt = this.createdAt,
-            updatedAt = this.updatedAt
+            updatedAt = this.updatedAt,
+            createdBy = this.createdBy,
+            updatedBy = this.updatedBy,
+            delete = this.deleted
         )
     }
 

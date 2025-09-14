@@ -18,7 +18,7 @@ class UserServiceImpl(
     private val userRoleRepository: UserRoleRepository
 ) : UserService {
 
-    override fun createUser(userInput: UserRequestDTO): UserResponseDTO {
+    override fun createUser(userInput: UserRequestDTO, userId: String): UserResponseDTO {
         if (userRepository.existsByEmail(userInput.email)) {
             throw RtrRuleException("E-mail já registrado: ${userInput.email}")
         }
@@ -31,7 +31,10 @@ class UserServiceImpl(
             email = userInput.email,
             password = passwordEncoder.encode(userInput.password),
             role = role
-        )
+        ).apply {
+            createdBy = userId
+            updatedBy = userId
+        }
 
         return userRepository.save(user).toDTO()
     }
@@ -56,15 +59,14 @@ class UserServiceImpl(
         val existingUser = userRepository.findById(id)
             .orElseThrow { ResourceNotFoundException("Usuário não encontrado com o id: $id") }
 
-        val validateUserId = userRepository.findById(userId)
-            .orElseThrow { ResourceNotFoundException("User-id enviado na header não encontrado: $id") }
-
         existingUser.name = userInput.name
         existingUser.email = userInput.email
         existingUser.role = userRoleRepository.findByName(userInput.roleName)
             ?: throw RtrRuleException("Cargo não encontrado: ${userInput.roleName}")
+
         existingUser.updatedAt = LocalDateTime.now()
-        existingUser.updatedBy = validateUserId.id
+        existingUser.updatedBy = userId
+
         return userRepository.save(existingUser).toDTO()
     }
 
@@ -72,12 +74,9 @@ class UserServiceImpl(
         val existingUser = userRepository.findById(id)
             .orElseThrow { ResourceNotFoundException("Usuário não encontrado com o id: $id") }
 
-        val validateUserId = userRepository.findById(userId)
-            .orElseThrow { ResourceNotFoundException("User-id enviado na header não encontrado: $id") }
-
         existingUser.deleted = true
         existingUser.updatedAt = LocalDateTime.now()
-        existingUser.updatedBy = validateUserId.id
+        existingUser.updatedBy = userId
 
         userRepository.save(existingUser)
         return true
@@ -96,12 +95,15 @@ class UserServiceImpl(
 
     private fun User.toDTO(): UserResponseDTO {
         return UserResponseDTO(
-            id = this.id.toString(),
+            id = this.id,
             name = this.name,
             email = this.email,
             roleName = this.role.name,
             createdAt = this.createdAt,
-            updatedAt = this.updatedAt
+            updatedAt = this.updatedAt,
+            createdBy = this.createdBy,
+            updatedBy = this.updatedBy,
+            delete = this.deleted
         )
     }
 }

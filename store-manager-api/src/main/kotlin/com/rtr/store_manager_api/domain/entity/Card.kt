@@ -8,7 +8,7 @@ import java.util.*
 @Table(name = "card")
 data class Card(
     @Id
-    val id: UUID = UUID.randomUUID(),
+    val id: String = UUID.randomUUID().toString(),
 
     @Column(nullable = false)
     val title: String,
