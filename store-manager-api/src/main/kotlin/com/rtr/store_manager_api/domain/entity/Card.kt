@@ -11,20 +11,20 @@ data class Card(
     val id: String = UUID.randomUUID().toString(),
 
     @Column(nullable = false)
-    val title: String,
+    var title: String,
 
-    val artistName: String? = null,
+    var artistName: String? = null,
 
-    val season: String? = null,
+    var season: String? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "collection_id", nullable = false)
-    val collection: Collection,
+    var collection: Collection,
 
     @Column(nullable = false)
-    val code: String,
+    var code: String,
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    val rarity: CardRarity = CardRarity.COMMON
+    var rarity: CardRarity = CardRarity.COMMON
 ) : BaseEntity()

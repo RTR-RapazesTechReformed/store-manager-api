@@ -20,6 +20,4 @@ abstract class BaseEntity {
 
     @Column(name = "deleted")
     var deleted: Boolean = false
-
-
 }
