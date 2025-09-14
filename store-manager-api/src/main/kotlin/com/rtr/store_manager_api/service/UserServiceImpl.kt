@@ -103,7 +103,7 @@ class UserServiceImpl(
             updatedAt = this.updatedAt,
             createdBy = this.createdBy,
             updatedBy = this.updatedBy,
-            delete = this.deleted
+            deleted = this.deleted
         )
     }
 }

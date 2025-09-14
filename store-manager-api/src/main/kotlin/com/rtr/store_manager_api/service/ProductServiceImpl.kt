@@ -86,6 +86,6 @@ class ProductServiceImpl(
         updatedBy = this.updatedBy,
         createdAt = this.createdAt,
         updatedAt = this.updatedAt,
-        delete = this.deleted
+        deleted = this.deleted
     )
 }

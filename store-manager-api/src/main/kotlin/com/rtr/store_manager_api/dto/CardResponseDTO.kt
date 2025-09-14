@@ -14,5 +14,5 @@ data class CardResponseDTO(
     val createdAt: LocalDateTime?,
     val updatedBy: String?,
     val updatedAt: LocalDateTime?,
-    val delete: Boolean
+    val deleted: Boolean
 )

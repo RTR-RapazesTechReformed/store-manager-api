@@ -68,6 +68,6 @@ class PermissionServiceImpl(
             updatedAt = updatedAt,
             createdBy = createdBy,
             updatedBy = updatedBy,
-            delete = deleted
+            deleted = deleted
         )
 }

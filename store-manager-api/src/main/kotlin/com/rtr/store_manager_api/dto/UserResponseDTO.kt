@@ -11,5 +11,5 @@ data class UserResponseDTO(
     val updatedBy: String?,
     val createdAt: LocalDateTime?,
     val updatedAt: LocalDateTime?,
-    val delete: Boolean
+    val deleted: Boolean
 )

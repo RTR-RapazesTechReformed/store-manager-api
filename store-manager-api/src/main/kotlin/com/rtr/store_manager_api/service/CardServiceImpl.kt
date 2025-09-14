@@ -90,6 +90,6 @@ class CardServiceImpl(
         createdAt = this.createdAt,
         updatedBy = this.updatedBy,
         updatedAt = this.updatedAt,
-        delete = this.deleted
+        deleted = this.deleted
     )
 }
