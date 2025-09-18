@@ -14,9 +14,9 @@ data class Product(
     val id: String = UUID.randomUUID().toString(),
 
     @Column(nullable = false)
-    val name: String,
+    var name: String,
 
-    val description: String? = null,
+    var description: String? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "card_id", nullable = true, updatable = false, columnDefinition = "CHAR(36)")
@@ -27,9 +27,9 @@ data class Product(
     val otherProduct: OtherProduct? = null,
 
     @Column(name = "price", precision = 15, scale = 2, nullable = false)
-    val price: BigDecimal = BigDecimal.ZERO,
+    var price: BigDecimal = BigDecimal.ZERO,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "product_condition", nullable = false)
-    val condition: ProductCondition = ProductCondition.MINT
+    var condition: ProductCondition = ProductCondition.MINT
 ) : BaseEntity()
