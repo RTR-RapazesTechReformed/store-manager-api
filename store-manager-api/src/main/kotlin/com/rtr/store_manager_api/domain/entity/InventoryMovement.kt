@@ -21,7 +21,7 @@ data class InventoryMovement(
     val user: User,
 
     @Column(nullable = false)
-    val quantity: Int, // positivo = entrada, negativo = saída
+    var quantity: Int, // positivo = entrada, negativo = saída
 
     @Column(name = "unit_purchase_price", precision = 15, scale = 2)
     var unitPurchasePrice: BigDecimal? = null,
@@ -31,7 +31,7 @@ data class InventoryMovement(
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    val type: MovementType,
+    var type: MovementType,
 
-    val description: String? = null
+    var description: String? = null
 ) : BaseEntity()

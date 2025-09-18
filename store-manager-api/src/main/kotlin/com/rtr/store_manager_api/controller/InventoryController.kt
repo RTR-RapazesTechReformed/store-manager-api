@@ -32,9 +32,9 @@ class InventoryController(
     fun getById(@PathVariable productId: String): ResponseEntity<InventoryResponseDTO> =
         ResponseEntity.ok(inventoryService.getInventoryByProductId(productId))
 
-    @PutMapping("/{productId}")
-    fun update(
-        @PathVariable productId: String,
+    @PatchMapping("/{product_id}")
+    fun patch(
+        @PathVariable("product_id") productId: String,
         @RequestBody dto: InventoryRequestDTO,
         @RequestHeader("user-id") userId: String
     ): ResponseEntity<InventoryResponseDTO> {
@@ -43,9 +43,9 @@ class InventoryController(
         return ResponseEntity.status(HttpStatus.OK).body(updated)
     }
 
-    @DeleteMapping("/{productId}")
+    @DeleteMapping("/{product_id}")
     fun delete(
-        @PathVariable productId: String,
+        @PathVariable("product_id") productId: String,
         @RequestHeader("user-id") userId: String
     ): ResponseEntity<Void> {
         HeaderValidator.validateUserId(userId)

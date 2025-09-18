@@ -43,6 +43,7 @@ class ProductController(
         HeaderValidator.validateUserId(userId)
         return ResponseEntity.ok(productService.updateProduct(id, dto, userId))
     }
+
     @DeleteMapping("/{id}")
     fun delete(
         @PathVariable id: String,

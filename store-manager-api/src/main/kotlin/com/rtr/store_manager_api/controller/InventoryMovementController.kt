@@ -2,6 +2,7 @@ package com.rtr.store_manager_api.controller
 
 import com.rtr.store_manager_api.dto.InventoryMovementRequestDTO
 import com.rtr.store_manager_api.dto.InventoryMovementResponseDTO
+import com.rtr.store_manager_api.dto.InventoryMovementUpdateDTO
 import com.rtr.store_manager_api.service.InventoryMovementService
 import com.rtr.store_manager_api.util.HeaderValidator
 import org.springframework.http.HttpStatus
@@ -31,6 +32,16 @@ class InventoryMovementController(
     @GetMapping("/{id}")
     fun getById(@PathVariable id: String): ResponseEntity<InventoryMovementResponseDTO> =
         ResponseEntity.ok(inventoryMovementService.getMovementById(id))
+
+    @PutMapping("/{id}")
+    fun update(
+        @PathVariable id: String,
+        @RequestBody dto: InventoryMovementUpdateDTO,
+        @RequestHeader("user-id") userId: String
+    ): ResponseEntity<InventoryMovementResponseDTO> {
+        HeaderValidator.validateUserId(userId)
+        return ResponseEntity.ok(inventoryMovementService.updateMovement(id, dto, userId))
+    }
 
     @DeleteMapping("/{id}")
     fun delete(
