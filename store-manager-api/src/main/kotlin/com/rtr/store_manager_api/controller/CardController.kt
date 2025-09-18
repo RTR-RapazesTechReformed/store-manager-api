@@ -3,6 +3,7 @@ package com.rtr.store_manager_api.controller
 import com.rtr.store_manager_api.dto.CardRequestDTO
 import com.rtr.store_manager_api.dto.CardResponseDTO
 import com.rtr.store_manager_api.service.CardService
+import com.rtr.store_manager_api.util.HeaderValidator
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -19,6 +20,7 @@ class CardController(
         @RequestHeader("user-id") userId: String
     ): ResponseEntity<CardResponseDTO> {
         val created = cardService.createCard(dto, userId)
+        HeaderValidator.validateUserId(userId)
         return ResponseEntity.status(HttpStatus.CREATED).body(created)
     }
 
@@ -41,6 +43,7 @@ class CardController(
         @RequestHeader("user-id") userId: String
     ): ResponseEntity<CardResponseDTO> {
         val updated = cardService.updateCard(id, dto, userId)
+        HeaderValidator.validateUserId(userId)
         return ResponseEntity.ok(updated)
     }
 
@@ -50,6 +53,7 @@ class CardController(
         @RequestHeader("user-id") userId: String
     ): ResponseEntity<Void> {
         cardService.deleteCard(id, userId)
+        HeaderValidator.validateUserId(userId)
         return ResponseEntity.noContent().build()
     }
 }

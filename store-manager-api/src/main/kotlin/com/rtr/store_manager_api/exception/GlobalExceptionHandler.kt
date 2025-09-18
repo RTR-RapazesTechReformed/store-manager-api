@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.http.converter.HttpMessageNotReadableException
+import org.springframework.web.bind.MissingRequestHeaderException
 
 @ControllerAdvice
 class GlobalExceptionHandler {
@@ -22,14 +23,13 @@ class GlobalExceptionHandler {
         return ResponseEntity(response, HttpStatus.NOT_FOUND)
     }
 
-    // 400
-    @ExceptionHandler(MethodArgumentNotValidException::class)
-    fun handleValidationException(ex: MethodArgumentNotValidException): ResponseEntity<ErrorResponse> {
-        val errors = ex.bindingResult.fieldErrors.joinToString { "${it.field}: ${it.defaultMessage}" }
+    // 400 - Missing Request Header
+    @ExceptionHandler(MissingRequestHeaderException::class)
+    fun handleMissingRequestHeader(ex: MissingRequestHeaderException): ResponseEntity<ErrorResponse> {
         val response = ErrorResponse(
             status = HttpStatus.BAD_REQUEST.value(),
-            error = "Validation Failed",
-            message = errors
+            error = "Bad Request",
+            message = "Required request header '${ex.headerName}' is missing"
         )
         return ResponseEntity(response, HttpStatus.BAD_REQUEST)
     }

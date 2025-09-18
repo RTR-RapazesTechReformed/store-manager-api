@@ -8,6 +8,7 @@ import java.util.*
 @Table(name = "inventory_movement")
 data class InventoryMovement(
     @Id
+    @Column(name = "id", nullable = false, updatable = false, length = 36, columnDefinition = "CHAR(36)")
     val id: String = UUID.randomUUID().toString(),
 
     @ManyToOne(fetch = FetchType.LAZY)

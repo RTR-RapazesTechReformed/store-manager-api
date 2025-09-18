@@ -7,6 +7,7 @@ import java.util.*
 @Table(name = "permission")
 data class Permission(
     @Id
+    @Column(name = "id", nullable = false, updatable = false, length = 36, columnDefinition = "CHAR(36)")
     val id: String = UUID.randomUUID().toString(),
 
     @Column(nullable = false, unique = true)

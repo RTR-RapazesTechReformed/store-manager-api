@@ -3,6 +3,7 @@ package com.rtr.store_manager_api.controller
 import com.rtr.store_manager_api.dto.UserRoleRequestDTO
 import com.rtr.store_manager_api.dto.UserRoleResponseDTO
 import com.rtr.store_manager_api.service.UserRoleService
+import com.rtr.store_manager_api.util.HeaderValidator
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -17,6 +18,7 @@ class UserRoleController(
         @RequestHeader("user-id") userId: String,
         @RequestBody dto: UserRoleRequestDTO
     ): ResponseEntity<UserRoleResponseDTO> {
+        HeaderValidator.validateUserId(userId)
         val role = userRoleService.createRole(dto, userId)
         return ResponseEntity.ok(role)
     }
@@ -39,6 +41,7 @@ class UserRoleController(
         @PathVariable id: String,
         @RequestBody dto: UserRoleRequestDTO
     ): ResponseEntity<UserRoleResponseDTO> {
+        HeaderValidator.validateUserId(userId)
         val role = userRoleService.updateRole(id, dto, userId)
         return ResponseEntity.ok(role)
     }
@@ -48,6 +51,7 @@ class UserRoleController(
         @RequestHeader("user-id") userId: String,
         @PathVariable id: String
     ): ResponseEntity<Void> {
+        HeaderValidator.validateUserId(userId)
         userRoleService.deleteRole(id, userId)
         return ResponseEntity.noContent().build()
     }

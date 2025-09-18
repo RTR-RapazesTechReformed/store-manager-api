@@ -3,6 +3,7 @@ package com.rtr.store_manager_api.controller
 import com.rtr.store_manager_api.dto.InventoryMovementRequestDTO
 import com.rtr.store_manager_api.dto.InventoryMovementResponseDTO
 import com.rtr.store_manager_api.service.InventoryMovementService
+import com.rtr.store_manager_api.util.HeaderValidator
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -18,6 +19,7 @@ class InventoryMovementController(
         @RequestBody dto: InventoryMovementRequestDTO,
         @RequestHeader("user-id") userId: String
     ): ResponseEntity<InventoryMovementResponseDTO> {
+        HeaderValidator.validateUserId(userId)
         val created = inventoryMovementService.createMovement(dto, userId)
         return ResponseEntity.status(HttpStatus.CREATED).body(created)
     }
@@ -35,6 +37,7 @@ class InventoryMovementController(
         @PathVariable id: String,
         @RequestHeader("user-id") userId: String
     ): ResponseEntity<Void> {
+        HeaderValidator.validateUserId(userId)
         inventoryMovementService.deleteMovement(id, userId)
         return ResponseEntity.noContent().build()
     }

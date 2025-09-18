@@ -9,6 +9,7 @@ import java.util.*
 @Table(name = "product")
 data class Product(
     @Id
+    @Column(name = "id", nullable = false, updatable = false, length = 36, columnDefinition = "CHAR(36)")
     val id: String = UUID.randomUUID().toString(),
 
     @Column(nullable = false)
@@ -16,13 +17,13 @@ data class Product(
 
     val description: String? = null,
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    val type: ProductType,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "card_id", nullable = true, updatable = false, columnDefinition = "CHAR(36)")
+    val card: Card? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "card_id")
-    val card: Card? = null,
+    @JoinColumn(name = "other_product_id")
+    val otherProduct: OtherProduct? = null,
 
     @Column(nullable = false)
     val price: Double = 0.0,

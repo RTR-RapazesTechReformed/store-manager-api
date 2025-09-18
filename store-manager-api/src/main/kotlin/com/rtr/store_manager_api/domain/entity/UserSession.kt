@@ -8,6 +8,7 @@ import java.util.*
 @Table(name = "user_session")
 data class UserSession(
     @Id
+    @Column(name = "id", nullable = false, updatable = false, length = 36, columnDefinition = "CHAR(36)")
     val id: String = UUID.randomUUID().toString(),
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -8,6 +8,7 @@ import java.util.*
 @Table(name = "collection")
 data class Collection(
     @Id
+    @Column(name = "id", nullable = false, updatable = false, length = 36, columnDefinition = "CHAR(36)")
     val id: String = UUID.randomUUID().toString(),
 
     @Column(nullable = false)
@@ -16,5 +17,7 @@ data class Collection(
     val abbreviation: String? = null,
 
     @Column(name = "release_date")
-    val releaseDate: LocalDate? = null
+    val releaseDate: LocalDate? = null,
+
+    val generation: String? = null
 ) : BaseEntity()

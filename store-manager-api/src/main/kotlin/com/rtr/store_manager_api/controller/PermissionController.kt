@@ -3,6 +3,7 @@ package com.rtr.store_manager_api.controller
 import com.rtr.store_manager_api.dto.PermissionRequestDTO
 import com.rtr.store_manager_api.dto.PermissionResponseDTO
 import com.rtr.store_manager_api.service.PermissionService
+import com.rtr.store_manager_api.util.HeaderValidator
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -18,6 +19,7 @@ class PermissionController(
         @RequestBody dto: PermissionRequestDTO,
         @RequestHeader("user-id") userId: String
     ): ResponseEntity<PermissionResponseDTO> {
+        HeaderValidator.validateUserId(userId)
         val created = permissionService.createPermission(dto, userId)
 
         return  ResponseEntity.status(HttpStatus.CREATED).body(created)
@@ -41,6 +43,7 @@ class PermissionController(
         @RequestBody dto: PermissionRequestDTO,
         @RequestHeader("user-id") userId: String
     ): ResponseEntity<PermissionResponseDTO> {
+        HeaderValidator.validateUserId(userId)
         val updated = permissionService.updatePermission(id, dto, userId)
         return ResponseEntity.ok(updated)
     }
@@ -50,6 +53,7 @@ class PermissionController(
         @PathVariable id: String,
         @RequestHeader("user-id") userId: String
     ): ResponseEntity<Void> {
+        HeaderValidator.validateUserId(userId)
         permissionService.deletePermission(id, userId)
         return ResponseEntity.noContent().build()
     }

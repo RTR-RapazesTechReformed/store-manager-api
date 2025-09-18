@@ -8,6 +8,7 @@ import java.util.*
 @Table(name = "user")
 data class User(
     @Id
+    @Column(name = "id", nullable = false, updatable = false, length = 36, columnDefinition = "CHAR(36)")
     val id: String = UUID.randomUUID().toString(),
 
     @Column(nullable = false)

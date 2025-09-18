@@ -22,7 +22,6 @@ class ProductServiceImpl(
         val product = Product(
             name = dto.name,
             description = dto.description,
-            type = dto.type,
             card = card,
             price = dto.price,
             condition = dto.condition
@@ -51,7 +50,6 @@ class ProductServiceImpl(
         val updated = existing.copy(
             name = dto.name,
             description = dto.description,
-            type = dto.type,
             card = card,
             price = dto.price,
             condition = dto.condition,
@@ -78,8 +76,8 @@ class ProductServiceImpl(
         id = this.id,
         name = this.name,
         description = this.description,
-        type = this.type,
         cardId = this.card?.id.toString(),
+        otherProductId = this.otherProduct?.id.toString(),
         price = this.price,
         condition = this.condition,
         createdBy = this.createdBy,

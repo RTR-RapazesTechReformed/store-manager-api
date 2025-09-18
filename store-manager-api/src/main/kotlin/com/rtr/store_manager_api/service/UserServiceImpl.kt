@@ -2,6 +2,7 @@ package com.rtr.store_manager_api.service
 
 import com.rtr.store_manager_api.domain.entity.User
 import com.rtr.store_manager_api.dto.UserRequestDTO
+import com.rtr.store_manager_api.dto.UserUpdateDTO
 import com.rtr.store_manager_api.dto.UserResponseDTO
 import com.rtr.store_manager_api.repository.UserRepository
 import com.rtr.store_manager_api.exception.ResourceNotFoundException
@@ -54,14 +55,25 @@ class UserServiceImpl(
             .orElseThrow { ResourceNotFoundException("Usuário não encontrado com o id: $id") }
         return user.toDTO()
     }
-
-    override fun updateUser(id: String, userInput: UserRequestDTO, userId: String): UserResponseDTO {
+    override fun updateUser(id: String, userInput: UserUpdateDTO, userId: String): UserResponseDTO {
         val existingUser = userRepository.findById(id)
             .orElseThrow { ResourceNotFoundException("Usuário não encontrado com o id: $id") }
 
-        existingUser.name = userInput.name
-        existingUser.email = userInput.email
-        existingUser.role = userRoleRepository.findByName(userInput.roleName)
+        userInput.name?.let { existingUser.name = it }
+
+        userInput.email?.let {
+            if (it != existingUser.email && userRepository.existsByEmail(it)) {
+                throw RtrRuleException("E-mail já registrado: $it")
+            }
+            existingUser.email = it
+        }
+
+        userInput.password?.let { existingUser.password = passwordEncoder.encode(it) }
+
+        userInput.roleName?.let {
+            existingUser.role = userRoleRepository.findByName(it)
+                ?: throw RtrRuleException("Cargo não encontrado: $it")
+        }
             ?: throw RtrRuleException("Cargo não encontrado: ${userInput.roleName}")
 
         existingUser.updatedAt = LocalDateTime.now()

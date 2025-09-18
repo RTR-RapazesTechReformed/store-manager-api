@@ -8,14 +8,19 @@ import java.util.*
 @Table(name = "card")
 data class Card(
     @Id
+    @Column(name = "id", nullable = false, updatable = false, length = 36, columnDefinition = "CHAR(36)")
     val id: String = UUID.randomUUID().toString(),
 
     @Column(nullable = false)
     var title: String,
 
+    @Column(name = "artist_name")
     var artistName: String? = null,
 
     var season: String? = null,
+
+    @Column(name = "nationality")
+    var nationality: String? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "collection_id", nullable = false)
