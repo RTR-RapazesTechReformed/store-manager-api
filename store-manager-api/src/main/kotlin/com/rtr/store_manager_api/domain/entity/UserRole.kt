@@ -6,7 +6,7 @@ import jakarta.persistence.*
 @Table(name = "user_role")
 data class UserRole(
     @Id
-    @Column(length = 3)
+    @Column(name = "id", nullable = false, length = 3, columnDefinition = "CHAR(3)")
     val id: String,
 
     @Column(nullable = false, unique = true)

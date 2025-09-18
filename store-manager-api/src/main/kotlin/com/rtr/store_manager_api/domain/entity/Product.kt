@@ -3,6 +3,7 @@ package com.rtr.store_manager_api.domain.entity
 import com.rtr.store_manager_api.domain.enum.ProductCondition
 import com.rtr.store_manager_api.domain.enum.ProductType
 import jakarta.persistence.*
+import java.math.BigDecimal
 import java.util.*
 
 @Entity
@@ -22,11 +23,11 @@ data class Product(
     val card: Card? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "other_product_id")
+    @JoinColumn(name = "other_product_id", nullable = true, updatable = false, columnDefinition = "CHAR(36)")
     val otherProduct: OtherProduct? = null,
 
-    @Column(nullable = false)
-    val price: Double = 0.0,
+    @Column(name = "price", precision = 15, scale = 2, nullable = false)
+    val price: BigDecimal = BigDecimal.ZERO,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "product_condition", nullable = false)

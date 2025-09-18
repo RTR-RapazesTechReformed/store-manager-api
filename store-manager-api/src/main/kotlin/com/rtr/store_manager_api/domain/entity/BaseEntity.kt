@@ -6,13 +6,13 @@ import java.util.*
 
 @MappedSuperclass
 abstract class BaseEntity {
-    @Column(name = "created_by")
+    @Column(name = "created_by", length = 36, columnDefinition = "CHAR(36)")
     var createdBy: String? = null
 
     @Column(name = "created_at")
     var createdAt: LocalDateTime = LocalDateTime.now()
 
-    @Column(name = "updated_by")
+    @Column(name = "updated_by", length = 36, columnDefinition = "CHAR(36)")
     var updatedBy: String? = null
 
     @Column(name = "updated_at")

@@ -11,7 +11,7 @@ data class Inventory(
 
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false, updatable = false, columnDefinition = "CHAR(36)")
     val product: Product,
 
     @Column(nullable = false)
