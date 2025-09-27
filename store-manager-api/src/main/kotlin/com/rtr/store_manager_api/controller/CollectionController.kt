@@ -14,7 +14,7 @@ class CollectionController(
     private val collectionService: CollectionService
 ) {
 
-    @PostMapping // TODO: FUNCIONA
+    @PostMapping
     fun createCollection(
         @RequestBody dto: CollectionRequestDTO,
         @RequestHeader("user-id") userId: String
