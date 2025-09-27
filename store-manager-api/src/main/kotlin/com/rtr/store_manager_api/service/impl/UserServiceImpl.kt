@@ -1,4 +1,4 @@
-package com.rtr.store_manager_api.service
+package com.rtr.store_manager_api.service.impl
 
 import com.rtr.store_manager_api.domain.entity.User
 import com.rtr.store_manager_api.dto.UserRequestDTO
@@ -8,6 +8,7 @@ import com.rtr.store_manager_api.repository.UserRepository
 import com.rtr.store_manager_api.exception.ResourceNotFoundException
 import com.rtr.store_manager_api.exception.RtrRuleException
 import com.rtr.store_manager_api.repository.UserRoleRepository
+import com.rtr.store_manager_api.service.UserService
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime

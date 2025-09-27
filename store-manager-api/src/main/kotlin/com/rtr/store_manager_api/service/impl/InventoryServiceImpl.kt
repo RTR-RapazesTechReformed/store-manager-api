@@ -1,10 +1,11 @@
-package com.rtr.store_manager_api.service
+package com.rtr.store_manager_api.service.impl
 
 import com.rtr.store_manager_api.domain.entity.Inventory
 import com.rtr.store_manager_api.dto.InventoryRequestDTO
 import com.rtr.store_manager_api.dto.InventoryResponseDTO
 import com.rtr.store_manager_api.repository.InventoryRepository
 import com.rtr.store_manager_api.repository.ProductRepository
+import com.rtr.store_manager_api.service.InventoryService
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
