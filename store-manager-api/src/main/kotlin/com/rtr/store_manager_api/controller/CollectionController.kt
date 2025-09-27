@@ -14,7 +14,7 @@ class CollectionController(
     private val collectionService: CollectionService
 ) {
 
-    @PostMapping
+    @PostMapping // TODO: FUNCIONA
     fun createCollection(
         @RequestBody dto: CollectionRequestDTO,
         @RequestHeader("user-id") userId: String
@@ -25,8 +25,17 @@ class CollectionController(
     }
 
     @GetMapping
-    fun getAllCollections(): ResponseEntity<List<CollectionResponseDTO>> =
-        ResponseEntity.ok(collectionService.getAllCollections())
+    fun getAllCollections(): ResponseEntity<List<CollectionResponseDTO>> {
+
+        val collections = collectionService.getAllCollections()
+
+        return if (collections.isEmpty()) {
+            ResponseEntity.noContent().build()
+        } else {
+            ResponseEntity.ok(collections)
+        }
+
+    }
 
     @GetMapping("/{id}")
     fun getCollectionById(@PathVariable id: String): ResponseEntity<CollectionResponseDTO> =
