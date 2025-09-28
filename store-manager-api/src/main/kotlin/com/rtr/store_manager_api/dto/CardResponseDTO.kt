@@ -5,11 +5,12 @@ import java.time.LocalDateTime
 data class CardResponseDTO(
     val id: String,
     val title: String,
-    val artistName: String?,
     val season: String?,
+    val pokemonType: String,
     val collectionId: String,
     val code: String,
     val rarity: String,
+    val nationality: String?,
     val createdBy: String?,
     val createdAt: LocalDateTime?,
     val updatedBy: String?,

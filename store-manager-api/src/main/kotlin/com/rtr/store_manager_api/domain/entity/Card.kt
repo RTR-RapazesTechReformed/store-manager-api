@@ -1,6 +1,7 @@
 package com.rtr.store_manager_api.domain.entity
 
 import  com.rtr.store_manager_api.domain.enum.CardRarity
+import com.rtr.store_manager_api.domain.enum.PokemonType
 import jakarta.persistence.*
 import java.util.*
 
@@ -14,13 +15,15 @@ data class Card(
     @Column(nullable = false)
     var title: String,
 
-    @Column(name = "artist_name")
-    var artistName: String? = null,
-
+    @Column(name = "season")
     var season: String? = null,
 
     @Column(name = "nationality")
     var nationality: String? = null,
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "pokemon_type", nullable = false, length = 20)
+    var pokemonType: PokemonType,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "collection_id", nullable = false)
