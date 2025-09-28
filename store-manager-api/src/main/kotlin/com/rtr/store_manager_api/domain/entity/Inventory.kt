@@ -5,15 +5,15 @@ import jakarta.persistence.*
 @Entity
 @Table(name = "inventory")
 data class Inventory(
-    @Id
-    @Column(name = "product_id")
-    val productId: String,
-
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false, updatable = false, columnDefinition = "CHAR(36)")
     val product: Product,
 
     @Column(nullable = false)
-    var quantity: Int = 0
-) : BaseEntity()
+    var quantity: Int
+) : BaseEntity() {
+    @Id
+    @Column(name = "product_id", length = 36)
+    var productId: String? = null
+}

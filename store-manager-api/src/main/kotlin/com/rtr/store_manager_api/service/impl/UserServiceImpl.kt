@@ -56,6 +56,7 @@ class UserServiceImpl(
             .orElseThrow { ResourceNotFoundException("Usuário não encontrado com o id: $id") }
         return user.toDTO()
     }
+
     override fun updateUser(id: String, userInput: UserUpdateDTO, userId: String): UserResponseDTO {
         val existingUser = userRepository.findById(id)
             .orElseThrow { ResourceNotFoundException("Usuário não encontrado com o id: $id") }
@@ -71,11 +72,11 @@ class UserServiceImpl(
 
         userInput.password?.let { existingUser.password = passwordEncoder.encode(it) }
 
-        userInput.roleName?.let {
-            existingUser.role = userRoleRepository.findByName(it)
-                ?: throw RtrRuleException("Cargo não encontrado: $it")
+        userInput.roleName?.let { roleName ->
+            existingUser.role = userRoleRepository.findByName(roleName)
+                ?: throw RtrRuleException("Cargo não encontrado: $roleName")
         }
-            ?: throw RtrRuleException("Cargo não encontrado: ${userInput.roleName}")
+
 
         existingUser.updatedAt = LocalDateTime.now()
         existingUser.updatedBy = userId

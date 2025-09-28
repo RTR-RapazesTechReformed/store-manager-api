@@ -1,6 +1,7 @@
 package com.rtr.store_manager_api.dto
 
 import com.rtr.store_manager_api.domain.enum.ProductCondition
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
 data class ProductResponseDTO(
@@ -9,7 +10,7 @@ data class ProductResponseDTO(
     val description: String?,
     val cardId: String?,
     val otherProductId: String?,
-    val price: Double,
+    val price: BigDecimal,
     val condition: ProductCondition,
     val createdBy: String?,
     val updatedBy: String?,

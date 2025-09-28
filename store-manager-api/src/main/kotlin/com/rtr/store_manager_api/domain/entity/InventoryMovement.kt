@@ -2,6 +2,7 @@ package com.rtr.store_manager_api.domain.entity
 
 import com.rtr.store_manager_api.domain.enum.MovementType
 import jakarta.persistence.*
+import java.math.BigDecimal
 import java.util.*
 
 @Entity
@@ -20,15 +21,17 @@ data class InventoryMovement(
     val user: User,
 
     @Column(nullable = false)
-    val quantity: Int, // positivo = entrada, negativo = saída
+    var quantity: Int, // positivo = entrada, negativo = saída
 
-    val unitPurchasePrice: Double? = null,
+    @Column(name = "unit_purchase_price", precision = 15, scale = 2)
+    var unitPurchasePrice: BigDecimal? = null,
 
-    val unitSalePrice: Double? = null,
+    @Column(name = "unit_sale_price", precision = 15, scale = 2)
+    var unitSalePrice: BigDecimal? = null,
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    val type: MovementType,
+    var type: MovementType,
 
-    val description: String? = null
+    var description: String? = null
 ) : BaseEntity()

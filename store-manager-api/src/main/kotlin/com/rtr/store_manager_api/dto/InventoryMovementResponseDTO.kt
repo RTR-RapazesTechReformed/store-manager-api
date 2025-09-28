@@ -1,5 +1,6 @@
 package com.rtr.store_manager_api.dto
 
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
 data class InventoryMovementResponseDTO(
@@ -7,8 +8,8 @@ data class InventoryMovementResponseDTO(
     val productId: String,
     val userId: String,
     val quantity: Int,
-    val unitPurchasePrice: Double?,
-    val unitSalePrice: Double?,
+    val unitPurchasePrice: BigDecimal?,
+    val unitSalePrice: BigDecimal?,
     val type: String,
     val description: String?,
     val createdBy: String?,

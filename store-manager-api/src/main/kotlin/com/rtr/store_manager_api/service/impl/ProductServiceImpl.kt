@@ -4,6 +4,7 @@ import com.rtr.store_manager_api.domain.entity.Card
 import com.rtr.store_manager_api.domain.entity.Product
 import com.rtr.store_manager_api.dto.ProductRequestDTO
 import com.rtr.store_manager_api.dto.ProductResponseDTO
+import com.rtr.store_manager_api.dto.ProductUpdateDTO
 import com.rtr.store_manager_api.repository.CardRepository
 import com.rtr.store_manager_api.repository.ProductRepository
 import com.rtr.store_manager_api.service.ProductService
@@ -42,25 +43,22 @@ class ProductServiceImpl(
             .orElseThrow { NoSuchElementException("Produto $id não encontrado") }
             .toResponseDTO()
 
-    override fun updateProduct(id: String, dto: ProductRequestDTO, userId: String): ProductResponseDTO {
+    override fun updateProduct(id: String, dto: ProductUpdateDTO, userId: String): ProductResponseDTO {
         val existing = productRepository.findById(id)
             .orElseThrow { NoSuchElementException("Produto $id não encontrado") }
 
-        val card: Card? = dto.cardId?.let { cardRepository.findById(it).orElse(null) }
+        dto.name?.let { existing.name = it }
+        dto.description?.let { existing.description = it }
 
-        val updated = existing.copy(
-            name = dto.name,
-            description = dto.description,
-            card = card,
-            price = dto.price,
-            condition = dto.condition,
-        ).apply {
-            createdBy = userId
-            updatedBy = userId
-        }
+        dto.price?.let { existing.price = it }
+        dto.condition?.let { existing.condition = it }
 
-        return productRepository.save(updated).toResponseDTO()
+        existing.updatedAt = LocalDateTime.now()
+        existing.updatedBy = userId
+
+        return productRepository.save(existing).toResponseDTO()
     }
+
 
     override fun deleteProduct(id: String, userId: String) {
         val product = productRepository.findById(id)

@@ -16,11 +16,10 @@ class InventoryServiceImpl(
 ) : InventoryService {
 
     override fun createInventory(dto: InventoryRequestDTO, userId: String): InventoryResponseDTO {
-        val product = productRepository.findById(dto.productId)
+        val product = productRepository.findById(dto.productId!!)
             .orElseThrow { NoSuchElementException("Produto ${dto.productId} não encontrado") }
 
         val inventory = Inventory(
-            productId = dto.productId,
             product = product,
             quantity = dto.quantity
         ).apply {
@@ -43,14 +42,12 @@ class InventoryServiceImpl(
         val existing = inventoryRepository.findById(productId)
             .orElseThrow { NoSuchElementException("Estoque do produto $productId não encontrado") }
 
-        val updated = existing.copy(
-            quantity = dto.quantity
-        ).apply {
-            updatedBy = userId
-            updatedAt = LocalDateTime.now()
-        }
+        dto.quantity.let { existing.quantity = it }
 
-        return inventoryRepository.save(updated).toResponseDTO()
+        existing.updatedBy = userId
+        existing.updatedAt = LocalDateTime.now()
+
+        return inventoryRepository.save(existing).toResponseDTO()
     }
 
     override fun deleteInventory(productId: String, userId: String) {
@@ -65,7 +62,7 @@ class InventoryServiceImpl(
     }
 
     private fun Inventory.toResponseDTO() = InventoryResponseDTO(
-        productId = this.productId,
+        productId = this.product.id,
         productName = this.product.name,
         quantity = this.quantity,
         createdBy = this.createdBy,
