@@ -1,4 +1,4 @@
-package com.rtr.store_manager_api.service
+package com.rtr.store_manager_api.service.impl
 
 import com.rtr.store_manager_api.domain.entity.Card
 import com.rtr.store_manager_api.domain.entity.Product
@@ -7,6 +7,7 @@ import com.rtr.store_manager_api.dto.ProductResponseDTO
 import com.rtr.store_manager_api.dto.ProductUpdateDTO
 import com.rtr.store_manager_api.repository.CardRepository
 import com.rtr.store_manager_api.repository.ProductRepository
+import com.rtr.store_manager_api.service.ProductService
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.util.*

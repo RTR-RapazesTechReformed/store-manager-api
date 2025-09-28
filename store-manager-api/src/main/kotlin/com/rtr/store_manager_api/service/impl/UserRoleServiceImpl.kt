@@ -1,4 +1,4 @@
-package com.rtr.store_manager_api.service
+package com.rtr.store_manager_api.service.impl
 
 import com.rtr.store_manager_api.domain.entity.Permission
 import com.rtr.store_manager_api.domain.entity.UserRole
@@ -9,6 +9,7 @@ import com.rtr.store_manager_api.exception.RtrRuleException
 import com.rtr.store_manager_api.repository.PermissionRepository
 import com.rtr.store_manager_api.repository.UserRepository
 import com.rtr.store_manager_api.repository.UserRoleRepository
+import com.rtr.store_manager_api.service.UserRoleService
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.util.*

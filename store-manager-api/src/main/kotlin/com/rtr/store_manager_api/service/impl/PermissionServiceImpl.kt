@@ -1,13 +1,13 @@
-package com.rtr.store_manager_api.service
+package com.rtr.store_manager_api.service.impl
 
 import com.rtr.store_manager_api.domain.entity.Permission
 import com.rtr.store_manager_api.dto.PermissionRequestDTO
 import com.rtr.store_manager_api.dto.PermissionResponseDTO
 import com.rtr.store_manager_api.exception.ResourceNotFoundException
 import com.rtr.store_manager_api.repository.PermissionRepository
+import com.rtr.store_manager_api.service.PermissionService
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
-import java.util.*
 
 @Service
 class PermissionServiceImpl(
