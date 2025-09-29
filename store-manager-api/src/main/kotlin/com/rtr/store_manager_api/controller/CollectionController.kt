@@ -2,6 +2,7 @@ package com.rtr.store_manager_api.controller
 
 import com.rtr.store_manager_api.dto.CollectionRequestDTO
 import com.rtr.store_manager_api.dto.CollectionResponseDTO
+import com.rtr.store_manager_api.dto.CollectionWithCardsDTO
 import com.rtr.store_manager_api.service.CollectionService
 import com.rtr.store_manager_api.util.HeaderValidator
 import org.springframework.http.HttpStatus
@@ -35,6 +36,16 @@ class CollectionController(
             ResponseEntity.ok(collections)
         }
 
+    }
+
+    @GetMapping("/cards")
+    fun getCollectionsWithCards(
+        @RequestParam(required = false) rarity: String?,
+        @RequestParam(required = false) pokemonType: String?,
+        @RequestParam(required = false) nationality: String?
+    ): ResponseEntity<List<CollectionWithCardsDTO>> {
+        val result = collectionService.getCollectionsWithCards(rarity, pokemonType, nationality)
+        return ResponseEntity.ok(result)
     }
 
     @GetMapping("/{id}")

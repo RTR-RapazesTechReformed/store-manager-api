@@ -1,5 +1,7 @@
 package com.rtr.store_manager_api.controller
 
+import com.rtr.store_manager_api.domain.enum.CardRarity
+import com.rtr.store_manager_api.domain.enum.PokemonType
 import com.rtr.store_manager_api.dto.CardRequestDTO
 import com.rtr.store_manager_api.dto.CardResponseDTO
 import com.rtr.store_manager_api.service.CardService
@@ -25,8 +27,14 @@ class CardController(
     }
 
     @GetMapping
-    fun getAllCards(): ResponseEntity<List<CardResponseDTO>> {
-        val list = cardService.getAllCards()
+    fun getAllCards(
+        @RequestParam(required = false) collectionId: String?,
+        @RequestParam(required = false) pokemonType: PokemonType?,
+        @RequestParam(required = false) title: String?,
+        @RequestParam(required = false) rarity: CardRarity?,
+        @RequestParam(required = false) nationality: String?
+    ): ResponseEntity<List<CardResponseDTO>> {
+        val list = cardService.getAllCards(collectionId, pokemonType, title, rarity, nationality)
         return ResponseEntity.ok(list)
     }
 
