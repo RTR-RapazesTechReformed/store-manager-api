@@ -14,6 +14,7 @@ interface CardRepository : JpaRepository<Card, String> {
       AND (:title IS NULL OR LOWER(c.title) LIKE LOWER(CONCAT('%', :title, '%')))
       AND (:rarity IS NULL OR c.rarity = :rarity)
       AND (:nationality IS NULL OR c.nationality = :nationality)
+      AND c.deleted = false
 """)
     fun findWithFilters(
         collectionId: String?,
