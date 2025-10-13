@@ -2,6 +2,7 @@ package com.rtr.store_manager_api.service.impl
 
 import com.rtr.store_manager_api.domain.entity.Card
 import com.rtr.store_manager_api.domain.enum.CardRarity
+import com.rtr.store_manager_api.domain.enum.PokemonType
 import com.rtr.store_manager_api.dto.CardRequestDTO
 import com.rtr.store_manager_api.dto.CardResponseDTO
 import com.rtr.store_manager_api.repository.CardRepository
@@ -22,7 +23,8 @@ class CardServiceImpl(
 
         val card = Card(
             title = dto.title,
-            artistName = dto.artistName,
+            nationality = dto.nationality,
+            pokemonType = PokemonType.valueOf(dto.pokemonType),
             season = dto.season,
             collection = collection,
             code = dto.code,
@@ -35,8 +37,16 @@ class CardServiceImpl(
         return saved.toResponseDTO()
     }
 
-    override fun getAllCards(): List<CardResponseDTO> =
-        cardRepository.findAll().filter { !it.deleted }.map { it.toResponseDTO() }
+    override fun getAllCards(
+        collectionId: String?,
+        pokemonType: PokemonType?,
+        title: String?,
+        rarity: CardRarity?,
+        nationality: String?
+    ): List<CardResponseDTO> {
+        return cardRepository.findWithFilters(collectionId, pokemonType, title, rarity, nationality)
+            .map { it.toResponseDTO() }
+    }
 
     override fun getCardById(id: String): CardResponseDTO {
         val card = cardRepository.findById(id)
@@ -54,7 +64,8 @@ class CardServiceImpl(
 
         val updated = existing.copy(
             title = dto.title,
-            artistName = dto.artistName,
+            nationality = dto.nationality,
+            pokemonType = PokemonType.valueOf(dto.pokemonType),
             season = dto.season,
             collection = collection,
             code = dto.code,
@@ -81,7 +92,8 @@ class CardServiceImpl(
     private fun Card.toResponseDTO() = CardResponseDTO(
         id = this.id,
         title = this.title,
-        artistName = this.artistName,
+        nationality = this.nationality,
+        pokemonType = this.pokemonType.name,
         season = this.season,
         collectionId = this.collection.id,
         code = this.code,

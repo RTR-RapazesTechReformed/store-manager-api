@@ -1,8 +1,11 @@
 package com.rtr.store_manager_api.service.impl
 
 import com.rtr.store_manager_api.domain.entity.Collection
+import com.rtr.store_manager_api.dto.CardSummaryDTO
 import com.rtr.store_manager_api.dto.CollectionRequestDTO
 import com.rtr.store_manager_api.dto.CollectionResponseDTO
+import com.rtr.store_manager_api.dto.CollectionWithCardsDTO
+import com.rtr.store_manager_api.repository.CardRepository
 import com.rtr.store_manager_api.repository.CollectionRepository
 import com.rtr.store_manager_api.service.CollectionService
 import org.springframework.stereotype.Service
@@ -11,7 +14,8 @@ import java.util.NoSuchElementException
 
 @Service
 class CollectionServiceImpl(
-    private val collectionRepository: CollectionRepository
+    private val collectionRepository: CollectionRepository,
+    private val cardRepository: CardRepository
 ) : CollectionService {
 
     override fun createCollection(dto: CollectionRequestDTO, userId: String): CollectionResponseDTO {
@@ -52,6 +56,41 @@ class CollectionServiceImpl(
         }
 
         return collectionRepository.save(updated).toResponseDTO()
+    }
+
+    override fun getCollectionsWithCards(
+        rarity: String?,
+        pokemonType: String?,
+        nationality: String?
+    ): List<CollectionWithCardsDTO> {
+        val collections = collectionRepository.findAll().filter { !it.deleted }
+
+        return collections.map { col ->
+            val cards = cardRepository.findByCollectionWithFilters(
+                collectionId = col.id,
+                rarity = rarity,
+                pokemonType = pokemonType,
+                nationality = nationality
+            ).map { card ->
+                CardSummaryDTO(
+                    id = card.id,
+                    title = card.title,
+                    pokemonType = card.pokemonType?.name,
+                    code = card.code,
+                    rarity = card.rarity.name,
+                    nationality = card.nationality
+                )
+            }
+
+            CollectionWithCardsDTO(
+                id = col.id,
+                name = col.name,
+                abbreviation = col.abbreviation,
+                releaseDate = col.releaseDate?.toString(),
+                generation = col.generation,
+                cards = cards
+            )
+        }
     }
 
     override fun deleteCollection(id: String, userId: String) {
