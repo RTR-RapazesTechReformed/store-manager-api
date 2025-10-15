@@ -27,9 +27,10 @@ class UserController(private val userService: UserService) {
     fun getAllUsers(
         @RequestParam(required = false) username: String?,
         @RequestParam(required = false) email: String?,
-        @RequestParam(required = false) role: String?
+        @RequestParam(required = false) role: String?,
+        @RequestParam(required = false) storeId: String?
     ): ResponseEntity<List<UserResponseDTO>> {
-        val users = userService.getAllUsers(username, email,role)
+        val users = userService.getAllUsers(username, email, storeId, role)
         return ResponseEntity.ok(users)
     }
 

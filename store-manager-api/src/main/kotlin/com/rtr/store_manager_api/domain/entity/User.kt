@@ -21,6 +21,10 @@ data class User(
     var password: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id", nullable = true, columnDefinition = "CHAR(36)")
+    var store: Store? = null,
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", nullable = false)
     var role: UserRole
 ) : BaseEntity()

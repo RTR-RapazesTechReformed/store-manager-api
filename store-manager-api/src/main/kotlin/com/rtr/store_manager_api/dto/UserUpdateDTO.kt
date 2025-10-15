@@ -16,6 +16,8 @@ data class UserUpdateDTO(
     )
     val password: String? = null,
 
-    val roleName: String? = null // opcional agora
+    val storeId: String? = null,
+
+    val roleName: String? = null
 )
 

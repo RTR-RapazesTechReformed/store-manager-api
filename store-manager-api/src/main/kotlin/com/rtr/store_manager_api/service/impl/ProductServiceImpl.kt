@@ -2,11 +2,14 @@ package com.rtr.store_manager_api.service.impl
 
 import com.rtr.store_manager_api.domain.entity.Card
 import com.rtr.store_manager_api.domain.entity.Product
+import com.rtr.store_manager_api.domain.entity.Store
 import com.rtr.store_manager_api.dto.ProductRequestDTO
 import com.rtr.store_manager_api.dto.ProductResponseDTO
 import com.rtr.store_manager_api.dto.ProductUpdateDTO
+import com.rtr.store_manager_api.dto.UserResponseDTO
 import com.rtr.store_manager_api.repository.CardRepository
 import com.rtr.store_manager_api.repository.ProductRepository
+import com.rtr.store_manager_api.repository.StoreRepository
 import com.rtr.store_manager_api.service.ProductService
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -15,18 +18,21 @@ import java.util.*
 @Service
 class ProductServiceImpl(
     private val productRepository: ProductRepository,
-    private val cardRepository: CardRepository
+    private val cardRepository: CardRepository,
+    private val storeRepository: StoreRepository
 ) : ProductService {
 
     override fun createProduct(dto: ProductRequestDTO, userId: String): ProductResponseDTO {
         val card: Card? = dto.cardId?.let { cardRepository.findById(it).orElse(null) }
+        val store: Store = dto.storeId.let { storeRepository.findById(it).orElse(null) }
 
         val product = Product(
             name = dto.name,
             description = dto.description,
             card = card,
             price = dto.price,
-            condition = dto.condition
+            condition = dto.condition,
+            store = store
         ) .apply {
             createdBy = userId
             updatedBy = userId
@@ -35,8 +41,12 @@ class ProductServiceImpl(
         return productRepository.save(product).toResponseDTO()
     }
 
-    override fun getAllProducts(): List<ProductResponseDTO> =
-        productRepository.findAll().map { it.toResponseDTO() }
+    override fun getAllProducts(storeId: String?,): List<ProductResponseDTO> {
+        val products = productRepository.findAll()
+        return products.filter { product ->
+            (storeId == null || product.store?.id == storeId)
+        }.map { it.toResponseDTO() }
+    }
 
     override fun getProductById(id: String): ProductResponseDTO =
         productRepository.findById(id)
@@ -49,7 +59,11 @@ class ProductServiceImpl(
 
         dto.name?.let { existing.name = it }
         dto.description?.let { existing.description = it }
-
+        dto.storeId?.let {
+            val store = storeRepository.findById(it)
+                .orElseThrow { NoSuchElementException("Loja $it não encontrada") }
+            existing.store = store
+        }
         dto.price?.let { existing.price = it }
         dto.condition?.let { existing.condition = it }
 
@@ -76,6 +90,7 @@ class ProductServiceImpl(
         name = this.name,
         description = this.description,
         cardId = this.card?.id.toString(),
+        storeId = this.store?.id.toString(),
         otherProductId = this.otherProduct?.id.toString(),
         price = this.price,
         condition = this.condition,

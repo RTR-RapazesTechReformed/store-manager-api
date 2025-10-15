@@ -7,6 +7,7 @@ import com.rtr.store_manager_api.dto.UserResponseDTO
 import com.rtr.store_manager_api.repository.UserRepository
 import com.rtr.store_manager_api.exception.ResourceNotFoundException
 import com.rtr.store_manager_api.exception.RtrRuleException
+import com.rtr.store_manager_api.repository.StoreRepository
 import com.rtr.store_manager_api.repository.UserRoleRepository
 import com.rtr.store_manager_api.service.UserService
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -17,7 +18,8 @@ import java.time.LocalDateTime
 class UserServiceImpl(
     private val userRepository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
-    private val userRoleRepository: UserRoleRepository
+    private val userRoleRepository: UserRoleRepository,
+    private val storeRepository: StoreRepository,
 ) : UserService {
 
     override fun createUser(userInput: UserRequestDTO, userId: String): UserResponseDTO {
@@ -28,11 +30,16 @@ class UserServiceImpl(
         val role = userRoleRepository.findByName(userInput.roleName)
             ?: throw RtrRuleException("Cargo não encontrado: ${userInput.roleName}")
 
+        val store = userInput.storeId?.let {
+            storeRepository.findById(it).orElseThrow { RtrRuleException("Loja não encontrada: $it") }
+        }
+
         val user = User(
             name = userInput.name,
             email = userInput.email,
             password = passwordEncoder.encode(userInput.password),
-            role = role
+            role = role,
+            store = store
         ).apply {
             createdBy = userId
             updatedBy = userId
@@ -41,13 +48,14 @@ class UserServiceImpl(
         return userRepository.save(user).toDTO()
     }
 
-    override fun getAllUsers(username: String?, email: String?, role: String?): List<UserResponseDTO> {
+    override fun getAllUsers(username: String?, email: String?, storeId: String?, role: String?): List<UserResponseDTO> {
         val users = userRepository.findAll()
 
         return users.filter { user ->
             (username == null || user.name.contains(username, ignoreCase = true)) &&
                     (email == null || user.email.contains(email, ignoreCase = true)) &&
-                    (role == null || user.role.name.equals(role, ignoreCase = true))
+                    (role == null || user.role.name.equals(role, ignoreCase = true)) &&
+                    (storeId == null || user.store?.id == storeId)
         }.map { it.toDTO() }
     }
 
@@ -77,6 +85,16 @@ class UserServiceImpl(
                 ?: throw RtrRuleException("Cargo não encontrado: $roleName")
         }
 
+        if (userInput.storeId != null) {
+            if (userInput.storeId.isBlank()) {
+                // Se vier "", remove o vínculo
+                existingUser.store = null
+            } else {
+                val store = storeRepository.findById(userInput.storeId)
+                    .orElseThrow { RtrRuleException("Loja não encontrada: ${userInput.storeId}") }
+                existingUser.store = store
+            }
+        }
 
         existingUser.updatedAt = LocalDateTime.now()
         existingUser.updatedBy = userId
@@ -113,6 +131,7 @@ class UserServiceImpl(
             name = this.name,
             email = this.email,
             roleName = this.role.name,
+            storeId = this.store?.id,
             createdAt = this.createdAt,
             updatedAt = this.updatedAt,
             createdBy = this.createdBy,

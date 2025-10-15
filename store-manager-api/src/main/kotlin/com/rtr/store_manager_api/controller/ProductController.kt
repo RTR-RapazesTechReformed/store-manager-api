@@ -4,6 +4,7 @@ import com.rtr.store_manager_api.service.ProductService
 import com.rtr.store_manager_api.dto.ProductRequestDTO
 import com.rtr.store_manager_api.dto.ProductResponseDTO
 import com.rtr.store_manager_api.dto.ProductUpdateDTO
+import com.rtr.store_manager_api.dto.UserResponseDTO
 import com.rtr.store_manager_api.util.HeaderValidator
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -27,8 +28,12 @@ class ProductController(
     }
 
     @GetMapping
-    fun getAll(): ResponseEntity<List<ProductResponseDTO>> =
-        ResponseEntity.ok(productService.getAllProducts())
+    fun getAll(
+        @RequestParam(required = false) storeId: String?
+    ): ResponseEntity<List<ProductResponseDTO>>  {
+        val products = productService.getAllProducts(storeId)
+        return ResponseEntity.ok(products)
+    }
 
     @GetMapping("/{id}")
     fun getById(@PathVariable id: String): ResponseEntity<ProductResponseDTO> =

@@ -17,6 +17,8 @@ data class UserRequestDTO(
     )
     val password: String,
 
+    val storeId: String? = null,
+
     @field:NotBlank(message = "Role name is required")
     val roleName: String
 )

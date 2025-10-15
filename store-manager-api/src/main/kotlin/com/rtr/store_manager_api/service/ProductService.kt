@@ -6,7 +6,7 @@ import com.rtr.store_manager_api.dto.ProductUpdateDTO
 
 interface ProductService {
     fun createProduct(dto: ProductRequestDTO, userId: String): ProductResponseDTO
-    fun getAllProducts(): List<ProductResponseDTO>
+    fun getAllProducts(storeId: String?): List<ProductResponseDTO>
     fun getProductById(id: String): ProductResponseDTO
     fun updateProduct(id: String, dto: ProductUpdateDTO, userId: String): ProductResponseDTO
     fun deleteProduct(id: String, userId: String)

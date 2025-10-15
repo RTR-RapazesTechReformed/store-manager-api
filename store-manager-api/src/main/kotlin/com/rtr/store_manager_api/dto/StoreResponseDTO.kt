@@ -2,12 +2,12 @@ package com.rtr.store_manager_api.dto
 
 import java.time.LocalDateTime
 
-data class UserResponseDTO(
+data class StoreResponseDTO(
     val id: String,
     val name: String,
-    val email: String,
-    val roleName: String,
-    val storeId: String?,
+    val cep: String,
+    val number: String,
+    val complement: String?,
     val createdBy: String?,
     val updatedBy: String?,
     val createdAt: LocalDateTime?,

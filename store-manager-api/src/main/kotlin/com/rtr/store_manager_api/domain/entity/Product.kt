@@ -1,7 +1,6 @@
 package com.rtr.store_manager_api.domain.entity
 
 import com.rtr.store_manager_api.domain.enum.ProductCondition
-import com.rtr.store_manager_api.domain.enum.ProductType
 import jakarta.persistence.*
 import java.math.BigDecimal
 import java.util.*
@@ -28,6 +27,10 @@ data class Product(
 
     @Column(name = "price", precision = 15, scale = 2, nullable = false)
     var price: BigDecimal = BigDecimal.ZERO,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id", nullable = false, columnDefinition = "CHAR(36)")
+    var store: Store,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "product_condition", nullable = false)

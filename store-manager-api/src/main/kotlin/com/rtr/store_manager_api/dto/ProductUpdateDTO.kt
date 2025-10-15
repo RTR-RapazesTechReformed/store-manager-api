@@ -12,6 +12,8 @@ data class ProductUpdateDTO(
 
     val description: String? = null,
 
+    val storeId : String? = null,
+
     @field:DecimalMin(value = "0.0", message = "Price must be positive")
     val price: BigDecimal? = null,
 
