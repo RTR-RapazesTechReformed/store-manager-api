@@ -3,9 +3,12 @@ package com.rtr.store_manager_api.service.impl
 import com.rtr.store_manager_api.domain.entity.Inventory
 import com.rtr.store_manager_api.domain.entity.InventoryMovement
 import com.rtr.store_manager_api.domain.enum.MovementType
+import com.rtr.store_manager_api.dto.InventoryMovementCreatedResponse
 import com.rtr.store_manager_api.dto.InventoryMovementRequestDTO
 import com.rtr.store_manager_api.dto.InventoryMovementResponseDTO
 import com.rtr.store_manager_api.dto.InventoryMovementUpdateDTO
+import com.rtr.store_manager_api.event.InventoryMovementMessage
+import com.rtr.store_manager_api.event.InventoryProducer
 import com.rtr.store_manager_api.repository.InventoryMovementRepository
 import com.rtr.store_manager_api.repository.InventoryRepository
 import com.rtr.store_manager_api.repository.ProductRepository
@@ -13,16 +16,18 @@ import com.rtr.store_manager_api.repository.UserRepository
 import com.rtr.store_manager_api.service.InventoryMovementService
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
+import java.util.UUID
 
 @Service
 class InventoryMovementServiceImpl(
     private val inventoryMovementRepository: InventoryMovementRepository,
     private val inventoryRepository: InventoryRepository,
     private val productRepository: ProductRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val producer: InventoryProducer
 ) : InventoryMovementService {
 
-    override fun createMovement(dto: InventoryMovementRequestDTO, userId: String): InventoryMovementResponseDTO {
+    override fun createMovement(dto: InventoryMovementRequestDTO, userId: String): InventoryMovementCreatedResponse   {
         val product = productRepository.findById(dto.productId)
             .orElseThrow { NoSuchElementException("Produto ${dto.productId} não encontrado") }
 
@@ -42,42 +47,24 @@ class InventoryMovementServiceImpl(
             updatedBy = userId
         }
 
-        val savedMovement = inventoryMovementRepository.save(movement)
+        producer.sendMovement(
+            InventoryMovementMessage(
+                movementId = movement.id,
+                productId = product.id,
+                userId = user.id,
+                quantity = movement.quantity,
+                type = movement.type.name,
+                description = movement.description,
+                createdBy = userId,
+                unitPurchasePrice = movement.unitPurchasePrice,
+                unitSalePrice = movement.unitSalePrice
+            )
+        )
 
-        val inventory = inventoryRepository.findById(product.id).orElseGet {
-            Inventory(
-                product = product,
-                quantity = if (movement.type == MovementType.IN || movement.type == MovementType.ADJUST)
-                    movement.quantity else 0
-            ).apply {
-                createdBy = userId
-                updatedBy = userId
-            }
-        }
-
-        if (inventoryRepository.existsById(product.id)) {
-            when (movement.type) {
-                MovementType.IN -> inventory.quantity += movement.quantity
-                MovementType.OUT -> {
-                    if (inventory.quantity < movement.quantity) {
-                        throw IllegalArgumentException("Estoque insuficiente para saída")
-                    }
-                    inventory.quantity -= movement.quantity
-                }
-                MovementType.ADJUST -> inventory.quantity = movement.quantity
-            }
-        }
-
-        inventory.updatedBy = userId
-        inventory.updatedAt = LocalDateTime.now()
-        inventoryRepository.save(inventory)
-
-
-        inventory.updatedBy = userId
-        inventory.updatedAt = LocalDateTime.now()
-        inventoryRepository.save(inventory)
-
-        return savedMovement.toResponseDTO()
+        return InventoryMovementCreatedResponse(
+            movementId = movement.id,
+            status = "PENDING"
+        )
     }
 
     override fun getAllMovements(): List<InventoryMovementResponseDTO> =
