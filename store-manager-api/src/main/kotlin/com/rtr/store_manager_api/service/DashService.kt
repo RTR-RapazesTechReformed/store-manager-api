@@ -1,16 +1,16 @@
 package com.rtr.store_manager_api.service
+import com.rtr.store_manager_api.dto.dashdto.*
+
 
 interface DashService {
 
-    // === KPIs ===
-    fun getTotalCardsInStock(): Long
-    fun getTotalBoosterBoxes(): Long
-    fun getTopPokemonByStock(): Map<String, Any>
-    fun getTopCollectionByItems(): Map<String, Any>
+    fun getTotalCardsInStock(): TotalCardsInStockDTO
+    fun getTotalBoosterBoxes(): TotalBoosterBoxesDTO
+    fun getTopPokemonByStock(): TopPokemonByStockDTO
+    fun getTopCollectionByItems(): TopCollectionByItemsDTO
 
-    // === Gráficos ===
-    fun getMonthlyAcquisitions(): List<Map<String, Any>>
-    fun getSalesOverview(): List<Map<String, Any>>
-    fun getStockAgingOverview(): List<Map<String, Any>>
-    fun getValuedCards(): List<Map<String, Any>>
+    fun getMonthlyAcquisitions(): List<MonthlyAcquisitionDTO>
+    fun getSalesOverview(): List<SalesOverviewDTO>
+    fun getStockAgingOverview(): List<StockAgingOverviewDTO>
+    fun getValuedCards(): List<ValuedCardDTO>
 }
