@@ -9,6 +9,7 @@ import com.rtr.store_manager_api.dto.InventoryMovementResponseDTO
 import com.rtr.store_manager_api.dto.InventoryMovementUpdateDTO
 import com.rtr.store_manager_api.event.InventoryMovementMessage
 import com.rtr.store_manager_api.event.InventoryProducer
+import com.rtr.store_manager_api.exception.RtrRuleException
 import com.rtr.store_manager_api.repository.InventoryMovementRepository
 import com.rtr.store_manager_api.repository.InventoryRepository
 import com.rtr.store_manager_api.repository.ProductRepository
@@ -43,6 +44,29 @@ class InventoryMovementServiceImpl(
         val movementId = UUID.randomUUID().toString()
 
         logger.info("Enviando mensagem CREATE para Kafka: Movimento $movementId")
+
+        val movementType = dto.type.uppercase()
+
+        when (movementType) {
+            MovementType.IN.name -> {
+                if (dto.unitPurchasePrice == null) {
+                    logger.error("Movimento IN requer preço de compra unitário")
+                    throw RtrRuleException("Movimentos do tipo IN requerem o preço de compra unitário")
+                }
+            }
+            MovementType.OUT.name -> {
+                if (dto.unitSalePrice == null) {
+                    logger.error("Movimento OUT requer preço de venda unitário")
+                    throw RtrRuleException("Movimentos do tipo OUT requerem o preço de venda unitário")
+                }
+            }
+            MovementType.ADJUST.name -> {
+            }
+            else -> {
+                logger.error("Tipo de movimento inválido: $movementType")
+                throw RtrRuleException("Tipo de movimento inválido: $movementType")
+            }
+        }
 
         producer.sendMovementMessage(
             InventoryMovementMessage(

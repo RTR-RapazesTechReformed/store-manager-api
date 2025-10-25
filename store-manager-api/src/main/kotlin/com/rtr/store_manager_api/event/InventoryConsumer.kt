@@ -5,7 +5,6 @@ import com.rtr.store_manager_api.domain.entity.InventoryMovement
 import com.rtr.store_manager_api.domain.enum.AuditStatus
 import com.rtr.store_manager_api.domain.enum.MovementType
 import com.rtr.store_manager_api.domain.enum.Operation
-import com.rtr.store_manager_api.repository.InventoryAuditRepository
 import com.rtr.store_manager_api.repository.InventoryMovementRepository
 import com.rtr.store_manager_api.repository.InventoryRepository
 import com.rtr.store_manager_api.repository.ProductRepository
@@ -298,6 +297,7 @@ class InventoryConsumer(
                     type = MovementType.valueOf(message.type.uppercase()),
                     description = "Erro: ${message.errorMessage}"
                 ).apply {
+                    deleted = true
                     createdBy = "SYSTEM"
                     updatedBy = "SYSTEM"
                 }
