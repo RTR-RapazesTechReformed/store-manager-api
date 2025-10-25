@@ -1,137 +1,208 @@
 package com.rtr.store_manager_api.service.impl
 
-import com.rtr.store_manager_api.domain.entity.Inventory
 import com.rtr.store_manager_api.domain.entity.InventoryMovement
 import com.rtr.store_manager_api.domain.enum.MovementType
+import com.rtr.store_manager_api.domain.enum.Operation
 import com.rtr.store_manager_api.dto.InventoryMovementRequestDTO
+import com.rtr.store_manager_api.dto.InventoryMovementResponse
 import com.rtr.store_manager_api.dto.InventoryMovementResponseDTO
 import com.rtr.store_manager_api.dto.InventoryMovementUpdateDTO
+import com.rtr.store_manager_api.event.InventoryMovementMessage
+import com.rtr.store_manager_api.event.InventoryProducer
+import com.rtr.store_manager_api.exception.RtrRuleException
 import com.rtr.store_manager_api.repository.InventoryMovementRepository
 import com.rtr.store_manager_api.repository.InventoryRepository
 import com.rtr.store_manager_api.repository.ProductRepository
 import com.rtr.store_manager_api.repository.UserRepository
 import com.rtr.store_manager_api.service.InventoryMovementService
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
+import java.util.UUID
 
 @Service
 class InventoryMovementServiceImpl(
     private val inventoryMovementRepository: InventoryMovementRepository,
     private val inventoryRepository: InventoryRepository,
     private val productRepository: ProductRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val producer: InventoryProducer
 ) : InventoryMovementService {
+    private val logger = LoggerFactory.getLogger(this::class.java)
 
-    override fun createMovement(dto: InventoryMovementRequestDTO, userId: String): InventoryMovementResponseDTO {
+    override fun createMovement(
+        dto: InventoryMovementRequestDTO,
+        userId: String
+    ): InventoryMovementResponse {
+        logger.info("Criando novo movimento de estoque para produto: ${dto.productId}")
+
         val product = productRepository.findById(dto.productId)
             .orElseThrow { NoSuchElementException("Produto ${dto.productId} não encontrado") }
 
-        val user = userRepository.findById(dto.userId)
-            .orElseThrow { NoSuchElementException("Usuário ${dto.userId} não encontrado") }
+        val user = userRepository.findById(userId)
+            .orElseThrow { NoSuchElementException("Usuário $userId não encontrado") }
 
-        val movement = InventoryMovement(
-            product = product,
-            user = user,
-            quantity = dto.quantity,
-            unitPurchasePrice = dto.unitPurchasePrice,
-            unitSalePrice = dto.unitSalePrice,
-            type = MovementType.valueOf(dto.type.uppercase()),
-            description = dto.description
-        ).apply {
-            createdBy = userId
-            updatedBy = userId
-        }
+        val movementId = UUID.randomUUID().toString()
 
-        val savedMovement = inventoryMovementRepository.save(movement)
+        logger.info("Enviando mensagem CREATE para Kafka: Movimento $movementId")
 
-        val inventory = inventoryRepository.findById(product.id).orElseGet {
-            Inventory(
-                product = product,
-                quantity = if (movement.type == MovementType.IN || movement.type == MovementType.ADJUST)
-                    movement.quantity else 0
-            ).apply {
-                createdBy = userId
-                updatedBy = userId
-            }
-        }
+        val movementType = dto.type.uppercase()
 
-        if (inventoryRepository.existsById(product.id)) {
-            when (movement.type) {
-                MovementType.IN -> inventory.quantity += movement.quantity
-                MovementType.OUT -> {
-                    if (inventory.quantity < movement.quantity) {
-                        throw IllegalArgumentException("Estoque insuficiente para saída")
-                    }
-                    inventory.quantity -= movement.quantity
+        when (movementType) {
+            MovementType.IN.name -> {
+                if (dto.unitPurchasePrice == null) {
+                    logger.error("Movimento IN requer preço de compra unitário")
+                    throw RtrRuleException("Movimentos do tipo IN requerem o preço de compra unitário")
                 }
-                MovementType.ADJUST -> inventory.quantity = movement.quantity
+            }
+            MovementType.OUT.name -> {
+                if (dto.unitSalePrice == null) {
+                    logger.error("Movimento OUT requer preço de venda unitário")
+                    throw RtrRuleException("Movimentos do tipo OUT requerem o preço de venda unitário")
+                }
+            }
+            MovementType.ADJUST.name -> {
+            }
+            else -> {
+                logger.error("Tipo de movimento inválido: $movementType")
+                throw RtrRuleException("Tipo de movimento inválido: $movementType")
             }
         }
 
-        inventory.updatedBy = userId
-        inventory.updatedAt = LocalDateTime.now()
-        inventoryRepository.save(inventory)
+        producer.sendMovementMessage(
+            InventoryMovementMessage(
+                movementId = movementId,
+                productId = product.id,
+                userId = user.id,
+                quantity = dto.quantity,
+                type = dto.type.uppercase(),
+                operation = Operation.CREATE,
+                description = dto.description,
+                createdBy = userId,
+                unitPurchasePrice = dto.unitPurchasePrice,
+                unitSalePrice = dto.unitSalePrice
+            )
+        )
 
+        logger.info("Mensagem CREATE enviada para fila: $movementId com status PENDING")
 
-        inventory.updatedBy = userId
-        inventory.updatedAt = LocalDateTime.now()
-        inventoryRepository.save(inventory)
-
-        return savedMovement.toResponseDTO()
+        return InventoryMovementResponse(
+            movementId = movementId,
+            status = "PENDING"
+        )
     }
 
-    override fun getAllMovements(): List<InventoryMovementResponseDTO> =
-        inventoryMovementRepository.findAll().map { it.toResponseDTO() }
+    override fun getAllMovements(): List<InventoryMovementResponseDTO> {
+        logger.info("Consultando todos os movimentos de estoque")
+        return inventoryMovementRepository.findAll()
+            .filter { !it.deleted }
+            .map { it.toResponseDTO() }
+    }
 
-    override fun getMovementById(id: String): InventoryMovementResponseDTO =
-        inventoryMovementRepository.findById(id)
+    override fun getMovementById(id: String): InventoryMovementResponseDTO {
+        logger.info("Consultando movimento: $id")
+        return inventoryMovementRepository.findById(id)
             .orElseThrow { NoSuchElementException("Movimento $id não encontrado") }
             .toResponseDTO()
+    }
 
-    override fun updateMovement(id: String, dto: InventoryMovementUpdateDTO, userId: String): InventoryMovementResponseDTO {
+    override fun updateMovement(
+        id: String,
+        dto: InventoryMovementUpdateDTO,
+        userId: String
+    ): InventoryMovementResponse {
+        logger.info("Processando UPDATE para movimento: $id")
 
         val existingMovement = inventoryMovementRepository.findById(id)
             .orElseThrow { NoSuchElementException("Movimento $id não encontrado") }
 
-        dto.unitPurchasePrice?.let { existingMovement.unitPurchasePrice = it }
-        dto.unitSalePrice?.let { existingMovement.unitSalePrice = it }
-        dto.description?.let { existingMovement.description = it }
+        if (existingMovement.deleted) {
+            logger.warn("Tentativa de atualizar movimento deletado: $id")
+            throw IllegalArgumentException("Não é permitido atualizar movimento deletado")
+        }
 
-        existingMovement.updatedBy = userId
-        existingMovement.updatedAt = LocalDateTime.now()
+        val user = userRepository.findById(userId)
+            .orElseThrow { NoSuchElementException("Usuário $userId não encontrado") }
 
-        val savedMovement = inventoryMovementRepository.save(existingMovement)
+        logger.info("Validação OK. Enviando mensagem UPDATE para Kafka: $id")
 
-        return savedMovement.toResponseDTO()
+        producer.sendMovementMessage(
+            InventoryMovementMessage(
+                movementId = id,
+                productId = existingMovement.product.id,
+                userId = existingMovement.user.id,
+                quantity = existingMovement.quantity,
+                type = existingMovement.type.toString(),
+                operation = Operation.UPDATE,
+                description = dto.description ?: existingMovement.description,
+                createdBy = userId,
+                unitPurchasePrice = dto.unitPurchasePrice ?: existingMovement.unitPurchasePrice,
+                unitSalePrice = dto.unitSalePrice ?: existingMovement.unitSalePrice
+            )
+        )
+
+        logger.info("Mensagem UPDATE enviada para Kafka com status PENDING: $id")
+
+        return InventoryMovementResponse(
+            movementId = id,
+            status = "PENDING"
+        )
     }
 
-    override fun deleteMovement(id: String, userId: String) {
+    override fun deleteMovement(id: String, userId: String): InventoryMovementResponse {
+        logger.info("Processando DELETE para movimento: $id")
+
         val movement = inventoryMovementRepository.findById(id)
             .orElseThrow { NoSuchElementException("Movimento $id não encontrado") }
+
+        if (movement.deleted) {
+            logger.warn("Tentativa de deletar movimento já deletado: $id")
+            throw IllegalArgumentException("Movimento $id já foi deletado")
+        }
+
+        if (movement.type == MovementType.ADJUST) {
+            logger.error("Tentativa de deletar movimento de ajuste direto: $id")
+            throw IllegalArgumentException("Não é permitido deletar movimentos de ajuste direto")
+        }
 
         val inventory = inventoryRepository.findById(movement.product.id)
             .orElseThrow { NoSuchElementException("Estoque do produto ${movement.product.id} não encontrado") }
 
-        when (movement.type) {
-            MovementType.IN -> {
-                if (inventory.quantity < movement.quantity) {
-                    throw IllegalArgumentException("Não é possível deletar o movimento: estoque insuficiente para reverter a entrada")
-                }
-                inventory.quantity -= movement.quantity
-            }
-            MovementType.OUT -> inventory.quantity += movement.quantity
-            MovementType.ADJUST -> throw IllegalArgumentException("Não é permitido deletar movimentos de ajuste direto")
+        if (movement.type == MovementType.IN && inventory.quantity < movement.quantity) {
+            logger.error("Não é possível deletar movimento IN - estoque insuficiente: $id")
+            throw IllegalArgumentException(
+                "Não é possível deletar o movimento: estoque insuficiente para reverter a entrada " +
+                        "(Estoque atual: ${inventory.quantity}, Quantidade do movimento: ${movement.quantity})"
+            )
         }
 
-        inventory.updatedBy = userId
-        inventory.updatedAt = LocalDateTime.now()
-        inventoryRepository.save(inventory)
+        val user = userRepository.findById(userId)
+            .orElseThrow { NoSuchElementException("Usuário $userId não encontrado") }
 
-        movement.deleted = true
-        movement.updatedBy = userId
-        movement.updatedAt = LocalDateTime.now()
-        inventoryMovementRepository.save(movement)
+        logger.info("Validação OK. Enviando mensagem DELETE para Kafka: $id")
+
+        producer.sendMovementMessage(
+            InventoryMovementMessage(
+                movementId = id,
+                productId = movement.product.id,
+                userId = movement.user.id,
+                quantity = movement.quantity,
+                type = movement.type.toString(),
+                operation = Operation.DELETE,
+                description = "Deleção: ${movement.description}",
+                createdBy = userId,
+                unitPurchasePrice = movement.unitPurchasePrice,
+                unitSalePrice = movement.unitSalePrice
+            )
+        )
+
+        logger.info("Mensagem DELETE enviada para Kafka com status PENDING: $id")
+
+        return InventoryMovementResponse(
+            movementId = id,
+            status = "PENDING"
+        )
     }
+
 
     private fun InventoryMovement.toResponseDTO() = InventoryMovementResponseDTO(
         id = this.id,

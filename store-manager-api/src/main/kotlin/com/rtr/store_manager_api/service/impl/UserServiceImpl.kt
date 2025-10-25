@@ -69,29 +69,55 @@ class UserServiceImpl(
         val existingUser = userRepository.findById(id)
             .orElseThrow { ResourceNotFoundException("Usuário não encontrado com o id: $id") }
 
-        userInput.name?.let { existingUser.name = it }
-
-        userInput.email?.let {
-            if (it != existingUser.email && userRepository.existsByEmail(it)) {
-                throw RtrRuleException("E-mail já registrado: $it")
-            }
-            existingUser.email = it
+        userInput.name?.let { name ->
+            require(name.isNotBlank()) { "Nome não pode estar vazio" }
+            require(name.length in 2..200) { "Nome deve ter entre 2 e 200 caracteres" }
+            existingUser.name = name.trim()
         }
 
-        userInput.password?.let { existingUser.password = passwordEncoder.encode(it) }
+        userInput.email?.let { email ->
+            require(email.isNotBlank()) { "E-mail não pode estar vazio" }
+            require(email.matches(Regex("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\$"))) {
+                "Formato de e-mail inválido"
+            }
+
+            val normalizedEmail = email.trim().lowercase()
+
+            if (normalizedEmail != existingUser.email.lowercase() && userRepository.existsByEmail(normalizedEmail)) {
+                throw RtrRuleException("E-mail inválido: $normalizedEmail")
+            }
+
+            existingUser.email = normalizedEmail
+        }
+
+        userInput.password?.let { password ->
+            require(password.isNotBlank()) { "Senha não pode estar vazia" }
+            require(password.length >= 6) { "Senha deve ter no mínimo 6 caracteres" }
+            require(password.matches(
+                Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@\$!%*?&])[A-Za-z\\d@\$!%*?&]{6,}\$")
+            )) {
+                "Senha deve conter pelo menos uma letra maiúscula, uma minúscula, um número e um caractere especial (@\$!%*?&)"
+            }
+
+            existingUser.password = passwordEncoder.encode(password)
+        }
 
         userInput.roleName?.let { roleName ->
+            require(roleName.isNotBlank()) { "Nome do cargo não pode estar vazio" }
+
             existingUser.role = userRoleRepository.findByName(roleName)
                 ?: throw RtrRuleException("Cargo não encontrado: $roleName")
         }
 
         if (userInput.storeId != null) {
             if (userInput.storeId.isBlank()) {
-                // Se vier "", remove o vínculo
                 existingUser.store = null
             } else {
+                require(userInput.storeId.length == 36) { "ID da loja deve ser um UUID válido" }
+
                 val store = storeRepository.findById(userInput.storeId)
                     .orElseThrow { RtrRuleException("Loja não encontrada: ${userInput.storeId}") }
+
                 existingUser.store = store
             }
         }

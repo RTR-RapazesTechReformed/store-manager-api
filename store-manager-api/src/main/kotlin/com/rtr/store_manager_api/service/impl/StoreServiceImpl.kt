@@ -4,6 +4,7 @@ import com.rtr.store_manager_api.domain.entity.Store
 import com.rtr.store_manager_api.dto.StoreRequestDTO
 import com.rtr.store_manager_api.dto.StoreResponseDTO
 import com.rtr.store_manager_api.dto.StoreUpdateDTO
+import com.rtr.store_manager_api.exception.RtrRuleException
 import com.rtr.store_manager_api.repository.StoreRepository
 import com.rtr.store_manager_api.service.StoreService
 import org.springframework.stereotype.Service
@@ -40,10 +41,26 @@ class StoreServiceImpl(
         val existing = storeRepository.findById(id)
             .orElseThrow { NoSuchElementException("Loja $id não encontrada") }
 
-        store.name?.let { existing.name = it }
-        store.cep?.let { existing.cep = it }
-        store.number?.let { existing.number = it }
-        store.complement?.let { existing.complement = it }
+        store.name?.let {
+            require(it.isNotBlank()) { "Nome não pode estar vazio" }
+            require(it.length in 2..200) { "Nome deve ter entre 2 e 200 caracteres" }
+            existing.name = it.trim()
+        }
+
+        store.cep?.let {
+            require(it.isNotBlank()) { "CEP não pode estar vazio" }
+            require(it.length == 8) { "CEP deve ter 8 caracteres" }
+            existing.cep = it.trim()
+        }
+
+        store.number?.let {
+            require(it.isNotBlank()) { "Número não pode estar vazio" }
+            existing.number = it.trim()
+        }
+
+        store.complement?.let {
+            existing.complement = it.trim()
+        }
 
         existing.updatedAt = LocalDateTime.now()
         existing.updatedBy = userId
