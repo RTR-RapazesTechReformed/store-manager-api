@@ -5,7 +5,7 @@ import com.rtr.store_manager_api.dto.UserUpdateDTO
 import com.rtr.store_manager_api.dto.UserResponseDTO
 
 interface UserService {
-    fun createUser(userInput: UserRequestDTO, userId: String): UserResponseDTO
+    fun createUser(userInput: UserRequestDTO, userId: String?): UserResponseDTO
     fun getAllUsers(name: String?, email: String?, storeId: String?, role: String?): List<UserResponseDTO>
     fun getUserById(id: String): UserResponseDTO?
     fun updateUser(id: String, user: UserUpdateDTO, userId: String): UserResponseDTO?

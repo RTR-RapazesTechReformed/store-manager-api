@@ -17,11 +17,14 @@ class UserController(private val userService: UserService) {
     @PostMapping
     fun createUser(
         @Valid @RequestBody user: UserRequestDTO,
-        @RequestHeader("user-id") userId: String): ResponseEntity<UserResponseDTO> {
-        HeaderValidator.validateUserId(userId)
+        @RequestHeader("user-id", required = false) userId: String?
+    ): ResponseEntity<UserResponseDTO> {
+        userId?.let { HeaderValidator.validateUserId(it) }
+
         val createdUser = userService.createUser(user, userId)
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser)
     }
+
 
     @GetMapping
     fun getAllUsers(

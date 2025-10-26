@@ -87,7 +87,7 @@
 									},
 									"status": "Created",
 									"code": 201,
-									"_postman_previewlanguage": "",
+									"_postman_previewlanguage": null,
 									"header": [
 										{
 											"key": "Vary",
@@ -111,7 +111,7 @@
 										},
 										{
 											"key": "Date",
-											"value": "Thu, 18 Sep 2025 02:19:21 GMT"
+											"value": "Sat, 25 Oct 2025 02:50:35 GMT"
 										},
 										{
 											"key": "Keep-Alive",
@@ -123,7 +123,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n    \"id\": \"1f4f7019-3e41-4ff1-9ae5-b4d4635fc763\",\n    \"name\": \"Edson\",\n    \"email\": \"ED@gmail.com\",\n    \"role_name\": \"admin\",\n    \"created_by\": \"f2fccb84-279f-4aea-af28-865577b16a0a\",\n    \"updated_by\": \"f2fccb84-279f-4aea-af28-865577b16a0a\",\n    \"created_at\": \"2025-09-17T23:19:21.2304303\",\n    \"updated_at\": \"2025-09-17T23:19:21.2304303\",\n    \"deleted\": false\n}"
+									"body": "{\n    \"id\": \"8ac49c50-082b-4bb2-8630-94e79322517d\",\n    \"name\": \"Edson\",\n    \"email\": \"ED@gmail.com\",\n    \"role_name\": \"admin\",\n    \"store_id\": null,\n    \"created_by\": \"8550015a-b14c-11f0-8c22-706979a3c737\",\n    \"updated_by\": \"8550015a-b14c-11f0-8c22-706979a3c737\",\n    \"created_at\": \"2025-10-24T23:50:35.2556288\",\n    \"updated_at\": \"2025-10-24T23:50:35.2556288\",\n    \"deleted\": false\n}"
 								}
 							]
 						},
@@ -151,7 +151,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "1f4f7019-3e41-4ff1-9ae5-b4d4635fc763"
+											"value": "8550015a-b14c-11f0-8c22-706979a3c737"
 										}
 									]
 								}
@@ -181,14 +181,14 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "1f4f7019-3e41-4ff1-9ae5-b4d4635fc763"
+													"value": "8550015a-b14c-11f0-8c22-706979a3c737"
 												}
 											]
 										}
 									},
 									"status": "OK",
 									"code": 200,
-									"_postman_previewlanguage": "",
+									"_postman_previewlanguage": null,
 									"header": [
 										{
 											"key": "Vary",
@@ -212,7 +212,7 @@
 										},
 										{
 											"key": "Date",
-											"value": "Thu, 18 Sep 2025 02:20:11 GMT"
+											"value": "Sat, 25 Oct 2025 02:52:30 GMT"
 										},
 										{
 											"key": "Keep-Alive",
@@ -224,7 +224,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n    \"id\": \"1f4f7019-3e41-4ff1-9ae5-b4d4635fc763\",\n    \"name\": \"Edson\",\n    \"email\": \"ED@gmail.com\",\n    \"role_name\": \"admin\",\n    \"created_by\": \"f2fccb84-279f-4aea-af28-865577b16a0a\",\n    \"updated_by\": \"f2fccb84-279f-4aea-af28-865577b16a0a\",\n    \"created_at\": \"2025-09-17T23:19:21\",\n    \"updated_at\": \"2025-09-17T23:19:21\",\n    \"deleted\": false\n}"
+									"body": "{\n    \"id\": \"8550015a-b14c-11f0-8c22-706979a3c737\",\n    \"name\": \"Administrador\",\n    \"email\": \"admin@meruru.com\",\n    \"role_name\": \"admin\",\n    \"store_id\": null,\n    \"created_by\": \"system\",\n    \"updated_by\": null,\n    \"created_at\": \"2025-10-24T23:44:26\",\n    \"updated_at\": \"2025-10-24T23:44:26\",\n    \"deleted\": false\n}"
 								}
 							]
 						},
@@ -275,7 +275,7 @@
 									},
 									"status": "OK",
 									"code": 200,
-									"_postman_previewlanguage": "",
+									"_postman_previewlanguage": null,
 									"header": [
 										{
 											"key": "Vary",
@@ -299,7 +299,7 @@
 										},
 										{
 											"key": "Date",
-											"value": "Thu, 18 Sep 2025 02:20:44 GMT"
+											"value": "Sat, 25 Oct 2025 02:52:42 GMT"
 										},
 										{
 											"key": "Keep-Alive",
@@ -311,7 +311,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "[\n    {\n        \"id\": \"1f4f7019-3e41-4ff1-9ae5-b4d4635fc763\",\n        \"name\": \"Edson\",\n        \"email\": \"ED@gmail.com\",\n        \"role_name\": \"admin\",\n        \"created_by\": \"f2fccb84-279f-4aea-af28-865577b16a0a\",\n        \"updated_by\": \"f2fccb84-279f-4aea-af28-865577b16a0a\",\n        \"created_at\": \"2025-09-17T23:19:21\",\n        \"updated_at\": \"2025-09-17T23:19:21\",\n        \"deleted\": false\n    },\n    {\n        \"id\": \"ef7eaf0a-f7f0-46bb-9d85-a68d0261320a\",\n        \"name\": \"Rafael\",\n        \"email\": \"rafa@gmail.com\",\n        \"role_name\": \"admin\",\n        \"created_by\": \"f2fccb84-279f-4aea-af28-865577b16a0a\",\n        \"updated_by\": \"f2fccb84-279f-4aea-af28-865577b16a0a\",\n        \"created_at\": \"2025-09-17T23:20:35\",\n        \"updated_at\": \"2025-09-17T23:20:35\",\n        \"deleted\": false\n    }\n]"
+									"body": "[\n    {\n        \"id\": \"8550015a-b14c-11f0-8c22-706979a3c737\",\n        \"name\": \"Administrador\",\n        \"email\": \"admin@meruru.com\",\n        \"role_name\": \"admin\",\n        \"store_id\": null,\n        \"created_by\": \"system\",\n        \"updated_by\": null,\n        \"created_at\": \"2025-10-24T23:44:26\",\n        \"updated_at\": \"2025-10-24T23:44:26\",\n        \"deleted\": false\n    },\n    {\n        \"id\": \"855006d0-b14c-11f0-8c22-706979a3c737\",\n        \"name\": \"Gerente\",\n        \"email\": \"manager@meruru.com\",\n        \"role_name\": \"manager\",\n        \"store_id\": null,\n        \"created_by\": \"system\",\n        \"updated_by\": null,\n        \"created_at\": \"2025-10-24T23:44:26\",\n        \"updated_at\": \"2025-10-24T23:44:26\",\n        \"deleted\": false\n    },\n    {\n        \"id\": \"855007df-b14c-11f0-8c22-706979a3c737\",\n        \"name\": \"Funcionário\",\n        \"email\": \"staff@meruru.com\",\n        \"role_name\": \"staff\",\n        \"store_id\": null,\n        \"created_by\": \"system\",\n        \"updated_by\": null,\n        \"created_at\": \"2025-10-24T23:44:26\",\n        \"updated_at\": \"2025-10-24T23:44:26\",\n        \"deleted\": false\n    },\n    {\n        \"id\": \"8ac49c50-082b-4bb2-8630-94e79322517d\",\n        \"name\": \"Edson\",\n        \"email\": \"ED@gmail.com\",\n        \"role_name\": \"admin\",\n        \"store_id\": null,\n        \"created_by\": \"8550015a-b14c-11f0-8c22-706979a3c737\",\n        \"updated_by\": \"8550015a-b14c-11f0-8c22-706979a3c737\",\n        \"created_at\": \"2025-10-24T23:50:35\",\n        \"updated_at\": \"2025-10-24T23:50:35\",\n        \"deleted\": false\n    }\n]"
 								}
 							]
 						},
@@ -333,7 +333,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"name\": \"Rafael Henrique\"\r\n}",
+									"raw": "{\r\n  \"store_id\": \"854f48b4-b14c-11f0-8c22-706979a3c737\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -353,7 +353,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "ef7eaf0a-f7f0-46bb-9d85-a68d0261320a"
+											"value": "8550015a-b14c-11f0-8c22-706979a3c737"
 										}
 									]
 								}
@@ -404,7 +404,7 @@
 									},
 									"status": "OK",
 									"code": 200,
-									"_postman_previewlanguage": "",
+									"_postman_previewlanguage": null,
 									"header": [
 										{
 											"key": "Vary",
@@ -441,6 +441,89 @@
 									],
 									"cookie": [],
 									"body": "{\n    \"id\": \"ef7eaf0a-f7f0-46bb-9d85-a68d0261320a\",\n    \"name\": \"Rafael Henrique\",\n    \"email\": \"rafa@gmail.com\",\n    \"role_name\": \"admin\",\n    \"created_by\": \"f2fccb84-279f-4aea-af28-865577b16a0a\",\n    \"updated_by\": \"f2fccb84-279f-4aea-af28-865577b16a0a\",\n    \"created_at\": \"2025-09-17T23:20:35\",\n    \"updated_at\": \"2025-09-17T23:21:15.9933214\",\n    \"deleted\": false\n}"
+								},
+								{
+									"name": "UPDATE USER",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "user-id",
+												"value": "{{user-id}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"store_id\": \"854f48b4-b14c-11f0-8c22-706979a3c737\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/store-manager-api/users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"store-manager-api",
+												"users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8550015a-b14c-11f0-8c22-706979a3c737"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Method"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Headers"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 25 Oct 2025 03:05:48 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": \"8550015a-b14c-11f0-8c22-706979a3c737\",\n    \"name\": \"Administrador\",\n    \"email\": \"admin@meruru.com\",\n    \"role_name\": \"admin\",\n    \"store_id\": \"854f48b4-b14c-11f0-8c22-706979a3c737\",\n    \"created_by\": \"system\",\n    \"updated_by\": \"8550015a-b14c-11f0-8c22-706979a3c737\",\n    \"created_at\": \"2025-10-24T23:44:26\",\n    \"updated_at\": \"2025-10-25T00:05:48.7001336\",\n    \"deleted\": false\n}"
 								}
 							]
 						},
@@ -473,7 +556,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "4140765f-3201-4883-a587-52be226f3b24"
+											"value": "8ac49c50-082b-4bb2-8630-94e79322517d"
 										}
 									]
 								}
@@ -508,14 +591,14 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "4140765f-3201-4883-a587-52be226f3b24"
+													"value": "8ac49c50-082b-4bb2-8630-94e79322517d"
 												}
 											]
 										}
 									},
 									"status": "No Content",
 									"code": 204,
-									"_postman_previewlanguage": "",
+									"_postman_previewlanguage": null,
 									"header": [
 										{
 											"key": "Vary",
@@ -531,7 +614,7 @@
 										},
 										{
 											"key": "Date",
-											"value": "Thu, 18 Sep 2025 01:51:36 GMT"
+											"value": "Sat, 25 Oct 2025 02:54:14 GMT"
 										},
 										{
 											"key": "Keep-Alive",
@@ -543,17 +626,17 @@
 										}
 									],
 									"cookie": [],
-									"body": ""
+									"body": null
 								}
 							]
 						}
 					]
 				},
 				{
-					"name": "Inventory",
+					"name": "Store",
 					"item": [
 						{
-							"name": "CREATE INVENTORY",
+							"name": "CREATE STORE",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -564,13 +647,13 @@
 									},
 									{
 										"key": "user-id",
-										"value": "{{$randomUUID}}",
+										"value": "{{user-id}}",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"product_id\": \"559efc38-9c6e-4615-8efe-c86d46db17aa\",\r\n  \"quantity\": 10\r\n}",
+									"raw": "{\r\n  \"name\": \"Epic Games\",\r\n  \"cep\": \"69908002\",\r\n  \"number\": \"387\",\r\n  \"complement\": \"Bloco C\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -578,97 +661,20 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/store-manager-api/inventory",
+									"raw": "{{baseUrl}}/store-manager-api/stores",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"store-manager-api",
-										"inventory"
+										"stores"
 									]
 								}
 							},
-							"response": [
-								{
-									"name": "CREATE INVENTORY",
-									"originalRequest": {
-										"method": "POST",
-										"header": [
-											{
-												"key": "Content-Type",
-												"value": "application/json",
-												"type": "text"
-											},
-											{
-												"key": "user-id",
-												"value": "{{$randomUUID}}",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\r\n  \"quantity\": 10\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{baseUrl}}/store-manager-api/inventory",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"store-manager-api",
-												"inventory"
-											]
-										}
-									},
-									"status": "Created",
-									"code": 201,
-									"_postman_previewlanguage": "",
-									"header": [
-										{
-											"key": "Vary",
-											"value": "Origin"
-										},
-										{
-											"key": "Vary",
-											"value": "Access-Control-Request-Method"
-										},
-										{
-											"key": "Vary",
-											"value": "Access-Control-Request-Headers"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										},
-										{
-											"key": "Date",
-											"value": "Thu, 18 Sep 2025 02:55:04 GMT"
-										},
-										{
-											"key": "Keep-Alive",
-											"value": "timeout=60"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\n    \"product_name\": \"Pikachu XYZ\",\n    \"quantity\": 10,\n    \"created_by\": \"d4a3965b-f470-4f75-98e9-ab7fcc5093d1\",\n    \"updated_by\": \"d4a3965b-f470-4f75-98e9-ab7fcc5093d1\",\n    \"created_at\": \"2025-09-17T23:55:04.4973474\",\n    \"updated_at\": \"2025-09-17T23:55:04.4973474\",\n    \"deleted\": false\n}"
-								}
-							]
+							"response": []
 						},
 						{
-							"name": "GET INVENTORY",
+							"name": "GET STORE",
 							"request": {
 								"method": "GET",
 								"header": [
@@ -679,97 +685,27 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/store-manager-api/inventory/:id",
+									"raw": "{{baseUrl}}/store-manager-api/stores/:id",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"store-manager-api",
-										"inventory",
+										"stores",
 										":id"
 									],
 									"variable": [
 										{
 											"key": "id",
-											"value": "9bcb92ca-3909-402d-b8f4-8cafb71c100b"
+											"value": "8340e6b2-72ed-45e5-bd25-cd44e2bef894"
 										}
 									]
 								}
 							},
-							"response": [
-								{
-									"name": "GET INVENTORY",
-									"originalRequest": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Content-Type",
-												"value": "application/json",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{baseUrl}}/store-manager-api/inventory/:id",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"store-manager-api",
-												"inventory",
-												":id"
-											],
-											"variable": [
-												{
-													"key": "id",
-													"value": "9bcb92ca-3909-402d-b8f4-8cafb71c100b"
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "",
-									"header": [
-										{
-											"key": "Vary",
-											"value": "Origin"
-										},
-										{
-											"key": "Vary",
-											"value": "Access-Control-Request-Method"
-										},
-										{
-											"key": "Vary",
-											"value": "Access-Control-Request-Headers"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										},
-										{
-											"key": "Date",
-											"value": "Thu, 18 Sep 2025 02:55:43 GMT"
-										},
-										{
-											"key": "Keep-Alive",
-											"value": "timeout=60"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\n    \"product_name\": \"Pikachu XYZ\",\n    \"quantity\": 10,\n    \"created_by\": \"d4a3965b-f470-4f75-98e9-ab7fcc5093d1\",\n    \"updated_by\": \"d4a3965b-f470-4f75-98e9-ab7fcc5093d1\",\n    \"created_at\": \"2025-09-17T23:55:04\",\n    \"updated_at\": \"2025-09-17T23:55:04\",\n    \"deleted\": false\n}"
-								}
-							]
+							"response": []
 						},
 						{
-							"name": "LIST INVENTORY",
+							"name": "LIST STORES",
 							"request": {
 								"method": "GET",
 								"header": [
@@ -780,633 +716,20 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/store-manager-api/inventory",
+									"raw": "{{baseUrl}}/store-manager-api/stores",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"store-manager-api",
-										"inventory"
+										"stores"
 									]
 								}
 							},
-							"response": [
-								{
-									"name": "LIST INVENTORY",
-									"originalRequest": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Content-Type",
-												"value": "application/json",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{baseUrl}}/store-manager-api/inventory",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"store-manager-api",
-												"inventory"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "",
-									"header": [
-										{
-											"key": "Vary",
-											"value": "Origin"
-										},
-										{
-											"key": "Vary",
-											"value": "Access-Control-Request-Method"
-										},
-										{
-											"key": "Vary",
-											"value": "Access-Control-Request-Headers"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										},
-										{
-											"key": "Date",
-											"value": "Thu, 18 Sep 2025 03:05:08 GMT"
-										},
-										{
-											"key": "Keep-Alive",
-											"value": "timeout=60"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										}
-									],
-									"cookie": [],
-									"body": "[\n    {\n        \"product_id\": \"559efc38-9c6e-4615-8efe-c86d46db17aa\",\n        \"product_name\": \"Pikachu\",\n        \"quantity\": 5,\n        \"created_by\": \"f1015374-a8fd-4237-abaa-ee859ee2db9d\",\n        \"updated_by\": \"f1015374-a8fd-4237-abaa-ee859ee2db9d\",\n        \"created_at\": \"2025-09-18T00:02:11\",\n        \"updated_at\": \"2025-09-18T00:02:11\",\n        \"deleted\": false\n    },\n    {\n        \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\n        \"product_name\": \"Pikachu XYZ\",\n        \"quantity\": 20,\n        \"created_by\": \"d4a3965b-f470-4f75-98e9-ab7fcc5093d1\",\n        \"updated_by\": \"f2fccb84-279f-4aea-af28-865577b16a0a\",\n        \"created_at\": \"2025-09-17T23:55:04\",\n        \"updated_at\": \"2025-09-18T00:01:21\",\n        \"deleted\": false\n    }\n]"
-								}
-							]
+							"response": []
 						},
 						{
-							"name": "UPDATE INVENTORY",
-							"request": {
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "user-id",
-										"value": "{{user-id}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"quantity\": 20\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/store-manager-api/inventory/:product_id",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"store-manager-api",
-										"inventory",
-										":product_id"
-									],
-									"variable": [
-										{
-											"key": "product_id",
-											"value": "9bcb92ca-3909-402d-b8f4-8cafb71c100b"
-										}
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "UPDATE INVENTORY",
-									"originalRequest": {
-										"method": "PATCH",
-										"header": [
-											{
-												"key": "Content-Type",
-												"value": "application/json",
-												"type": "text"
-											},
-											{
-												"key": "user-id",
-												"value": "{{user-id}}",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"quantity\": 20\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{baseUrl}}/store-manager-api/inventory/:product_id",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"store-manager-api",
-												"inventory",
-												":product_id"
-											],
-											"variable": [
-												{
-													"key": "product_id",
-													"value": "9bcb92ca-3909-402d-b8f4-8cafb71c100b"
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "",
-									"header": [
-										{
-											"key": "Vary",
-											"value": "Origin"
-										},
-										{
-											"key": "Vary",
-											"value": "Access-Control-Request-Method"
-										},
-										{
-											"key": "Vary",
-											"value": "Access-Control-Request-Headers"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										},
-										{
-											"key": "Date",
-											"value": "Thu, 18 Sep 2025 03:01:20 GMT"
-										},
-										{
-											"key": "Keep-Alive",
-											"value": "timeout=60"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\n    \"product_name\": \"Pikachu XYZ\",\n    \"quantity\": 20,\n    \"created_by\": \"d4a3965b-f470-4f75-98e9-ab7fcc5093d1\",\n    \"updated_by\": \"f2fccb84-279f-4aea-af28-865577b16a0a\",\n    \"created_at\": \"2025-09-17T23:55:04\",\n    \"updated_at\": \"2025-09-18T00:01:20.8927377\",\n    \"deleted\": false\n}"
-								}
-							]
-						},
-						{
-							"name": "DELETE INVENTORY",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "user-id",
-										"value": "{{user-id}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/store-manager-api/inventory/:product_id",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"store-manager-api",
-										"inventory",
-										":product_id"
-									],
-									"variable": [
-										{
-											"key": "product_id",
-											"value": "559efc38-9c6e-4615-8efe-c86d46db17aa"
-										}
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "DELETE INVENTORY",
-									"originalRequest": {
-										"method": "DELETE",
-										"header": [
-											{
-												"key": "Content-Type",
-												"value": "application/json",
-												"type": "text"
-											},
-											{
-												"key": "user-id",
-												"value": "{{user-id}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{baseUrl}}/store-manager-api/inventory/:product_id",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"store-manager-api",
-												"inventory",
-												":product_id"
-											],
-											"variable": [
-												{
-													"key": "product_id",
-													"value": "559efc38-9c6e-4615-8efe-c86d46db17aa"
-												}
-											]
-										}
-									},
-									"status": "No Content",
-									"code": 204,
-									"_postman_previewlanguage": "",
-									"header": [
-										{
-											"key": "Vary",
-											"value": "Origin"
-										},
-										{
-											"key": "Vary",
-											"value": "Access-Control-Request-Method"
-										},
-										{
-											"key": "Vary",
-											"value": "Access-Control-Request-Headers"
-										},
-										{
-											"key": "Date",
-											"value": "Thu, 18 Sep 2025 03:05:53 GMT"
-										},
-										{
-											"key": "Keep-Alive",
-											"value": "timeout=60"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										}
-									],
-									"cookie": [],
-									"body": ""
-								}
-							]
-						}
-					]
-				},
-				{
-					"name": "Inventory Movements",
-					"item": [
-						{
-							"name": "CREATE INVENTORY MOVEMENT",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "user-id",
-										"value": "{{$randomUUID}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\r\n  \"user_id\": \"ef7eaf0a-f7f0-46bb-9d85-a68d0261320a\",\r\n  \"quantity\": 200,\r\n  \"unit_purchase_price\": 150.00,\r\n  \"type\": \"IN\",\r\n  \"description\": \"Reposição de estoque\"\r\n}\r\n",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/store-manager-api/inventory-movements",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"store-manager-api",
-										"inventory-movements"
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "CREATE INVENTORY",
-									"originalRequest": {
-										"method": "POST",
-										"header": [
-											{
-												"key": "Content-Type",
-												"value": "application/json",
-												"type": "text"
-											},
-											{
-												"key": "user-id",
-												"value": "{{$randomUUID}}",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\r\n  \"user_id\": \"ef7eaf0a-f7f0-46bb-9d85-a68d0261320a\",\r\n  \"quantity\": 5,\r\n  \"unit_purchase_price\": 150.00,\r\n  \"type\": \"IN\",\r\n  \"description\": \"Reposição de estoque\"\r\n}\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{baseUrl}}/store-manager-api/inventory-movements",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"store-manager-api",
-												"inventory-movements"
-											]
-										}
-									},
-									"status": "Created",
-									"code": 201,
-									"_postman_previewlanguage": "",
-									"header": [
-										{
-											"key": "Vary",
-											"value": "Origin"
-										},
-										{
-											"key": "Vary",
-											"value": "Access-Control-Request-Method"
-										},
-										{
-											"key": "Vary",
-											"value": "Access-Control-Request-Headers"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										},
-										{
-											"key": "Date",
-											"value": "Thu, 18 Sep 2025 03:07:58 GMT"
-										},
-										{
-											"key": "Keep-Alive",
-											"value": "timeout=60"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"id\": \"49477b96-51ad-4657-97d4-356aa1ec7dbe\",\n    \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\n    \"user_id\": \"ef7eaf0a-f7f0-46bb-9d85-a68d0261320a\",\n    \"quantity\": 5,\n    \"unit_purchase_price\": 150,\n    \"unit_sale_price\": null,\n    \"type\": \"IN\",\n    \"description\": \"Reposição de estoque\",\n    \"created_by\": \"987ff486-8595-483d-9c23-5584ab5e3c68\",\n    \"created_at\": \"2025-09-18T00:07:58.4577773\",\n    \"updated_by\": \"987ff486-8595-483d-9c23-5584ab5e3c68\",\n    \"updated_at\": \"2025-09-18T00:07:58.4577773\",\n    \"deleted\": false\n}"
-								}
-							]
-						},
-						{
-							"name": "GET INVENTORY MOVEMENT",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "user-id",
-										"value": "{{user-id}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/store-manager-api/inventory-movements/:id",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"store-manager-api",
-										"inventory-movements",
-										":id"
-									],
-									"variable": [
-										{
-											"key": "id",
-											"value": "49477b96-51ad-4657-97d4-356aa1ec7dbe"
-										}
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "GET INVENTORY",
-									"originalRequest": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Content-Type",
-												"value": "application/json",
-												"type": "text"
-											},
-											{
-												"key": "user-id",
-												"value": "{{user-id}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{baseUrl}}/store-manager-api/inventory-movements/:id",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"store-manager-api",
-												"inventory-movements",
-												":id"
-											],
-											"variable": [
-												{
-													"key": "id",
-													"value": "49477b96-51ad-4657-97d4-356aa1ec7dbe"
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "",
-									"header": [
-										{
-											"key": "Vary",
-											"value": "Origin"
-										},
-										{
-											"key": "Vary",
-											"value": "Access-Control-Request-Method"
-										},
-										{
-											"key": "Vary",
-											"value": "Access-Control-Request-Headers"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										},
-										{
-											"key": "Date",
-											"value": "Thu, 18 Sep 2025 03:13:32 GMT"
-										},
-										{
-											"key": "Keep-Alive",
-											"value": "timeout=60"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"id\": \"49477b96-51ad-4657-97d4-356aa1ec7dbe\",\n    \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\n    \"user_id\": \"ef7eaf0a-f7f0-46bb-9d85-a68d0261320a\",\n    \"quantity\": 5,\n    \"unit_purchase_price\": 150,\n    \"unit_sale_price\": null,\n    \"type\": \"IN\",\n    \"description\": \"Reposição de estoque\",\n    \"created_by\": \"987ff486-8595-483d-9c23-5584ab5e3c68\",\n    \"created_at\": \"2025-09-18T00:07:58\",\n    \"updated_by\": \"987ff486-8595-483d-9c23-5584ab5e3c68\",\n    \"updated_at\": \"2025-09-18T00:07:58\",\n    \"deleted\": false\n}"
-								}
-							]
-						},
-						{
-							"name": "LIST INVENTORY MOVEMENT",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/store-manager-api/inventory-movements",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"store-manager-api",
-										"inventory-movements"
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "LIST INVENTORY",
-									"originalRequest": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Content-Type",
-												"value": "application/json",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{baseUrl}}/store-manager-api/inventory-movements",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"store-manager-api",
-												"inventory-movements"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "",
-									"header": [
-										{
-											"key": "Vary",
-											"value": "Origin"
-										},
-										{
-											"key": "Vary",
-											"value": "Access-Control-Request-Method"
-										},
-										{
-											"key": "Vary",
-											"value": "Access-Control-Request-Headers"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										},
-										{
-											"key": "Date",
-											"value": "Thu, 18 Sep 2025 03:13:43 GMT"
-										},
-										{
-											"key": "Keep-Alive",
-											"value": "timeout=60"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										}
-									],
-									"cookie": [],
-									"body": "[\n    {\n        \"id\": \"49477b96-51ad-4657-97d4-356aa1ec7dbe\",\n        \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\n        \"user_id\": \"ef7eaf0a-f7f0-46bb-9d85-a68d0261320a\",\n        \"quantity\": 5,\n        \"unit_purchase_price\": 150,\n        \"unit_sale_price\": null,\n        \"type\": \"IN\",\n        \"description\": \"Reposição de estoque\",\n        \"created_by\": \"987ff486-8595-483d-9c23-5584ab5e3c68\",\n        \"created_at\": \"2025-09-18T00:07:58\",\n        \"updated_by\": \"987ff486-8595-483d-9c23-5584ab5e3c68\",\n        \"updated_at\": \"2025-09-18T00:07:58\",\n        \"deleted\": false\n    }\n]"
-								}
-							]
-						},
-						{
-							"name": "UPDATE INVENTORY MOVEMENT",
+							"name": "UPDATE STORE",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -1423,7 +746,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"unit_sale_price\": 280.0,\r\n  \"description\": \"teste de estoque atualizada\"\r\n}\r\n",
+									"raw": "{\r\n//   \"name\": \"\",\r\n//   \"number\": \"\",\r\n  \"cep\": \"09220330\",\r\n  \"complement\": \"Bloco a\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1431,108 +754,60 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/store-manager-api/inventory-movements/:id",
+									"raw": "{{baseUrl}}/store-manager-api/stores/:id",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"store-manager-api",
-										"inventory-movements",
+										"stores",
 										":id"
 									],
 									"variable": [
 										{
 											"key": "id",
-											"value": "49477b96-51ad-4657-97d4-356aa1ec7dbe"
+											"value": "8340e6b2-72ed-45e5-bd25-cd44e2bef894"
 										}
 									]
 								}
 							},
-							"response": [
-								{
-									"name": "UPDATE INVENTORY MOVEMENT",
-									"originalRequest": {
-										"method": "PUT",
-										"header": [
-											{
-												"key": "Content-Type",
-												"value": "application/json",
-												"type": "text"
-											},
-											{
-												"key": "user-id",
-												"value": "{{user-id}}",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"unit_sale_price\": 280.0,\r\n  \"description\": \"teste de estoque atualizada\"\r\n}\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{baseUrl}}/store-manager-api/inventory-movements/:id",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"store-manager-api",
-												"inventory-movements",
-												":id"
-											],
-											"variable": [
-												{
-													"key": "id",
-													"value": "49477b96-51ad-4657-97d4-356aa1ec7dbe"
-												}
-											]
-										}
+							"response": []
+						},
+						{
+							"name": "DELETE STORE",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
 									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "",
-									"header": [
-										{
-											"key": "Vary",
-											"value": "Origin"
-										},
-										{
-											"key": "Vary",
-											"value": "Access-Control-Request-Method"
-										},
-										{
-											"key": "Vary",
-											"value": "Access-Control-Request-Headers"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										},
-										{
-											"key": "Date",
-											"value": "Thu, 18 Sep 2025 03:51:08 GMT"
-										},
-										{
-											"key": "Keep-Alive",
-											"value": "timeout=60"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										}
+									{
+										"key": "user-id",
+										"value": "{{user-id}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/store-manager-api/stores/:id",
+									"host": [
+										"{{baseUrl}}"
 									],
-									"cookie": [],
-									"body": "{\n    \"id\": \"49477b96-51ad-4657-97d4-356aa1ec7dbe\",\n    \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\n    \"user_id\": \"ef7eaf0a-f7f0-46bb-9d85-a68d0261320a\",\n    \"quantity\": 10,\n    \"unit_purchase_price\": 150,\n    \"unit_sale_price\": 280,\n    \"type\": \"IN\",\n    \"description\": \"teste de estoque atualizada\",\n    \"created_by\": \"987ff486-8595-483d-9c23-5584ab5e3c68\",\n    \"created_at\": \"2025-09-18T00:07:58\",\n    \"updated_by\": \"f2fccb84-279f-4aea-af28-865577b16a0a\",\n    \"updated_at\": \"2025-09-18T00:51:08.934789\",\n    \"deleted\": false\n}"
+									"path": [
+										"store-manager-api",
+										"stores",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "8340e6b2-72ed-45e5-bd25-cd44e2bef894"
+										}
+									]
 								}
-							]
+							},
+							"response": []
 						}
 					]
 				},
@@ -1557,7 +832,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"name\": \"Pikachu\",\r\n  \"description\": \"Carta rara holográfica\",\r\n  \"type\": \"CARD\",\r\n  \"price\": 199.90,\r\n  \"condition\": \"MINT\"\r\n}",
+									"raw": "{\r\n  \"name\": \"Pikachu\",\r\n  \"description\": \"Carta rara holográfica\",\r\n  \"type\": \"CARD\",\r\n  \"price\": 199.90,\r\n  \"store_id\": \"\",\r\n  \"condition\": \"MINT\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1614,7 +889,7 @@
 									},
 									"status": "Created",
 									"code": 201,
-									"_postman_previewlanguage": "",
+									"_postman_previewlanguage": null,
 									"header": [
 										{
 											"key": "Vary",
@@ -1715,7 +990,7 @@
 									},
 									"status": "OK",
 									"code": 200,
-									"_postman_previewlanguage": "",
+									"_postman_previewlanguage": null,
 									"header": [
 										{
 											"key": "Vary",
@@ -1757,6 +1032,9 @@
 						},
 						{
 							"name": "LIST PRODUCT",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
 								"header": [
@@ -1766,6 +1044,15 @@
 										"type": "text"
 									}
 								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
 									"raw": "{{baseUrl}}/store-manager-api/products",
 									"host": [
@@ -1802,7 +1089,7 @@
 									},
 									"status": "OK",
 									"code": 200,
-									"_postman_previewlanguage": "",
+									"_postman_previewlanguage": null,
 									"header": [
 										{
 											"key": "Vary",
@@ -1931,7 +1218,7 @@
 									},
 									"status": "OK",
 									"code": 200,
-									"_postman_previewlanguage": "",
+									"_postman_previewlanguage": null,
 									"header": [
 										{
 											"key": "Vary",
@@ -2042,7 +1329,7 @@
 									},
 									"status": "No Content",
 									"code": 204,
-									"_postman_previewlanguage": "",
+									"_postman_previewlanguage": null,
 									"header": [
 										{
 											"key": "Vary",
@@ -2070,7 +1357,1097 @@
 										}
 									],
 									"cookie": [],
-									"body": ""
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Inventory Movements",
+					"item": [
+						{
+							"name": "CREATE INVENTORY MOVEMENT",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "user-id",
+										"value": "{{user-id}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"product_id\": \"77084849-b15f-11f0-8c22-706979a3c737\",\r\n  \"user_id\": \"{{user-id}}\",\r\n  \"quantity\": 12,\r\n  \"unit_sale_price\": 150.00,\r\n  //\"unit_purchase_price\": 150.00,\r\n  \"type\": \"OUT\",\r\n  \"description\": \"Venda loja\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/store-manager-api/inventory-movements",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"store-manager-api",
+										"inventory-movements"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "CREATE INVENTORY",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "user-id",
+												"value": "{{$randomUUID}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\r\n  \"user_id\": \"ef7eaf0a-f7f0-46bb-9d85-a68d0261320a\",\r\n  \"quantity\": 5,\r\n  \"unit_purchase_price\": 150.00,\r\n  \"type\": \"IN\",\r\n  \"description\": \"Reposição de estoque\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/store-manager-api/inventory-movements",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"store-manager-api",
+												"inventory-movements"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Method"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Headers"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 18 Sep 2025 03:07:58 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": \"49477b96-51ad-4657-97d4-356aa1ec7dbe\",\n    \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\n    \"user_id\": \"ef7eaf0a-f7f0-46bb-9d85-a68d0261320a\",\n    \"quantity\": 5,\n    \"unit_purchase_price\": 150,\n    \"unit_sale_price\": null,\n    \"type\": \"IN\",\n    \"description\": \"Reposição de estoque\",\n    \"created_by\": \"987ff486-8595-483d-9c23-5584ab5e3c68\",\n    \"created_at\": \"2025-09-18T00:07:58.4577773\",\n    \"updated_by\": \"987ff486-8595-483d-9c23-5584ab5e3c68\",\n    \"updated_at\": \"2025-09-18T00:07:58.4577773\",\n    \"deleted\": false\n}"
+								}
+							]
+						},
+						{
+							"name": "GET INVENTORY MOVEMENT",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "user-id",
+										"value": "{{user-id}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/store-manager-api/inventory-movements/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"store-manager-api",
+										"inventory-movements",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "49477b96-51ad-4657-97d4-356aa1ec7dbe"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "GET INVENTORY",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "user-id",
+												"value": "{{user-id}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/store-manager-api/inventory-movements/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"store-manager-api",
+												"inventory-movements",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "49477b96-51ad-4657-97d4-356aa1ec7dbe"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Method"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Headers"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 18 Sep 2025 03:13:32 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": \"49477b96-51ad-4657-97d4-356aa1ec7dbe\",\n    \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\n    \"user_id\": \"ef7eaf0a-f7f0-46bb-9d85-a68d0261320a\",\n    \"quantity\": 5,\n    \"unit_purchase_price\": 150,\n    \"unit_sale_price\": null,\n    \"type\": \"IN\",\n    \"description\": \"Reposição de estoque\",\n    \"created_by\": \"987ff486-8595-483d-9c23-5584ab5e3c68\",\n    \"created_at\": \"2025-09-18T00:07:58\",\n    \"updated_by\": \"987ff486-8595-483d-9c23-5584ab5e3c68\",\n    \"updated_at\": \"2025-09-18T00:07:58\",\n    \"deleted\": false\n}"
+								}
+							]
+						},
+						{
+							"name": "LIST INVENTORY MOVEMENT",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/store-manager-api/inventory-movements",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"store-manager-api",
+										"inventory-movements"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "LIST INVENTORY",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/store-manager-api/inventory-movements",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"store-manager-api",
+												"inventory-movements"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Method"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Headers"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 18 Sep 2025 03:13:43 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"id\": \"49477b96-51ad-4657-97d4-356aa1ec7dbe\",\n        \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\n        \"user_id\": \"ef7eaf0a-f7f0-46bb-9d85-a68d0261320a\",\n        \"quantity\": 5,\n        \"unit_purchase_price\": 150,\n        \"unit_sale_price\": null,\n        \"type\": \"IN\",\n        \"description\": \"Reposição de estoque\",\n        \"created_by\": \"987ff486-8595-483d-9c23-5584ab5e3c68\",\n        \"created_at\": \"2025-09-18T00:07:58\",\n        \"updated_by\": \"987ff486-8595-483d-9c23-5584ab5e3c68\",\n        \"updated_at\": \"2025-09-18T00:07:58\",\n        \"deleted\": false\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "UPDATE INVENTORY MOVEMENT",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "user-id",
+										"value": "{{user-id}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"unit_sale_price\": 280.0,\r\n  \"description\": \"teste de estoque atualizada\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/store-manager-api/inventory-movements/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"store-manager-api",
+										"inventory-movements",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "49477b96-51ad-4657-97d4-356aa1ec7dbe"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "UPDATE INVENTORY MOVEMENT",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "user-id",
+												"value": "{{user-id}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"unit_sale_price\": 280.0,\r\n  \"description\": \"teste de estoque atualizada\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/store-manager-api/inventory-movements/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"store-manager-api",
+												"inventory-movements",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "49477b96-51ad-4657-97d4-356aa1ec7dbe"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Method"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Headers"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 18 Sep 2025 03:51:08 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": \"49477b96-51ad-4657-97d4-356aa1ec7dbe\",\n    \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\n    \"user_id\": \"ef7eaf0a-f7f0-46bb-9d85-a68d0261320a\",\n    \"quantity\": 10,\n    \"unit_purchase_price\": 150,\n    \"unit_sale_price\": 280,\n    \"type\": \"IN\",\n    \"description\": \"teste de estoque atualizada\",\n    \"created_by\": \"987ff486-8595-483d-9c23-5584ab5e3c68\",\n    \"created_at\": \"2025-09-18T00:07:58\",\n    \"updated_by\": \"f2fccb84-279f-4aea-af28-865577b16a0a\",\n    \"updated_at\": \"2025-09-18T00:51:08.934789\",\n    \"deleted\": false\n}"
+								}
+							]
+						},
+						{
+							"name": "DELETE INVENTORY MOVEMENT",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "user-id",
+										"value": "{{user-id}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/store-manager-api/inventory-movements/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"store-manager-api",
+										"inventory-movements",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "49b8a667-fec7-43a2-b849-b36297db6a32"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "DELETE INVENTORY",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "user-id",
+												"value": "{{user-id}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/store-manager-api/inventory/:product_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"store-manager-api",
+												"inventory",
+												":product_id"
+											],
+											"variable": [
+												{
+													"key": "product_id",
+													"value": "559efc38-9c6e-4615-8efe-c86d46db17aa"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Method"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Headers"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 18 Sep 2025 03:05:53 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Inventory",
+					"item": [
+						{
+							"name": "CREATE INVENTORY",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "user-id",
+										"value": "{{$randomUUID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"product_id\": \"559efc38-9c6e-4615-8efe-c86d46db17aa\",\r\n  \"quantity\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/store-manager-api/inventory",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"store-manager-api",
+										"inventory"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "CREATE INVENTORY",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "user-id",
+												"value": "{{$randomUUID}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\r\n  \"quantity\": 10\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/store-manager-api/inventory",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"store-manager-api",
+												"inventory"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Method"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Headers"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 18 Sep 2025 02:55:04 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\n    \"product_name\": \"Pikachu XYZ\",\n    \"quantity\": 10,\n    \"created_by\": \"d4a3965b-f470-4f75-98e9-ab7fcc5093d1\",\n    \"updated_by\": \"d4a3965b-f470-4f75-98e9-ab7fcc5093d1\",\n    \"created_at\": \"2025-09-17T23:55:04.4973474\",\n    \"updated_at\": \"2025-09-17T23:55:04.4973474\",\n    \"deleted\": false\n}"
+								}
+							]
+						},
+						{
+							"name": "GET INVENTORY",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/store-manager-api/inventory/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"store-manager-api",
+										"inventory",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "9bcb92ca-3909-402d-b8f4-8cafb71c100b"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "GET INVENTORY",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/store-manager-api/inventory/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"store-manager-api",
+												"inventory",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "9bcb92ca-3909-402d-b8f4-8cafb71c100b"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Method"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Headers"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 18 Sep 2025 02:55:43 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\n    \"product_name\": \"Pikachu XYZ\",\n    \"quantity\": 10,\n    \"created_by\": \"d4a3965b-f470-4f75-98e9-ab7fcc5093d1\",\n    \"updated_by\": \"d4a3965b-f470-4f75-98e9-ab7fcc5093d1\",\n    \"created_at\": \"2025-09-17T23:55:04\",\n    \"updated_at\": \"2025-09-17T23:55:04\",\n    \"deleted\": false\n}"
+								}
+							]
+						},
+						{
+							"name": "LIST INVENTORY",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/store-manager-api/inventory",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"store-manager-api",
+										"inventory"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "LIST INVENTORY",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/store-manager-api/inventory",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"store-manager-api",
+												"inventory"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Method"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Headers"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 18 Sep 2025 03:05:08 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"product_id\": \"559efc38-9c6e-4615-8efe-c86d46db17aa\",\n        \"product_name\": \"Pikachu\",\n        \"quantity\": 5,\n        \"created_by\": \"f1015374-a8fd-4237-abaa-ee859ee2db9d\",\n        \"updated_by\": \"f1015374-a8fd-4237-abaa-ee859ee2db9d\",\n        \"created_at\": \"2025-09-18T00:02:11\",\n        \"updated_at\": \"2025-09-18T00:02:11\",\n        \"deleted\": false\n    },\n    {\n        \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\n        \"product_name\": \"Pikachu XYZ\",\n        \"quantity\": 20,\n        \"created_by\": \"d4a3965b-f470-4f75-98e9-ab7fcc5093d1\",\n        \"updated_by\": \"f2fccb84-279f-4aea-af28-865577b16a0a\",\n        \"created_at\": \"2025-09-17T23:55:04\",\n        \"updated_at\": \"2025-09-18T00:01:21\",\n        \"deleted\": false\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "UPDATE INVENTORY",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "user-id",
+										"value": "{{user-id}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"quantity\": 20\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/store-manager-api/inventory/:product_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"store-manager-api",
+										"inventory",
+										":product_id"
+									],
+									"variable": [
+										{
+											"key": "product_id",
+											"value": "9bcb92ca-3909-402d-b8f4-8cafb71c100b"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "UPDATE INVENTORY",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "user-id",
+												"value": "{{user-id}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"quantity\": 20\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/store-manager-api/inventory/:product_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"store-manager-api",
+												"inventory",
+												":product_id"
+											],
+											"variable": [
+												{
+													"key": "product_id",
+													"value": "9bcb92ca-3909-402d-b8f4-8cafb71c100b"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Method"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Headers"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 18 Sep 2025 03:01:20 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"product_id\": \"9bcb92ca-3909-402d-b8f4-8cafb71c100b\",\n    \"product_name\": \"Pikachu XYZ\",\n    \"quantity\": 20,\n    \"created_by\": \"d4a3965b-f470-4f75-98e9-ab7fcc5093d1\",\n    \"updated_by\": \"f2fccb84-279f-4aea-af28-865577b16a0a\",\n    \"created_at\": \"2025-09-17T23:55:04\",\n    \"updated_at\": \"2025-09-18T00:01:20.8927377\",\n    \"deleted\": false\n}"
+								}
+							]
+						},
+						{
+							"name": "DELETE INVENTORY",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "user-id",
+										"value": "{{user-id}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/store-manager-api/inventory/:product_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"store-manager-api",
+										"inventory",
+										":product_id"
+									],
+									"variable": [
+										{
+											"key": "product_id",
+											"value": "559efc38-9c6e-4615-8efe-c86d46db17aa"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "DELETE INVENTORY",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "user-id",
+												"value": "{{user-id}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/store-manager-api/inventory/:product_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"store-manager-api",
+												"inventory",
+												":product_id"
+											],
+											"variable": [
+												{
+													"key": "product_id",
+													"value": "559efc38-9c6e-4615-8efe-c86d46db17aa"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Method"
+										},
+										{
+											"key": "Vary",
+											"value": "Access-Control-Request-Headers"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 18 Sep 2025 03:05:53 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": null
 								}
 							]
 						}
@@ -2456,7 +2833,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"email\": \"teste@teste.com\",\r\n  \"password\": \"123456\"\r\n}",
+									"raw": "{\r\n  \"email\": \"ED@gmail.com\",\r\n  \"password\": \"Aa123456@\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"

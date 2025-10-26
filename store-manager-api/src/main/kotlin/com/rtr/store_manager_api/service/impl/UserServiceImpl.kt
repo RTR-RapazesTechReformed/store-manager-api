@@ -22,7 +22,7 @@ class UserServiceImpl(
     private val storeRepository: StoreRepository,
 ) : UserService {
 
-    override fun createUser(userInput: UserRequestDTO, userId: String): UserResponseDTO {
+    override fun createUser(userInput: UserRequestDTO, userId: String?): UserResponseDTO {
         if (userRepository.existsByEmail(userInput.email)) {
             throw RtrRuleException("E-mail já registrado: ${userInput.email}")
         }
@@ -41,8 +41,8 @@ class UserServiceImpl(
             role = role,
             store = store
         ).apply {
-            createdBy = userId
-            updatedBy = userId
+            createdBy = userId ?: "system"
+            updatedBy = userId ?: "system"
         }
 
         return userRepository.save(user).toDTO()
