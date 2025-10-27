@@ -1,13 +1,17 @@
 package com.rtr.store_manager_api.service.impl
 
 import com.rtr.store_manager_api.domain.entity.Card
+import com.rtr.store_manager_api.domain.entity.OtherProduct
 import com.rtr.store_manager_api.domain.entity.Product
 import com.rtr.store_manager_api.domain.entity.Store
+import com.rtr.store_manager_api.dto.CardResponseDTO
+import com.rtr.store_manager_api.dto.OtherProductResponseDTO
 import com.rtr.store_manager_api.dto.ProductRequestDTO
 import com.rtr.store_manager_api.dto.ProductResponseDTO
 import com.rtr.store_manager_api.dto.ProductUpdateDTO
 import com.rtr.store_manager_api.dto.UserResponseDTO
 import com.rtr.store_manager_api.repository.CardRepository
+import com.rtr.store_manager_api.repository.OtherProductRepository
 import com.rtr.store_manager_api.repository.ProductRepository
 import com.rtr.store_manager_api.repository.StoreRepository
 import com.rtr.store_manager_api.service.ProductService
@@ -19,27 +23,53 @@ import java.util.*
 class ProductServiceImpl(
     private val productRepository: ProductRepository,
     private val cardRepository: CardRepository,
-    private val storeRepository: StoreRepository
+    private val storeRepository: StoreRepository,
+    private val otherProductRepository: OtherProductRepository,
 ) : ProductService {
 
     override fun createProduct(dto: ProductRequestDTO, userId: String): ProductResponseDTO {
         val card: Card? = dto.cardId?.let { cardRepository.findById(it).orElse(null) }
-        val store: Store = dto.storeId.let { storeRepository.findById(it).orElse(null) }
+        val store: Store = storeRepository.findById(dto.storeId).orElseThrow {
+            NoSuchElementException("Store ${dto.storeId} não encontrada")
+        }
+
+        val otherProduct: OtherProduct? = when {
+            dto.otherProductId != null -> otherProductRepository.findById(dto.otherProductId)
+                .orElseThrow { NoSuchElementException("${dto.otherProductId} não encontrado") }
+
+            dto.otherProduct != null -> {
+                val otherDto = dto.otherProduct
+                OtherProduct(
+                    type = otherDto.type,
+                    nationality = otherDto.nationality,
+                    packageContents = otherDto.packageContents,
+                    extraInfo = otherDto.extraInfo,
+                ).apply {
+                    createdBy = userId
+                    updatedBy = userId
+                }.also { otherProductRepository.save(it) }
+            }
+
+            else -> null
+        }
 
         val product = Product(
             name = dto.name,
             description = dto.description,
             card = card,
+            otherProduct = otherProduct,
             price = dto.price,
             condition = dto.condition,
             store = store
-        ) .apply {
+        ).apply {
             createdBy = userId
             updatedBy = userId
         }
 
         return productRepository.save(product).toResponseDTO()
     }
+
+
 
     override fun getAllProducts(storeId: String?,): List<ProductResponseDTO> {
         val products = productRepository.findAll()
@@ -73,7 +103,6 @@ class ProductServiceImpl(
         return productRepository.save(existing).toResponseDTO()
     }
 
-
     override fun deleteProduct(id: String, userId: String) {
         val product = productRepository.findById(id)
             .orElseThrow { NoSuchElementException("Produto $id não encontrado") }
@@ -89,11 +118,40 @@ class ProductServiceImpl(
         id = this.id,
         name = this.name,
         description = this.description,
-        cardId = this.card?.id.toString(),
-        storeId = this.store?.id.toString(),
-        otherProductId = this.otherProduct?.id.toString(),
         price = this.price,
         condition = this.condition,
+        storeId = this.store?.id,
+        card = this.card?.let {
+            CardResponseDTO(
+                id = it.id,
+                title = it.title,
+                season = it.season,
+                pokemonType = it.pokemonType.toString(),
+                collectionId = it.collection?.id ?: "",
+                code = it.code,
+                rarity = it.rarity.toString(),
+                nationality = it.nationality,
+                createdBy = it.createdBy,
+                createdAt = it.createdAt,
+                updatedBy = it.updatedBy,
+                updatedAt = it.updatedAt,
+                deleted = it.deleted
+            )
+        },
+        otherProduct = this.otherProduct?.let {
+            OtherProductResponseDTO(
+                id = it.id,
+                type = it.type,
+                nationality = it.nationality,
+                packageContents = it.packageContents,
+                extraInfo = it.extraInfo,
+                createdBy = it.createdBy,
+                updatedBy = it.updatedBy,
+                createdAt = it.createdAt,
+                updatedAt = it.updatedAt,
+                deleted = it.deleted
+            )
+        },
         createdBy = this.createdBy,
         updatedBy = this.updatedBy,
         createdAt = this.createdAt,

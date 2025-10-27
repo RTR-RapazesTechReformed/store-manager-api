@@ -18,14 +18,14 @@ data class OtherProduct(
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
-    val type: OtherProductType,
+    var type: OtherProductType,
 
     @Column(name = "nationality")
-    val nationality: String? = null,
+    var nationality: String? = null,
 
     @Column(name = "package_contents")
-    val packageContents: String? = null,
+    var packageContents: String? = null,
 
     @Column(name = "extra_info")
-    val extraInfo: String? = null
+    var extraInfo: String? = null
 ) : BaseEntity()

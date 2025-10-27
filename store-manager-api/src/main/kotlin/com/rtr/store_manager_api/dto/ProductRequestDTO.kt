@@ -8,7 +8,8 @@ data class ProductRequestDTO(
     val description: String? = null,
     val cardId: String? = null,
     val storeId: String,
-    val otherProductId: String? = null,
+    val otherProductId: String?,
+    val otherProduct: OtherProductRequestDTO?,
     val price: BigDecimal,
     val condition: ProductCondition
 )

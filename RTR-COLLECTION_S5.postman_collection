@@ -832,7 +832,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"name\": \"Pikachu\",\r\n  \"description\": \"Carta rara holográfica\",\r\n  \"type\": \"CARD\",\r\n  \"price\": 199.90,\r\n  \"store_id\": \"\",\r\n  \"condition\": \"MINT\"\r\n}",
+									"raw": "{\r\n  \"name\": \"Pikachu\",\r\n  \"description\": \"Carta rara holográfica\",\r\n  \"type\": \"CARD\",\r\n  \"price\": 199.90,\r\n  \"store_id\": \"\",\r\n  \"condition\": \"MINT\"\r\n//   \"card_id\": \"\",\r\n//   \"other_product_id\": \"\"\r\n//   \"other_product\":\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
