@@ -48,19 +48,19 @@ services:
       - kafka
     networks:
       - kafka-network
-    entrypoint: [ '/bin/sh', '-c' ]
+    entrypoint: ["/bin/sh", "-c"]
     command: |
       "
       echo 'Aguardando Kafka estar pronto...'
       sleep 30
-      
+
       echo 'Criando tópicos...'
       kafka-topics --bootstrap-server kafka:9093 --create --if-not-exists --topic inventory-movement-topic --replication-factor 1 --partitions 3
       kafka-topics --bootstrap-server kafka:9093 --create --if-not-exists --topic inventory-movement-dlq --replication-factor 1 --partitions 1
-      
+
       echo 'Listando tópicos criados:'
       kafka-topics --bootstrap-server kafka:9093 --list
-      
+
       echo 'Tópicos criados com sucesso!'
       "
 
@@ -77,6 +77,20 @@ services:
       - kafka-init
     networks:
       - kafka-network
+
+  store-manager-api:
+    build: ./store-manager-api
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/rtr
+      DB_USER: root
+      DB_PASS: sua_senha
+      SERVER_PORT: 8080
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+      SPRING_PROFILES_ACTIVE: prod
+    depends_on:
+      - kafka
 
 networks:
   kafka-network:
