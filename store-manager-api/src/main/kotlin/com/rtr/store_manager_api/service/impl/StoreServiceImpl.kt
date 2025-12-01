@@ -30,15 +30,15 @@ class StoreServiceImpl(
     }
 
     override fun getAllStores(): List<StoreResponseDTO> =
-        storeRepository.findAll().map { it.toResponseDTO() }
+        storeRepository.findAllByDeletedFalse().map { it.toResponseDTO() }
 
     override fun getStoreById(id: String): StoreResponseDTO? =
-        storeRepository.findById(id)
+        storeRepository.findByIdAndDeletedFalse(id)
             .map { it.toResponseDTO() }
             .orElse(null)
 
     override fun updateStore(id: String, store: StoreUpdateDTO, userId: String): StoreResponseDTO? {
-        val existing = storeRepository.findById(id)
+        val existing = storeRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { NoSuchElementException("Loja $id não encontrada") }
 
         store.name?.let {
@@ -69,7 +69,7 @@ class StoreServiceImpl(
     }
 
     override fun deleteStore(id: String, userId: String): Boolean {
-        val store = storeRepository.findById(id)
+        val store = storeRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { NoSuchElementException("Loja $id não encontrada") }
 
         store.deleted = true

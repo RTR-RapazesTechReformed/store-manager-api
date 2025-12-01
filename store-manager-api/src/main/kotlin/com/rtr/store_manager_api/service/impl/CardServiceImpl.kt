@@ -18,7 +18,7 @@ class CardServiceImpl(
 ) : CardService {
 
     override fun createCard(dto: CardRequestDTO, userId: String): CardResponseDTO {
-        val collection = collectionRepository.findById(dto.collectionId)
+        val collection = collectionRepository.findByIdAndDeletedFalse(dto.collectionId)
             .orElseThrow { IllegalArgumentException("Coleção não encontrada") }
 
         val card = Card(
@@ -49,17 +49,17 @@ class CardServiceImpl(
     }
 
     override fun getCardById(id: String): CardResponseDTO {
-        val card = cardRepository.findById(id)
+        val card = cardRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { IllegalArgumentException("Carta não encontrada") }
         if (card.deleted) throw IllegalArgumentException("Esta carta foi excluída")
         return card.toResponseDTO()
     }
 
     override fun updateCard(id: String, dto: CardRequestDTO, userId: String): CardResponseDTO {
-        val existing = cardRepository.findById(id)
+        val existing = cardRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { NoSuchElementException("Carta $id não encontrada") }
 
-        val collection = collectionRepository.findById(dto.collectionId)
+        val collection = collectionRepository.findByIdAndDeletedFalse(dto.collectionId)
             .orElseThrow { NoSuchElementException("Coleção ${dto.collectionId} não encontrada") }
 
         val updated = existing.copy(
@@ -81,7 +81,7 @@ class CardServiceImpl(
     }
 
     override fun deleteCard(id: String, userId: String) {
-        val card = cardRepository.findById(id)
+        val card = cardRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { IllegalArgumentException("Carta não encontrada") }
         card.deleted = true
         card.updatedBy = userId

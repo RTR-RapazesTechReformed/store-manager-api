@@ -27,16 +27,16 @@ class PermissionServiceImpl(
     }
 
     override fun getAllPermissions(): List<PermissionResponseDTO> =
-        permissionRepository.findAll().filter { !it.deleted }.map { it.toDTO() }
+        permissionRepository.findAllByDeletedFalse().map { it.toDTO() }
 
     override fun getPermissionById(id: String): PermissionResponseDTO {
-        val permission = permissionRepository.findById(id)
+        val permission = permissionRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { ResourceNotFoundException("Permissão não encontrada: $id") }
         return permission.toDTO()
     }
 
     override fun updatePermission(id: String, dto: PermissionRequestDTO, userId: String): PermissionResponseDTO {
-        val existing = permissionRepository.findById(id)
+        val existing = permissionRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { ResourceNotFoundException("Permissão não encontrada: $id") }
 
         existing.name = dto.name
@@ -48,7 +48,7 @@ class PermissionServiceImpl(
     }
 
     override fun deletePermission(id: String, userId: String): Boolean {
-        val existing = permissionRepository.findById(id)
+        val existing = permissionRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { ResourceNotFoundException("Permissão não encontrada: $id") }
 
         existing.deleted = true

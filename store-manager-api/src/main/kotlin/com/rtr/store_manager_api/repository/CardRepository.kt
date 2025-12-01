@@ -5,6 +5,7 @@ import com.rtr.store_manager_api.domain.enum.CardRarity
 import com.rtr.store_manager_api.domain.enum.PokemonType
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
+import java.util.Optional
 
 interface CardRepository : JpaRepository<Card, String> {
     @Query("""
@@ -38,4 +39,7 @@ interface CardRepository : JpaRepository<Card, String> {
         pokemonType: String?,
         nationality: String?
     ): List<Card>
+
+    fun findAllByDeletedFalse(): List<Card>
+    fun findByIdAndDeletedFalse(id: String): Optional<Card>
 }

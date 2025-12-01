@@ -16,7 +16,7 @@ class InventoryServiceImpl(
 ) : InventoryService {
 
     override fun createInventory(dto: InventoryRequestDTO, userId: String): InventoryResponseDTO {
-        val product = productRepository.findById(dto.productId!!)
+        val product = productRepository.findByIdAndDeletedFalse(dto.productId!!)
             .orElseThrow { NoSuchElementException("Produto ${dto.productId} não encontrado") }
 
         val inventory = Inventory(
@@ -31,15 +31,15 @@ class InventoryServiceImpl(
     }
 
     override fun getAllInventory(): List<InventoryResponseDTO> =
-        inventoryRepository.findAll().map { it.toResponseDTO() }
+        inventoryRepository.findAllByDeletedFalse().map { it.toResponseDTO() }
 
     override fun getInventoryByProductId(productId: String): InventoryResponseDTO =
-        inventoryRepository.findById(productId)
+        inventoryRepository.findByProductIdAndDeletedFalse(productId)
             .orElseThrow { NoSuchElementException("Estoque do produto $productId não encontrado") }
             .toResponseDTO()
 
     override fun updateInventory(productId: String, dto: InventoryRequestDTO, userId: String): InventoryResponseDTO {
-        val existing = inventoryRepository.findById(productId)
+        val existing = inventoryRepository.findByProductIdAndDeletedFalse(productId)
             .orElseThrow { NoSuchElementException("Estoque do produto $productId não encontrado") }
 
         dto.quantity.let { existing.quantity = it }
@@ -51,7 +51,7 @@ class InventoryServiceImpl(
     }
 
     override fun deleteInventory(productId: String, userId: String) {
-        val inventory = inventoryRepository.findById(productId)
+        val inventory = inventoryRepository.findByProductIdAndDeletedFalse(productId)
             .orElseThrow { NoSuchElementException("Estoque do produto $productId não encontrado") }
 
         inventory.deleted = true

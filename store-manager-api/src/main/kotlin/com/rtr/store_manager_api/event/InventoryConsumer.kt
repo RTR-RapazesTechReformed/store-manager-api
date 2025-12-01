@@ -71,13 +71,13 @@ class InventoryConsumer(
     private fun processCreate(message: InventoryMovementMessage) {
         logger.info("Processando CREATE para movimento: ${message.movementId}")
 
-        val product = productRepository.findById(message.productId)
+        val product = productRepository.findByIdAndDeletedFalse(message.productId)
             .orElseThrow { NoSuchElementException("Produto ${message.productId} não encontrado") }
 
-        val user = userRepository.findById(message.userId)
+        val user = userRepository.findByIdAndDeletedFalse(message.userId)
             .orElseThrow { NoSuchElementException("Usuário ${message.userId} não encontrado") }
 
-        val inventory = inventoryRepository.findById(product.id).orElseGet {
+        val inventory = inventoryRepository.findByProductIdAndDeletedFalse(product.id).orElseGet {
             Inventory(product = product, quantity = 0).apply {
                 createdBy = message.createdBy
                 updatedBy = message.createdBy
@@ -154,13 +154,13 @@ class InventoryConsumer(
     private fun processUpdate(message: InventoryMovementMessage) {
         logger.info("Processando UPDATE para movimento: ${message.movementId}")
 
-        val movement = inventoryMovementRepository.findById(message.movementId)
+        val movement = inventoryMovementRepository.findByIdAndDeletedFalse(message.movementId)
             .orElseThrow { NoSuchElementException("Movimento ${message.movementId} não encontrado") }
 
-        val product = productRepository.findById(message.productId)
+        val product = productRepository.findByIdAndDeletedFalse(message.productId)
             .orElseThrow { NoSuchElementException("Produto ${message.productId} não encontrado") }
 
-        val user = userRepository.findById(message.userId)
+        val user = userRepository.findByIdAndDeletedFalse(message.userId)
             .orElseThrow { NoSuchElementException("Usuário ${message.userId} não encontrado") }
 
         movement.unitPurchasePrice = message.unitPurchasePrice
@@ -191,16 +191,16 @@ class InventoryConsumer(
     private fun processDelete(message: InventoryMovementMessage) {
         logger.info("Processando DELETE para movimento: ${message.movementId}")
 
-        val movement = inventoryMovementRepository.findById(message.movementId)
+        val movement = inventoryMovementRepository.findByIdAndDeletedFalse(message.movementId)
             .orElseThrow { NoSuchElementException("Movimento ${message.movementId} não encontrado") }
 
-        val product = productRepository.findById(message.productId)
+        val product = productRepository.findByIdAndDeletedFalse(message.productId)
             .orElseThrow { NoSuchElementException("Produto ${message.productId} não encontrado") }
 
-        val user = userRepository.findById(message.userId)
+        val user = userRepository.findByIdAndDeletedFalse(message.userId)
             .orElseThrow { NoSuchElementException("Usuário ${message.userId} não encontrado") }
 
-        val inventory = inventoryRepository.findById(product.id)
+        val inventory = inventoryRepository.findByProductIdAndDeletedFalse(product.id)
             .orElseThrow { NoSuchElementException("Estoque do produto ${product.id} não encontrado") }
 
         val quantityBefore = inventory.quantity
@@ -284,8 +284,8 @@ class InventoryConsumer(
         )
 
         try {
-            val product = productRepository.findById(message.productId).orElse(null)
-            val user = userRepository.findById(message.userId).orElse(null)
+            val product = productRepository.findByIdAndDeletedFalse(message.productId).orElse(null)
+            val user = userRepository.findByIdAndDeletedFalse(message.userId).orElse(null)
 
             if (product != null && user != null) {
 

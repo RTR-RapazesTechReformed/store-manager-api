@@ -28,13 +28,13 @@ class ProductServiceImpl(
 ) : ProductService {
 
     override fun createProduct(dto: ProductRequestDTO, userId: String): ProductResponseDTO {
-        val card: Card? = dto.cardId?.let { cardRepository.findById(it).orElse(null) }
-        val store: Store = storeRepository.findById(dto.storeId).orElseThrow {
+        val card: Card? = dto.cardId?.let { cardRepository.findByIdAndDeletedFalse(it).orElse(null) }
+        val store: Store = storeRepository.findByIdAndDeletedFalse(dto.storeId).orElseThrow {
             NoSuchElementException("Store ${dto.storeId} não encontrada")
         }
 
         val otherProduct: OtherProduct? = when {
-            dto.otherProductId != null -> otherProductRepository.findById(dto.otherProductId)
+            dto.otherProductId != null -> otherProductRepository.findByIdAndDeletedFalse(dto.otherProductId)
                 .orElseThrow { NoSuchElementException("${dto.otherProductId} não encontrado") }
 
             dto.otherProduct != null -> {
@@ -72,25 +72,25 @@ class ProductServiceImpl(
 
 
     override fun getAllProducts(storeId: String?,): List<ProductResponseDTO> {
-        val products = productRepository.findAll()
+        val products = productRepository.findAllByDeletedFalse()
         return products.filter { product ->
             (storeId == null || product.store?.id == storeId)
         }.map { it.toResponseDTO() }
     }
 
     override fun getProductById(id: String): ProductResponseDTO =
-        productRepository.findById(id)
+        productRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { NoSuchElementException("Produto $id não encontrado") }
             .toResponseDTO()
 
     override fun updateProduct(id: String, dto: ProductUpdateDTO, userId: String): ProductResponseDTO {
-        val existing = productRepository.findById(id)
+        val existing = productRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { NoSuchElementException("Produto $id não encontrado") }
 
         dto.name?.let { existing.name = it }
         dto.description?.let { existing.description = it }
         dto.storeId?.let {
-            val store = storeRepository.findById(it)
+            val store = storeRepository.findByIdAndDeletedFalse(it)
                 .orElseThrow { NoSuchElementException("Loja $it não encontrada") }
             existing.store = store
         }
@@ -104,7 +104,7 @@ class ProductServiceImpl(
     }
 
     override fun deleteProduct(id: String, userId: String) {
-        val product = productRepository.findById(id)
+        val product = productRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { NoSuchElementException("Produto $id não encontrado") }
 
         product.deleted = true
