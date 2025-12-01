@@ -24,7 +24,7 @@ class UserRoleServiceImpl(
     override fun createRole(dto: UserRoleRequestDTO, userId: String): UserRoleResponseDTO {
         val permissions: MutableSet<Permission> = dto.permissions
             .map { permId ->
-                permissionRepository.findById(permId)
+                permissionRepository.findByIdAndDeletedFalse(permId)
                     .orElseThrow { ResourceNotFoundException("Permissão não encontrada: $permId") }
             }
             .toMutableSet()
@@ -44,20 +44,18 @@ class UserRoleServiceImpl(
     }
 
     override fun getAllRoles(): List<UserRoleResponseDTO> {
-        return userRoleRepository.findAll()
-            .filter { !it.deleted }
-            .map { it.toDTO() }
+        return userRoleRepository.findAllByDeletedFalse().map { it.toDTO() }
     }
 
     override fun getRoleById(id: String): UserRoleResponseDTO {
-        val role = userRoleRepository.findById(id)
+        val role = userRoleRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { ResourceNotFoundException("Cargo não encontrado com o id: $id") }
         if (role.deleted) throw ResourceNotFoundException("Cargo já removido")
         return role.toDTO()
     }
 
     override fun updateRole(id: String, dto: UserRoleRequestDTO, userId: String): UserRoleResponseDTO {
-        val role = userRoleRepository.findById(id)
+        val role = userRoleRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { ResourceNotFoundException("Cargo não encontrado com o id: $id") }
 
         role.name = dto.name
@@ -69,7 +67,7 @@ class UserRoleServiceImpl(
     }
 
     override fun deleteRole(id: String, userId: String): Boolean {
-        val role = userRoleRepository.findById(id)
+        val role = userRoleRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { ResourceNotFoundException("Cargo não encontrado com o id: $id") }
 
         val usersWithRole = userRepository.existsByRoleIdAndDeletedFalse(role.id)

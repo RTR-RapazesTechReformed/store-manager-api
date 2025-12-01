@@ -29,20 +29,20 @@ class OtherProductServiceImpl(
     }
 
     override fun getAllOtherProducts(): List<OtherProductResponseDTO> {
-        return otherProductRepository.findAll()
+        return otherProductRepository.findAllByDeletedFalse()
             .filter { !it.deleted }
             .map { it.toResponseDTO() }
     }
 
     override fun getOtherProductById(id: String): OtherProductResponseDTO {
-        val otherProduct = otherProductRepository.findById(id)
+        val otherProduct = otherProductRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { NoSuchElementException("OtherProduct $id não encontrado") }
 
         return otherProduct.toResponseDTO()
     }
 
     override fun updateOtherProduct(id: String, dto: OtherProductRequestDTO, userId: String): OtherProductResponseDTO {
-        val existing = otherProductRepository.findById(id)
+        val existing = otherProductRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { NoSuchElementException("OtherProduct $id não encontrado") }
 
         existing.type = dto.type ?: existing.type
@@ -57,7 +57,7 @@ class OtherProductServiceImpl(
 
 
     override fun deleteOtherProduct(id: String, userId: String) {
-        val existing = otherProductRepository.findById(id)
+        val existing = otherProductRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { NoSuchElementException("OtherProduct $id não encontrado") }
 
         existing.deleted = true

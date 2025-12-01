@@ -31,7 +31,7 @@ class UserServiceImpl(
             ?: throw RtrRuleException("Cargo não encontrado: ${userInput.roleName}")
 
         val store = userInput.storeId?.let {
-            storeRepository.findById(it).orElseThrow { RtrRuleException("Loja não encontrada: $it") }
+            storeRepository.findByIdAndDeletedFalse(it).orElseThrow { RtrRuleException("Loja não encontrada: $it") }
         }
 
         val user = User(
@@ -49,7 +49,7 @@ class UserServiceImpl(
     }
 
     override fun getAllUsers(username: String?, email: String?, storeId: String?, role: String?): List<UserResponseDTO> {
-        val users = userRepository.findAll()
+        val users = userRepository.findAllByDeletedFalse()
 
         return users.filter { user ->
             (username == null || user.name.contains(username, ignoreCase = true)) &&
@@ -60,13 +60,13 @@ class UserServiceImpl(
     }
 
     override fun getUserById(id: String): UserResponseDTO {
-        val user = userRepository.findById(id)
+        val user = userRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { ResourceNotFoundException("Usuário não encontrado com o id: $id") }
         return user.toDTO()
     }
 
     override fun updateUser(id: String, userInput: UserUpdateDTO, userId: String): UserResponseDTO {
-        val existingUser = userRepository.findById(id)
+        val existingUser = userRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { ResourceNotFoundException("Usuário não encontrado com o id: $id") }
 
         userInput.name?.let { name ->
@@ -115,7 +115,7 @@ class UserServiceImpl(
             } else {
                 require(userInput.storeId.length == 36) { "ID da loja deve ser um UUID válido" }
 
-                val store = storeRepository.findById(userInput.storeId)
+                val store = storeRepository.findByIdAndDeletedFalse(userInput.storeId)
                     .orElseThrow { RtrRuleException("Loja não encontrada: ${userInput.storeId}") }
 
                 existingUser.store = store
@@ -129,7 +129,7 @@ class UserServiceImpl(
     }
 
     override fun deleteUser(id: String, userId: String): Boolean {
-        val existingUser = userRepository.findById(id)
+        val existingUser = userRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { ResourceNotFoundException("Usuário não encontrado com o id: $id") }
 
         existingUser.deleted = true

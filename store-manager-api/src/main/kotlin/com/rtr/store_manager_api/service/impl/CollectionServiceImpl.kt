@@ -31,17 +31,17 @@ class CollectionServiceImpl(
     }
 
     override fun getAllCollections(): List<CollectionResponseDTO> =
-        collectionRepository.findAll().filter { !it.deleted }.map { it.toResponseDTO() }
+        collectionRepository.findAllByDeletedFalse().map { it.toResponseDTO() }
 
     override fun getCollectionById(id: String): CollectionResponseDTO {
-        val collection = collectionRepository.findById(id)
+        val collection = collectionRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { NoSuchElementException("Coleção $id não encontrada") }
         if (collection.deleted) throw IllegalArgumentException("Coleção $id foi marcada como deletada")
         return collection.toResponseDTO()
     }
 
     override fun updateCollection(id: String, dto: CollectionRequestDTO, userId: String): CollectionResponseDTO {
-        val existing = collectionRepository.findById(id)
+        val existing = collectionRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { NoSuchElementException("Coleção $id não encontrada") }
 
         val updated = existing.copy(
@@ -63,7 +63,7 @@ class CollectionServiceImpl(
         pokemonType: String?,
         nationality: String?
     ): List<CollectionWithCardsDTO> {
-        val collections = collectionRepository.findAll().filter { !it.deleted }
+        val collections = collectionRepository.findAllByDeletedFalse().filter { !it.deleted }
 
         return collections.map { col ->
             val cards = cardRepository.findByCollectionWithFilters(
@@ -94,7 +94,7 @@ class CollectionServiceImpl(
     }
 
     override fun deleteCollection(id: String, userId: String) {
-        val collection = collectionRepository.findById(id)
+        val collection = collectionRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { NoSuchElementException("Coleção $id não encontrada") }
 
         collection.deleted = true

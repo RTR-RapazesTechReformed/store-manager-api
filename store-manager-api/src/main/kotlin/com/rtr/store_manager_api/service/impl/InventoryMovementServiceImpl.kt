@@ -35,10 +35,10 @@ class InventoryMovementServiceImpl(
     ): InventoryMovementResponse {
         logger.info("Criando novo movimento de estoque para produto: ${dto.productId}")
 
-        val product = productRepository.findById(dto.productId)
+        val product = productRepository.findByIdAndDeletedFalse(dto.productId)
             .orElseThrow { NoSuchElementException("Produto ${dto.productId} não encontrado") }
 
-        val user = userRepository.findById(userId)
+        val user = userRepository.findByIdAndDeletedFalse(userId)
             .orElseThrow { NoSuchElementException("Usuário $userId não encontrado") }
 
         val movementId = UUID.randomUUID().toString()
@@ -93,14 +93,14 @@ class InventoryMovementServiceImpl(
 
     override fun getAllMovements(): List<InventoryMovementResponseDTO> {
         logger.info("Consultando todos os movimentos de estoque")
-        return inventoryMovementRepository.findAll()
+        return inventoryMovementRepository.findAllByDeletedFalse()
             .filter { !it.deleted }
             .map { it.toResponseDTO() }
     }
 
     override fun getMovementById(id: String): InventoryMovementResponseDTO {
         logger.info("Consultando movimento: $id")
-        return inventoryMovementRepository.findById(id)
+        return inventoryMovementRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { NoSuchElementException("Movimento $id não encontrado") }
             .toResponseDTO()
     }
@@ -112,7 +112,7 @@ class InventoryMovementServiceImpl(
     ): InventoryMovementResponse {
         logger.info("Processando UPDATE para movimento: $id")
 
-        val existingMovement = inventoryMovementRepository.findById(id)
+        val existingMovement = inventoryMovementRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { NoSuchElementException("Movimento $id não encontrado") }
 
         if (existingMovement.deleted) {
@@ -120,7 +120,7 @@ class InventoryMovementServiceImpl(
             throw IllegalArgumentException("Não é permitido atualizar movimento deletado")
         }
 
-        val user = userRepository.findById(userId)
+        val user = userRepository.findByIdAndDeletedFalse(userId)
             .orElseThrow { NoSuchElementException("Usuário $userId não encontrado") }
 
         logger.info("Validação OK. Enviando mensagem UPDATE para Kafka: $id")
@@ -151,7 +151,7 @@ class InventoryMovementServiceImpl(
     override fun deleteMovement(id: String, userId: String): InventoryMovementResponse {
         logger.info("Processando DELETE para movimento: $id")
 
-        val movement = inventoryMovementRepository.findById(id)
+        val movement = inventoryMovementRepository.findByIdAndDeletedFalse(id)
             .orElseThrow { NoSuchElementException("Movimento $id não encontrado") }
 
         if (movement.deleted) {
@@ -164,7 +164,7 @@ class InventoryMovementServiceImpl(
             throw IllegalArgumentException("Não é permitido deletar movimentos de ajuste direto")
         }
 
-        val inventory = inventoryRepository.findById(movement.product.id)
+        val inventory = inventoryRepository.findByProductIdAndDeletedFalse(movement.product.id)
             .orElseThrow { NoSuchElementException("Estoque do produto ${movement.product.id} não encontrado") }
 
         if (movement.type == MovementType.IN && inventory.quantity < movement.quantity) {
@@ -175,7 +175,7 @@ class InventoryMovementServiceImpl(
             )
         }
 
-        val user = userRepository.findById(userId)
+        val user = userRepository.findByIdAndDeletedFalse(userId)
             .orElseThrow { NoSuchElementException("Usuário $userId não encontrado") }
 
         logger.info("Validação OK. Enviando mensagem DELETE para Kafka: $id")
