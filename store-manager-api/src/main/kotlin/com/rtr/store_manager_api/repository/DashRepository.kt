@@ -1,9 +1,18 @@
 package com.rtr.store_manager_api.repository
 
 import com.rtr.store_manager_api.domain.entity.Inventory
+import com.rtr.store_manager_api.dto.dashdto.MonthlyAcquisitionProjection
+import com.rtr.store_manager_api.dto.dashdto.ProfitByCategoryProjection
+import com.rtr.store_manager_api.dto.dashdto.SpendEarnByMonthProjection
+import com.rtr.store_manager_api.dto.dashdto.StockValuationProjection
+import com.rtr.store_manager_api.dto.dashdto.TopPokemonByStockProjection
+import com.rtr.store_manager_api.dto.dashdto.TopSellingCardProjection
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
+import java.math.BigDecimal
+import java.time.LocalDateTime
 
 @Repository
 interface DashRepository : JpaRepository<Inventory, String> {
@@ -43,19 +52,20 @@ interface DashRepository : JpaRepository<Inventory, String> {
     // 3ª KPI – Pokémon com maior quantidade total em estoque
     @Query(
         """
-        SELECT 
-            c.title AS pokemonName,
-            COALESCE(SUM(inv.quantity), 0) AS totalQuantity
-        FROM card c
-        JOIN product p ON p.card_id = c.id
-        JOIN inventory inv ON inv.product_id = p.id
-        GROUP BY c.title
-        ORDER BY totalQuantity DESC
-        LIMIT 1
-        """,
+    SELECT 
+        c.title AS pokemonName,
+        COALESCE(SUM(inv.quantity), 0) AS totalQuantity
+    FROM card c
+    JOIN product p ON p.card_id = c.id
+    JOIN inventory inv ON inv.product_id = p.id
+    GROUP BY c.title
+    ORDER BY totalQuantity DESC
+    LIMIT 1
+    """,
         nativeQuery = true
     )
-    fun getTopPokemonByStock(): Map<String, Any>
+    fun getTopPokemonByStock(): TopPokemonByStockProjection?
+
 
     // 4ª KPI – Coleção com maior número total de itens (cartas + produtos)
     @Query(
@@ -77,22 +87,24 @@ interface DashRepository : JpaRepository<Inventory, String> {
     // Gráfico de Aquisições Capex
     @Query(
         """
-        SELECT 
-            DATE_FORMAT(im.created_at, '%Y-%m') AS month,
-            im.id AS movementId,
-            im.description AS description,
-            im.quantity AS quantity,
-            im.unit_purchase_price AS unitPurchasePrice,
-            (im.quantity * im.unit_purchase_price) AS totalCost,
-            im.created_at AS createdAt
-        FROM inventory_movement im
-        WHERE im.type = 'IN'
-          AND im.deleted = FALSE
-        ORDER BY month DESC, im.created_at DESC
-        """,
+    SELECT 
+        DATE_FORMAT(im.created_at, '%Y-%m')              AS month,
+        im.id                                           AS movementId,
+        im.description                                  AS description,
+        im.quantity                                     AS quantity,
+        im.unit_purchase_price                          AS unitPurchasePrice,
+        (im.quantity * im.unit_purchase_price)          AS totalCost,
+        im.created_at                                   AS createdAt
+    FROM inventory_movement im
+    WHERE im.type = 'IN'
+      AND im.deleted = FALSE
+    ORDER BY month DESC, im.created_at DESC
+    """,
         nativeQuery = true
     )
-    fun getMonthlyAcquisitions(): List<Map<String, Any>>
+    fun getMonthlyAcquisitions(): List<MonthlyAcquisitionProjection>
+
+
 
     // Gráfico de Saída de produtos
     @Query(
@@ -179,4 +191,206 @@ interface DashRepository : JpaRepository<Inventory, String> {
         nativeQuery = true
     )
     fun findValuedCards(): List<Map<String, Any>>
+
+    @Query(
+        """
+    SELECT 
+        category, 
+        SUM(total_quantity) AS total_quantity
+    FROM (
+        SELECT
+            CASE
+                WHEN p.card_id IS NOT NULL THEN 'CARTAS_AVULSAS'
+                WHEN op.type = 'BOOSTER_BOX' THEN 'BOOSTER_BOX'
+                WHEN op.type = 'OTHER' THEN 'BOOSTER'
+                WHEN op.type = 'ACCESSORY' THEN 'ACCESSORY'
+                ELSE 'OUTROS'
+            END AS category,
+
+            (
+                COALESCE((
+                    SELECT SUM(im.quantity)
+                    FROM inventory_movement im
+                    WHERE im.product_id = p.id
+                      AND im.type = 'IN'
+                      AND im.created_at <= :dataRef
+                      AND im.deleted = 0
+                ), 0)
+                -
+                COALESCE((
+                    SELECT SUM(im.quantity)
+                    FROM inventory_movement im
+                    WHERE im.product_id = p.id
+                      AND im.type = 'OUT'
+                      AND im.created_at <= :dataRef
+                      AND im.deleted = 0
+                ), 0)
+                +
+                COALESCE((
+                    SELECT SUM(im.quantity)
+                    FROM inventory_movement im
+                    WHERE im.product_id = p.id
+                      AND im.type = 'ADJUST'
+                      AND im.created_at <= :dataRef
+                      AND im.deleted = 0
+                ), 0)
+            ) AS total_quantity
+
+        FROM product p
+        LEFT JOIN other_product op ON op.id = p.other_product_id
+        WHERE p.deleted = 0
+    ) AS sub
+    GROUP BY category
+    ORDER BY category
+    """,
+        nativeQuery = true
+    )
+    fun getHistoricalInventoryDistribution(
+        @Param("dataRef") dataRef: LocalDateTime
+    ): List<Map<String, Any>>
+
+    @Query(
+        """
+    SELECT 
+        p.name AS productName,
+        SUM(im.quantity) AS totalSold
+    FROM inventory_movement im
+    JOIN product p ON p.id = im.product_id
+    WHERE im.type = 'OUT'
+      AND im.deleted = 0
+      AND im.created_at BETWEEN :startDate AND :endDate
+    GROUP BY p.name
+    ORDER BY totalSold DESC
+    """,
+        nativeQuery = true
+    )
+    fun findAllCardSales(
+        @Param("startDate") startDate: LocalDateTime,
+        @Param("endDate") endDate: LocalDateTime
+    ): List<TopSellingCardProjection>
+
+
+    @Query(
+        value = """
+        SELECT
+            CASE
+                WHEN p.card_id IS NOT NULL THEN 'CARTAS_AVULSAS'
+                WHEN op.type = 'BOOSTER_BOX' THEN 'BOOSTER_BOX'
+                WHEN op.type = 'OTHER' THEN 'BOOSTER'
+                WHEN op.type = 'ACCESSORY' THEN 'ACCESSORY'
+                ELSE 'OUTROS'
+            END AS category,
+
+            SUM(
+                (im.unit_sale_price - im.unit_purchase_price) * im.quantity
+            ) AS totalProfit
+
+        FROM inventory_movement im
+        JOIN product p ON p.id = im.product_id
+        LEFT JOIN other_product op ON op.id = p.other_product_id
+
+        WHERE im.type = 'OUT'
+          AND im.deleted = 0
+          AND im.created_at BETWEEN :startDate AND :endDate
+
+        GROUP BY category
+        ORDER BY totalProfit DESC
+    """,
+        nativeQuery = true
+    )
+    fun getProfitByCategory(
+        startDate: String,
+        endDate: String
+    ): List<ProfitByCategoryProjection>
+
+
+    @Query(
+        value = """
+        SELECT
+            DATE_FORMAT(im.created_at, '%Y-%m') AS month,
+
+            SUM(
+                CASE WHEN im.type = 'IN'
+                     THEN im.unit_purchase_price * im.quantity
+                     ELSE 0 END
+            ) AS totalSpent,
+
+            SUM(
+                CASE WHEN im.type = 'OUT'
+                     THEN im.unit_sale_price * im.quantity
+                     ELSE 0 END
+            ) AS totalEarned
+
+        FROM inventory_movement im
+        WHERE im.deleted = 0
+          AND im.created_at BETWEEN :startDate AND :endDate
+        GROUP BY month
+        ORDER BY month ASC
+    """,
+        nativeQuery = true
+    )
+    fun getSpendVsEarnByMonth(
+        startDate: String,
+        endDate: String
+    ): List<SpendEarnByMonthProjection>
+
+    @Query(
+        value = """
+        SELECT 
+            DATE_FORMAT(mes.ref_date, '%Y-%m') AS month,
+            SUM(
+
+                (
+                    (
+                        SELECT 
+                            COALESCE(SUM(CASE WHEN im2.type = 'IN' THEN im2.quantity END), 0) -
+                            COALESCE(SUM(CASE WHEN im2.type = 'OUT' THEN im2.quantity END), 0) +
+                            COALESCE(SUM(CASE WHEN im2.type = 'ADJUST' THEN im2.quantity END), 0)
+                        FROM inventory_movement im2
+                        WHERE im2.product_id = p.id
+                          AND im2.created_at <= LAST_DAY(mes.ref_date)
+                          AND im2.deleted = 0
+                    )
+                )
+                *
+                (
+                    SELECT im3.unit_purchase_price
+                    FROM inventory_movement im3
+                    WHERE im3.product_id = p.id
+                      AND im3.type = 'IN'
+                      AND im3.created_at <= LAST_DAY(mes.ref_date)
+                    ORDER BY im3.created_at DESC
+                    LIMIT 1
+                )
+
+            ) AS totalStockValue
+
+        FROM product p
+
+        JOIN (
+            SELECT 
+                DATE_FORMAT(d1.date, '%Y-%m-01') AS ref_date
+            FROM (
+                SELECT 
+                    (DATE(:startDate) + INTERVAL seq MONTH) AS date
+                FROM (
+                    SELECT 0 seq UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 
+                    UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 
+                    UNION SELECT 9 UNION SELECT 10 UNION SELECT 11
+                ) AS months
+            ) d1
+            WHERE d1.date BETWEEN :startDate AND :endDate
+        ) AS mes
+
+        WHERE p.deleted = 0
+        GROUP BY month
+        ORDER BY month ASC
+    """,
+        nativeQuery = true
+    )
+    fun getStockValuationByMonth(
+        startDate: String,
+        endDate: String
+    ): List<StockValuationProjection>
+
 }

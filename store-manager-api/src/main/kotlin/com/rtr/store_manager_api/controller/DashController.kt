@@ -2,15 +2,20 @@ package com.rtr.store_manager_api.controller
 
 import com.rtr.store_manager_api.dto.dashdto.*
 import com.rtr.store_manager_api.service.DashService
+import com.rtr.store_manager_api.service.impl.DashServiceImpl
+import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 @RestController
 @RequestMapping("/api/dashboard")
 class DashController(
-    private val dashService: DashService
+    private val dashService: DashService,
 ) {
 
     // === KPIs ===
@@ -64,4 +69,72 @@ class DashController(
         val result = dashService.getValuedCards()
         return ResponseEntity.ok(result)
     }
+
+
+        @GetMapping("/distribution/historical")
+        fun getHistoricalDistribution(
+            @RequestParam("date")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            date: LocalDateTime
+        ): List<InventoryDistributionDTO> {
+
+            return dashService.getHistoricalDistribution(date)
+        }
+
+
+        @GetMapping("/sales")
+        fun getCardSales(
+            @RequestParam("start")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            start: LocalDate,
+
+            @RequestParam("end")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            end: LocalDate
+        ): List<TopSellingCardDTO> {
+            return dashService.getCardSales(start, end)
+        }
+
+
+
+        @GetMapping("/profit")
+        fun getProfitByCategory(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            start: LocalDate,
+
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            end: LocalDate
+        ): List<ProfitByCategoryProjection> {
+
+            return dashService.getProfitByCategory(start, end)
+        }
+
+
+
+
+        @GetMapping("/spend-earn")
+        fun getSpendVsEarn(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            start: LocalDate,
+
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            end: LocalDate
+        ): List<SpendEarnByMonthProjection> {
+
+            return dashService.getSpendVsEarn(start, end)
+        }
+
+
+
+
+        @GetMapping("/valuation")
+        fun getStockValuation(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            start: LocalDate,
+
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            end: LocalDate
+        ): List<StockValuationProjection> {
+            return dashService.getStockValuation(start, end)
+        }
 }

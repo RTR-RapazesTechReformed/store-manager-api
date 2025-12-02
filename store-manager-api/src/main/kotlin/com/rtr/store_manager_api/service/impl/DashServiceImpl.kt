@@ -5,11 +5,14 @@ import com.rtr.store_manager_api.repository.DashRepository
 import com.rtr.store_manager_api.service.DashService
 import org.springframework.stereotype.Service
 import java.sql.Timestamp
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 @Service
 class DashServiceImpl(
-    private val dashRepository: DashRepository
+    private val dashRepository: DashRepository,
 ) : DashService {
 
     // === KPIs ===
@@ -26,10 +29,21 @@ class DashServiceImpl(
 
     override fun getTopPokemonByStock(): TopPokemonByStockDTO {
         val result = dashRepository.getTopPokemonByStock()
-        val name = result["pokemon_name"]?.toString() ?: "Desconhecido"
-        val quantity = (result["total_quantity"] as? Number)?.toLong() ?: 0L
-        return TopPokemonByStockDTO(pokemonName = name, totalQuantity = quantity)
+
+        return if (result == null) {
+            TopPokemonByStockDTO(
+                pokemonName = "Desconhecido",
+                totalQuantity = 0L
+            )
+        } else {
+            TopPokemonByStockDTO(
+                pokemonName = result.pokemonName,
+                totalQuantity = result.totalQuantity
+            )
+        }
     }
+
+
 
     override fun getTopCollectionByItems(): TopCollectionByItemsDTO {
         val result = dashRepository.getTopCollectionByItems()
@@ -41,18 +55,21 @@ class DashServiceImpl(
     // === GRÁFICOS ===
 
     override fun getMonthlyAcquisitions(): List<MonthlyAcquisitionDTO> {
-        return dashRepository.getMonthlyAcquisitions().map { row ->
+        val rows = dashRepository.getMonthlyAcquisitions()
+
+        return rows.map { r ->
             MonthlyAcquisitionDTO(
-                month = row["month"].toString(),
-                movementId = row["movement_id"].toString(),
-                description = row["description"]?.toString(),
-                quantity = (row["quantity"] as? Number)?.toInt() ?: 0,
-                unitPurchasePrice = (row["unit_purchase_price"] as? Number)?.toDouble() ?: 0.0,
-                totalCost = (row["total_cost"] as? Number)?.toDouble() ?: 0.0,
-                createdAt = (row["created_at"] as? Timestamp)?.toLocalDateTime() ?: LocalDateTime.now()
+                month = r.getMonth(),
+                movementId = r.getMovementId(),
+                description = r.getDescription(),
+                quantity = r.getQuantity(),
+                unitPurchasePrice = r.getUnitPurchasePrice().toDouble(),
+                totalCost = r.getTotalCost().toDouble(),
+                createdAt = r.getCreatedAt()
             )
         }
     }
+
 
     override fun getSalesOverview(): List<SalesOverviewDTO> {
         return dashRepository.findSalesOverview().map { row ->
@@ -102,5 +119,44 @@ class DashServiceImpl(
                 lastSale = (row["last_sale"] as? Timestamp)?.toLocalDateTime() ?: LocalDateTime.now()
             )
         }
+    }
+    override fun getHistoricalDistribution(date: LocalDateTime): List<InventoryDistributionDTO> =
+        dashRepository.getHistoricalInventoryDistribution(date).map {
+            InventoryDistributionDTO(
+                category = it["category"] as String,
+                totalQuantity = (it["total_quantity"] as Number).toLong()
+            )
+        }
+
+    override fun getCardSales(start: LocalDate, end: LocalDate): List<TopSellingCardDTO> {
+        val startDateTime = start.atStartOfDay()
+        val endDateTime = end.atTime(23, 59, 59)
+        return dashRepository.findAllCardSales(startDateTime, endDateTime).map {
+            TopSellingCardDTO(it.getProductName(), it.getTotalSold())
+        }
+    }
+
+    override fun getProfitByCategory(start: LocalDate, end: LocalDate): List<ProfitByCategoryProjection> {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        return dashRepository.getProfitByCategory(
+            start.atStartOfDay().format(formatter),
+            end.atTime(23, 59, 59).format(formatter)
+        )
+    }
+
+    override fun getSpendVsEarn(start: LocalDate, end: LocalDate): List<SpendEarnByMonthProjection> {
+        val f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        return dashRepository.getSpendVsEarnByMonth(
+            start.atStartOfDay().format(f),
+            end.atTime(23, 59, 59).format(f)
+        )
+    }
+
+    override fun getStockValuation(start: LocalDate, end: LocalDate): List<StockValuationProjection> {
+        val f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        return dashRepository.getStockValuationByMonth(
+            start.atStartOfDay().format(f),
+            end.atTime(23, 59, 59).format(f)
+        )
     }
 }

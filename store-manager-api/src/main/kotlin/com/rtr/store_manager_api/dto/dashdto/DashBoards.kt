@@ -1,7 +1,35 @@
 package com.rtr.store_manager_api.dto.dashdto
 
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
+// ---------- PROJECTION PARA O REPOSITORY ----------
+interface MonthlyAcquisitionProjection {
+    fun getMonth(): String
+    fun getMovementId(): String
+    fun getDescription(): String?
+    fun getQuantity(): Int
+    fun getUnitPurchasePrice(): BigDecimal
+    fun getTotalCost(): BigDecimal
+    fun getCreatedAt(): LocalDateTime
+}
+
+interface TopSellingCardProjection {
+    fun getProductName(): String
+    fun getTotalSold(): Long
+}
+
+interface ProfitByCategoryProjection {
+    fun getCategory(): String
+    fun getTotalProfit(): Double
+}
+
+data class TopSellingCardDTO(
+    val productName: String,
+    val totalSold: Long
+)
+
+// ---------- DTOs USADOS NA CONTROLLER ----------
 data class MonthlyAcquisitionDTO(
     val month: String,
     val movementId: String,
@@ -49,3 +77,13 @@ data class ValuedCardDTO(
     val currentStock: Int,
     val lastSale: LocalDateTime
 )
+
+data class InventoryDistributionDTO(
+    val category: String,
+    val totalQuantity: Long
+)
+
+interface StockValuationProjection {
+    fun getMonth(): String
+    fun getTotalStockValue(): Double
+}
