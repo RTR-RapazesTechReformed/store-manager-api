@@ -311,7 +311,7 @@ INSERT INTO collection (id, name, abbreviation, release_date, generation, create
 VALUES
   (@base_set_id, 'Base Set', 'BS', '1999-01-09', 'GEN1', 'system'),
   (@jungle_id, 'Jungle', 'JU', '1999-06-16', 'GEN1', 'system'),
-  (@fossil_id, 'Fossil', 'FO', '1999-10-10', 'GEN1', 'system');
+  (@fossil_id, 'Fossil', 'FO', '1999-10-10', 'GEN1', 'system'),
   (@me01_set_id := UUID(),'Mega Evolution','ME01','2014-11-07','GEN6','system');
 
 
