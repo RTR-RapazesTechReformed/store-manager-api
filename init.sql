@@ -324,8 +324,8 @@ VALUES
 (@charizard := UUID(), 'Charizard', '1', 'FIRE', @base_set_id, 'BS-004', 'RARE_HOLO', 'JP', 'system'),
 (@blastoise := UUID(), 'Blastoise', '1', 'WATER', @base_set_id, 'BS-002', 'RARE_HOLO', 'JP', 'system'),
 (@venusaur := UUID(), 'Venusaur', '1', 'GRASS', @base_set_id, 'BS-003', 'RARE_HOLO', 'JP', 'system'),
-(@machamp := UUID(), 'Machamp', '1', 'FIGHTING', @base_set_id, 'BS-008', 'RARE_HOLO', 'JP', 'system');
-(@abra := UUID(),'Abra','1','PSYCHIC',@me01_set_id,'ME01-054','COMMON','EN','system'),
+(@machamp := UUID(), 'Machamp', '1', 'FIGHTING', @base_set_id, 'BS-008', 'RARE_HOLO', 'JP', 'system'),
+(@abra := UUID(),'Abra','1','PSYCHIC',@me01_set_id,'ME01-054','COMMON','EN','system');
 
 -- ================================
 -- JUNGLE CARDS
