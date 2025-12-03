@@ -2,7 +2,7 @@
 -- BANCO DE DADOS MERURU TCG - POC SIMPLES
 -- =====================================================
 
-DROP DATABASE RTR;
+DROP DATABASE IF EXISTS RTR;
 CREATE DATABASE IF NOT EXISTS RTR CHARACTER SET = 'utf8mb4' COLLATE = 'utf8mb4_unicode_ci';
 USE RTR;
 
