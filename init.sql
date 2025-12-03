@@ -312,6 +312,7 @@ VALUES
   (@base_set_id, 'Base Set', 'BS', '1999-01-09', 'GEN1', 'system'),
   (@jungle_id, 'Jungle', 'JU', '1999-06-16', 'GEN1', 'system'),
   (@fossil_id, 'Fossil', 'FO', '1999-10-10', 'GEN1', 'system');
+  (@me01_set_id := UUID(),'Mega Evolution','ME01','2014-11-07','GEN6','system');
 
 
 -- ================================
@@ -324,6 +325,7 @@ VALUES
 (@blastoise := UUID(), 'Blastoise', '1', 'WATER', @base_set_id, 'BS-002', 'RARE_HOLO', 'JP', 'system'),
 (@venusaur := UUID(), 'Venusaur', '1', 'GRASS', @base_set_id, 'BS-003', 'RARE_HOLO', 'JP', 'system'),
 (@machamp := UUID(), 'Machamp', '1', 'FIGHTING', @base_set_id, 'BS-008', 'RARE_HOLO', 'JP', 'system');
+(@abra := UUID(),'Abra','1','PSYCHIC',@me01_set_id,'ME01-054','COMMON','EN','system'),
 
 -- ================================
 -- JUNGLE CARDS
