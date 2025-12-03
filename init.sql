@@ -2,9 +2,9 @@
 -- BANCO DE DADOS MERURU TCG - POC SIMPLES
 -- =====================================================
 
-DROP DATABASE IF EXISTS RTR;
-CREATE DATABASE IF NOT EXISTS RTR CHARACTER SET = 'utf8mb4' COLLATE = 'utf8mb4_unicode_ci';
-USE RTR;
+DROP DATABASE IF EXISTS rtr;
+CREATE DATABASE IF NOT EXISTS rtr CHARACTER SET = 'utf8mb4' COLLATE = 'utf8mb4_unicode_ci';
+USE rtr;
 
 -- =====================================================
 -- MERURU TCG DATABASE - SIMPLE POC
