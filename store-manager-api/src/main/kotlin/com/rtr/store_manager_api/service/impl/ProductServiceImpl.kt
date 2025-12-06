@@ -120,7 +120,7 @@ class ProductServiceImpl(
         description = this.description,
         price = this.price,
         condition = this.condition,
-        storeId = this.store?.id,
+        storeName = this.store?.name,
         card = this.card?.let {
             CardResponseDTO(
                 id = it.id,

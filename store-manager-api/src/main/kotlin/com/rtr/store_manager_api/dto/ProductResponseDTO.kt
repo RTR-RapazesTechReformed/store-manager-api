@@ -8,7 +8,7 @@ data class ProductResponseDTO(
     val id: String,
     val name: String,
     val description: String?,
-    val storeId: String?,
+    val storeName: String?,
     val card: CardResponseDTO? = null,
     val otherProduct: OtherProductResponseDTO? = null,
     val price: BigDecimal,

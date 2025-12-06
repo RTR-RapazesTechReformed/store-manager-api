@@ -7,6 +7,7 @@ import java.util.Optional
 
 @Repository
 interface InventoryRepository : JpaRepository<Inventory, String> {
-    fun findAllByDeletedFalse(): List<Inventory>
+    fun findAllByDeletedFalseAndProduct_DeletedFalse(): List<Inventory>
     fun findByProductIdAndDeletedFalse(productId: String): Optional<Inventory>
+
 }
