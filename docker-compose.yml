@@ -48,19 +48,19 @@ services:
       - kafka
     networks:
       - kafka-network
-    entrypoint: [ '/bin/sh', '-c' ]
+    entrypoint: ["/bin/sh", "-c"]
     command: |
       "
       echo 'Aguardando Kafka estar pronto...'
       sleep 30
-      
+
       echo 'Criando tópicos...'
       kafka-topics --bootstrap-server kafka:9093 --create --if-not-exists --topic inventory-movement-topic --replication-factor 1 --partitions 3
       kafka-topics --bootstrap-server kafka:9093 --create --if-not-exists --topic inventory-movement-dlq --replication-factor 1 --partitions 1
-      
+
       echo 'Listando tópicos criados:'
       kafka-topics --bootstrap-server kafka:9093 --list
-      
+
       echo 'Tópicos criados com sucesso!'
       "
 
@@ -78,6 +78,35 @@ services:
     networks:
       - kafka-network
 
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: bulldog200
+      MYSQL_DATABASE: rtr
+    networks:
+      - kafka-network
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  store-manager-api:
+    build: ./store-manager-api
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/rtr
+      DB_USER: root
+      DB_PASS: bulldog200
+      SERVER_PORT: 8080
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+    depends_on:
+      - kafka
+      - mysql
+    networks:
+      - kafka-network
+
 networks:
   kafka-network:
     driver: bridge
@@ -86,3 +115,4 @@ volumes:
   zookeeper-data:
   zookeeper-logs:
   kafka-data:
+  mysql-data:
