@@ -13,7 +13,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 @RestController
-@RequestMapping("/api/store-manager-api/dashboard")
+@RequestMapping("/store-manager-api/dashboard")
 class DashController(
     private val dashService: DashService,
 ) {

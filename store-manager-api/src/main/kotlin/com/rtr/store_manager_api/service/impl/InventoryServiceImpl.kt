@@ -31,7 +31,7 @@ class InventoryServiceImpl(
     }
 
     override fun getAllInventory(): List<InventoryResponseDTO> =
-        inventoryRepository.findAllByDeletedFalse().map { it.toResponseDTO() }
+        inventoryRepository.findAllByDeletedFalseAndProduct_DeletedFalse().map { it.toResponseDTO() }
 
     override fun getInventoryByProductId(productId: String): InventoryResponseDTO =
         inventoryRepository.findByProductIdAndDeletedFalse(productId)
@@ -61,14 +61,32 @@ class InventoryServiceImpl(
         inventoryRepository.save(inventory)
     }
 
-    private fun Inventory.toResponseDTO() = InventoryResponseDTO(
-        productId = this.product.id,
-        productName = this.product.name,
-        quantity = this.quantity,
-        createdBy = this.createdBy,
-        updatedBy = this.updatedBy,
-        createdAt = this.createdAt,
-        updatedAt = this.updatedAt,
-        deleted = this.deleted
-    )
+    private fun Inventory.toResponseDTO(): InventoryResponseDTO {
+
+        val productType = when {
+            this.product.card != null -> "CARD"
+            this.product.otherProduct != null -> "OTHER_PRODUCT"
+            else -> "UNKNOWN"
+        }
+
+        val totalValue = product.price?.multiply(quantity.toBigDecimal())
+
+        return InventoryResponseDTO(
+            productId = this.product.id,
+            productName = this.product.name,
+            quantity = this.quantity,
+
+            storeName = this.product.store?.name,
+            productType = productType,
+            condition = this.product.condition?.name,
+            sellUnitPrice = this.product.price,
+            totalValue = totalValue,
+
+            createdBy = this.createdBy,
+            updatedBy = this.updatedBy,
+            createdAt = this.createdAt,
+            updatedAt = this.updatedAt,
+            deleted = this.deleted
+        )
+    }
 }
