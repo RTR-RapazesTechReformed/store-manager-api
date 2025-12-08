@@ -13,7 +13,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 @RestController
-@RequestMapping("/api/dashboard")
+@RequestMapping("/api/store-manager-api/dashboard")
 class DashController(
     private val dashService: DashService,
 ) {
@@ -24,6 +24,18 @@ class DashController(
     fun getTotalCardsInStock(): ResponseEntity<TotalCardsInStockDTO> {
         val result = dashService.getTotalCardsInStock()
         return ResponseEntity.ok(result)
+    }
+
+    @GetMapping("/kpis-cartas")
+    fun getKpis() = dashService.getCartasKpi()
+
+    @GetMapping("/kpis-boosters")
+    fun getBoosterBoxesKpis(): BoosterBoxesKpiDTO {
+        return dashService.getBoosterBoxesKpi()
+    }
+    @GetMapping("/kpi-top-card")
+    fun getTopCardKpi(): TopCardKpiDTO {
+        return dashService.getTopCardKpi()
     }
 
     @GetMapping("/total-booster-boxes")
@@ -38,17 +50,18 @@ class DashController(
         return ResponseEntity.ok(result)
     }
 
-    @GetMapping("/top-collection-by-items")
-    fun getTopCollectionByItems(): ResponseEntity<TopCollectionByItemsDTO> {
-        val result = dashService.getTopCollectionByItems()
+    @GetMapping("/kpi-top-collection")
+    fun getTopCollectionKpi(): ResponseEntity<TopCollectionKpiDTO> {
+        val result = dashService.getTopCollectionKpi()
         return ResponseEntity.ok(result)
     }
 
+
     // === GRÁFICOS ===
 
-    @GetMapping("/monthly-acquisitions")
-    fun getMonthlyAcquisitions(): ResponseEntity<List<MonthlyAcquisitionDTO>> {
-        val result = dashService.getMonthlyAcquisitions()
+    @GetMapping("/monthly-investments")
+    fun getMonthlyAcquisitions(): ResponseEntity<List<MonthlyInvestmentDTO>> {
+        val result = dashService.getMonthlyInvestments()
         return ResponseEntity.ok(result)
     }
 

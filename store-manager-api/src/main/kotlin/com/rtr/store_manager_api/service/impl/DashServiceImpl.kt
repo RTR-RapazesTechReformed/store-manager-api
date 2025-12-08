@@ -4,6 +4,7 @@ import com.rtr.store_manager_api.dto.dashdto.*
 import com.rtr.store_manager_api.repository.DashRepository
 import com.rtr.store_manager_api.service.DashService
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
 import java.sql.Timestamp
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -45,27 +46,43 @@ class DashServiceImpl(
 
 
 
-    override fun getTopCollectionByItems(): TopCollectionByItemsDTO {
-        val result = dashRepository.getTopCollectionByItems()
-        val name = result["collection_name"]?.toString() ?: "Desconhecida"
-        val total = (result["total_items"] as? Number)?.toLong() ?: 0L
-        return TopCollectionByItemsDTO(collectionName = name, totalItems = total)
+    override fun getTopCollectionKpi(): TopCollectionKpiDTO {
+        val rows = dashRepository.getTopCollectionKpi()
+
+        if (rows.isEmpty()) {
+            return TopCollectionKpiDTO(
+                colecao = "Desconhecida",
+                vendidasUltimoMes = 0,
+                estoqueAtual = 0
+            )
+        }
+
+        val r = rows[0]
+
+        return TopCollectionKpiDTO(
+            colecao = r[0]?.toString() ?: "Desconhecida",
+            vendidasUltimoMes = (r[1] as? Number)?.toLong() ?: 0L,
+            estoqueAtual = (r[2] as? Number)?.toLong() ?: 0L
+        )
     }
+
+
+
+
 
     // === GRÁFICOS ===
 
-    override fun getMonthlyAcquisitions(): List<MonthlyAcquisitionDTO> {
-        val rows = dashRepository.getMonthlyAcquisitions()
+    override fun getMonthlyInvestments(): List<MonthlyInvestmentDTO> {
+        val rows = dashRepository.findMonthlyInvestments()
 
-        return rows.map { r ->
-            MonthlyAcquisitionDTO(
-                month = r.getMonth(),
-                movementId = r.getMovementId(),
-                description = r.getDescription(),
-                quantity = r.getQuantity(),
-                unitPurchasePrice = r.getUnitPurchasePrice().toDouble(),
-                totalCost = r.getTotalCost().toDouble(),
-                createdAt = r.getCreatedAt()
+        return rows.map { row ->
+            MonthlyInvestmentDTO(
+                month = row[0] as String,
+                productId = row[1] as String,
+                productName = row[2] as String,
+                totalQuantity = (row[3] as Number).toInt(),
+                unitPrice = row[4] as BigDecimal,
+                totalInvested = row[5] as BigDecimal
             )
         }
     }
@@ -134,6 +151,36 @@ class DashServiceImpl(
         return dashRepository.findAllCardSales(startDateTime, endDateTime).map {
             TopSellingCardDTO(it.getProductName(), it.getTotalSold())
         }
+    }
+
+    override fun getCartasKpi(): CartasKpiDTO {
+        return CartasKpiDTO(
+            total = dashRepository.totalCartas(),
+            vendidasHoje = dashRepository.cartasVendidasHoje(),
+            cadastradasHoje = dashRepository.cartasCadastradasHoje(),
+        )
+    }
+
+    override fun getBoosterBoxesKpi(): BoosterBoxesKpiDTO {
+        val total = dashRepository.totalBoosterBoxesSistema()
+        val vendidasHoje = dashRepository.boosterBoxesVendidasHoje()
+        val cadastradasHoje = dashRepository.boosterBoxesCadastradasHoje()
+
+        return BoosterBoxesKpiDTO(
+            total = total,
+            vendidasHoje = vendidasHoje,
+            cadastradasHoje = cadastradasHoje
+        )
+    }
+
+    override fun getTopCardKpi(): TopCardKpiDTO {
+        val result = dashRepository.getTopCardKpi()
+
+        return TopCardKpiDTO(
+            nomeCarta = result["nomeCarta"]?.toString() ?: "---",
+            quantidadeAtual = (result["quantidadeAtual"] as Number?)?.toLong() ?: 0,
+            vendasUltimoMes = (result["vendasUltimoMes"] as Number?)?.toLong() ?: 0
+        )
     }
 
     override fun getProfitByCategory(start: LocalDate, end: LocalDate): List<ProfitByCategoryProjection> {

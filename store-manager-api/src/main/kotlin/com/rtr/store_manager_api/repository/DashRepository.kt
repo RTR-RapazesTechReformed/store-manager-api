@@ -67,42 +67,29 @@ interface DashRepository : JpaRepository<Inventory, String> {
     fun getTopPokemonByStock(): TopPokemonByStockProjection?
 
 
-    // 4ª KPI – Coleção com maior número total de itens (cartas + produtos)
-    @Query(
-        """
-        SELECT 
-            col.name AS collectionName,
-            (COUNT(DISTINCT c.id) + COUNT(DISTINCT p.id)) AS totalItems
-        FROM collection col
-        LEFT JOIN card c ON c.collection_id = col.id AND c.deleted = FALSE
-        LEFT JOIN product p ON p.store_id IS NOT NULL AND p.deleted = FALSE
-        GROUP BY col.name
-        ORDER BY totalItems DESC
-        LIMIT 1
-        """,
-        nativeQuery = true
-    )
-    fun getTopCollectionByItems(): Map<String, Any>
+
 
     // Gráfico de Aquisições Capex
     @Query(
-        """
-    SELECT 
-        DATE_FORMAT(im.created_at, '%Y-%m')              AS month,
-        im.id                                           AS movementId,
-        im.description                                  AS description,
-        im.quantity                                     AS quantity,
-        im.unit_purchase_price                          AS unitPurchasePrice,
-        (im.quantity * im.unit_purchase_price)          AS totalCost,
-        im.created_at                                   AS createdAt
-    FROM inventory_movement im
-    WHERE im.type = 'IN'
-      AND im.deleted = FALSE
-    ORDER BY month DESC, im.created_at DESC
-    """,
+        value = """
+        SELECT
+            DATE_FORMAT(im.created_at, '%Y-%m') AS month,
+            p.id AS productId,
+            p.name AS productName,
+            SUM(im.quantity) AS totalQuantity,
+            im.unit_purchase_price AS unitPrice,
+            SUM(im.quantity * im.unit_purchase_price) AS totalInvested
+        FROM inventory_movement im
+        JOIN product p ON p.id = im.product_id
+        WHERE im.type = 'IN'
+          AND im.deleted = 0
+          AND im.unit_purchase_price IS NOT NULL
+        GROUP BY month, p.id, p.name, unitPrice
+        ORDER BY month, productName
+        """,
         nativeQuery = true
     )
-    fun getMonthlyAcquisitions(): List<MonthlyAcquisitionProjection>
+    fun findMonthlyInvestments(): List<Array<Any>>
 
 
 
@@ -392,5 +379,156 @@ interface DashRepository : JpaRepository<Inventory, String> {
         startDate: String,
         endDate: String
     ): List<StockValuationProjection>
+
+
+    // --- CARTAS ---
+
+    @Query("""
+    SELECT COALESCE(SUM(i.quantity), 0)
+    FROM inventory i
+    JOIN product p ON p.id = i.product_id
+    WHERE p.card_id IS NOT NULL
+      AND p.deleted = FALSE
+""", nativeQuery = true)
+    fun totalCartas(): Long
+
+
+    @Query("""
+    SELECT COALESCE(SUM(im.quantity), 0)
+    FROM inventory_movement im
+    JOIN product p ON p.id = im.product_id
+    WHERE im.type = 'OUT'
+      AND DATE(im.created_at) = CURDATE()
+      AND p.card_id IS NOT NULL
+      AND im.deleted = FALSE
+""", nativeQuery = true)
+    fun cartasVendidasHoje(): Long
+
+
+    @Query("""
+    SELECT COUNT(*)
+    FROM product p
+    WHERE p.card_id IS NOT NULL
+      AND DATE(p.created_at) = CURDATE()
+      AND p.deleted = FALSE
+""", nativeQuery = true)
+    fun cartasCadastradasHoje(): Long
+
+    @Query(
+        """
+    WITH top_card AS (
+        SELECT 
+            c.id AS card_id,
+            c.title AS card_name,
+            SUM(inv.quantity) AS total_quantity
+        FROM card c
+        JOIN product p ON p.card_id = c.id
+        JOIN inventory inv ON inv.product_id = p.id
+        WHERE c.deleted = FALSE
+        GROUP BY c.id, c.title
+        ORDER BY total_quantity DESC
+        LIMIT 1
+    )
+
+    SELECT
+        tc.card_name AS nomeCarta,
+        tc.total_quantity AS quantidadeAtual,
+
+        COALESCE((
+            SELECT SUM(im.quantity)
+            FROM inventory_movement im
+            JOIN product p2 ON p2.id = im.product_id
+            WHERE p2.card_id = tc.card_id
+              AND im.type = 'OUT'
+              AND im.created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+        ), 0) AS vendasUltimoMes
+
+    FROM top_card tc
+    """,
+        nativeQuery = true
+    )
+    fun getTopCardKpi(): Map<String, Any>
+
+    @Query(
+        value = """
+        WITH vendas AS (
+    SELECT 
+        c.name AS colecao,
+        COUNT(*) AS vendidas
+    FROM inventory_movement im
+    JOIN product p ON p.id = im.product_id
+    JOIN card cd ON cd.id = p.card_id
+    JOIN collection c ON c.id = cd.collection_id
+    WHERE im.type = 'OUT'
+      AND im.deleted = 0
+      AND im.created_at >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+    GROUP BY c.name
+),
+estoque AS (
+    SELECT 
+        c.name AS colecao,
+        SUM(i.quantity) AS qtd
+    FROM inventory i
+    JOIN product p ON p.id = i.product_id
+    JOIN card cd ON cd.id = p.card_id
+    JOIN collection c ON c.id = cd.collection_id
+    WHERE i.deleted = 0
+    GROUP BY c.name
+)
+SELECT 
+    v.colecao AS nomeColecao,
+    v.vendidas AS vendasUltimoMes,
+    COALESCE(e.qtd, 0) AS estoqueAtual
+FROM vendas v
+LEFT JOIN estoque e ON e.colecao = v.colecao
+ORDER BY v.vendidas DESC
+LIMIT 1;
+
+        """,
+        nativeQuery = true
+    )
+    fun getTopCollectionKpi(): List<Array<Any>>
+
+
+
+
+
+// --- BOOSTER BOXES ---
+
+    @Query("""
+    SELECT COALESCE(SUM(i.quantity), 0)
+    FROM inventory i
+    JOIN product p ON p.id = i.product_id
+    JOIN other_product op ON op.id = p.other_product_id
+    WHERE op.type = 'BOOSTER_BOX'
+      AND p.deleted = FALSE
+""", nativeQuery = true)
+    fun totalBoosterBoxesSistema(): Long
+
+
+    @Query("""
+    SELECT COALESCE(SUM(im.quantity), 0)
+    FROM inventory_movement im
+    JOIN product p ON p.id = im.product_id
+    JOIN other_product op ON op.id = p.other_product_id
+    WHERE im.type = 'OUT'
+      AND DATE(im.created_at) = CURDATE()
+      AND op.type = 'BOOSTER_BOX'
+      AND p.deleted = FALSE
+      AND im.deleted = FALSE
+""", nativeQuery = true)
+    fun boosterBoxesVendidasHoje(): Long
+
+
+    @Query("""
+    SELECT COUNT(*)
+    FROM product p
+    JOIN other_product op ON op.id = p.other_product_id
+    WHERE op.type = 'BOOSTER_BOX'
+      AND DATE(p.created_at) = CURDATE()
+      AND p.deleted = FALSE
+""", nativeQuery = true)
+    fun boosterBoxesCadastradasHoje(): Long
+
 
 }

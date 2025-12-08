@@ -30,15 +30,16 @@ data class TopSellingCardDTO(
 )
 
 // ---------- DTOs USADOS NA CONTROLLER ----------
-data class MonthlyAcquisitionDTO(
+data class MonthlyInvestmentDTO(
     val month: String,
-    val movementId: String,
-    val description: String?,
-    val quantity: Int,
-    val unitPurchasePrice: Double,
-    val totalCost: Double,
-    val createdAt: LocalDateTime
+    val productId: String,
+    val productName: String,
+    val totalQuantity: Int,
+    val unitPrice: BigDecimal,
+    val totalInvested: BigDecimal
 )
+
+
 
 data class SalesOverviewDTO(
     val productName: String,
