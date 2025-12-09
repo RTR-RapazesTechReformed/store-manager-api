@@ -94,7 +94,6 @@ class DashController(
             return dashService.getHistoricalDistribution(date)
         }
 
-
         @GetMapping("/sales")
         fun getCardSales(
             @RequestParam("start")
@@ -107,8 +106,6 @@ class DashController(
         ): List<TopSellingCardDTO> {
             return dashService.getCardSales(start, end)
         }
-
-
 
         @GetMapping("/profit")
         fun getProfitByCategory(
@@ -123,8 +120,6 @@ class DashController(
         }
 
 
-
-
         @GetMapping("/spend-earn")
         fun getSpendVsEarn(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -136,9 +131,6 @@ class DashController(
 
             return dashService.getSpendVsEarn(start, end)
         }
-
-
-
 
         @GetMapping("/valuation")
         fun getStockValuation(

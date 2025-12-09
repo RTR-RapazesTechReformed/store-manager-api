@@ -12,14 +12,6 @@
             </PendingDiffInfo>
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/store-manager-api/src/test/resources/application-test.properties">
-          <value>
-            <PendingDiffInfo>
-              <option name="filePath" value="$PROJECT_DIR$/store-manager-api/src/test/resources/application-test.properties" />
-              <option name="updatedContent" value="# Test profile configuration for in-memory H2 database&#10;spring.datasource.url=jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE&#10;spring.datasource.driver-class-name=org.h2.Driver&#10;spring.datasource.username=sa&#10;spring.datasource.password=&#10;spring.jpa.database-platform=org.hibernate.dialect.H2Dialect&#10;spring.jpa.hibernate.ddl-auto=create-drop&#10;spring.jpa.show-sql=true&#10;spring.jpa.defer-datasource-initialization=true&#10;" />
-            </PendingDiffInfo>
-          </value>
-        </entry>
       </map>
     </option>
   </component>

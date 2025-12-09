@@ -189,8 +189,8 @@ interface DashRepository : JpaRepository<Inventory, String> {
             CASE
                 WHEN p.card_id IS NOT NULL THEN 'CARTAS_AVULSAS'
                 WHEN op.type = 'BOOSTER_BOX' THEN 'BOOSTER_BOX'
-                WHEN op.type = 'OTHER' THEN 'BOOSTER'
-                WHEN op.type = 'ACCESSORY' THEN 'ACCESSORY'
+                WHEN op.type = 'OTHER' THEN 'OUTROS'
+                WHEN op.type = 'ACCESSORY' THEN 'ACESSÓRIOS'
                 ELSE 'OUTROS'
             END AS category,
 
@@ -263,22 +263,34 @@ interface DashRepository : JpaRepository<Inventory, String> {
             CASE
                 WHEN p.card_id IS NOT NULL THEN 'CARTAS_AVULSAS'
                 WHEN op.type = 'BOOSTER_BOX' THEN 'BOOSTER_BOX'
-                WHEN op.type = 'OTHER' THEN 'BOOSTER'
-                WHEN op.type = 'ACCESSORY' THEN 'ACCESSORY'
+                WHEN op.type = 'OTHER' THEN 'OUTROS'
+                WHEN op.type = 'ACCESSORY' THEN 'ACESSÓRIOS'
                 ELSE 'OUTROS'
             END AS category,
 
             SUM(
-                (im.unit_sale_price - im.unit_purchase_price) * im.quantity
+                im_out.quantity * (
+                    im_out.unit_sale_price - 
+                    COALESCE(
+                        (
+                            SELECT AVG(im_in.unit_purchase_price)
+                            FROM inventory_movement im_in
+                            WHERE im_in.product_id = im_out.product_id
+                              AND im_in.type = 'IN'
+                              AND im_in.deleted = 0
+                        ),
+                        0
+                    )
+                )
             ) AS totalProfit
 
-        FROM inventory_movement im
-        JOIN product p ON p.id = im.product_id
+        FROM inventory_movement im_out
+        JOIN product p ON p.id = im_out.product_id
         LEFT JOIN other_product op ON op.id = p.other_product_id
 
-        WHERE im.type = 'OUT'
-          AND im.deleted = 0
-          AND im.created_at BETWEEN :startDate AND :endDate
+        WHERE im_out.type = 'OUT'
+          AND im_out.deleted = 0
+          AND im_out.created_at BETWEEN :startDate AND :endDate
 
         GROUP BY category
         ORDER BY totalProfit DESC
