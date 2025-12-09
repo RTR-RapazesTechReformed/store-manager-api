@@ -1,6 +1,7 @@
 package com.rtr.store_manager_api.service.impl
 
 import com.rtr.store_manager_api.domain.entity.Card
+import com.rtr.store_manager_api.domain.entity.Inventory
 import com.rtr.store_manager_api.domain.entity.OtherProduct
 import com.rtr.store_manager_api.domain.entity.Product
 import com.rtr.store_manager_api.domain.entity.Store
@@ -11,6 +12,7 @@ import com.rtr.store_manager_api.dto.ProductResponseDTO
 import com.rtr.store_manager_api.dto.ProductUpdateDTO
 import com.rtr.store_manager_api.dto.UserResponseDTO
 import com.rtr.store_manager_api.repository.CardRepository
+import com.rtr.store_manager_api.repository.InventoryRepository
 import com.rtr.store_manager_api.repository.OtherProductRepository
 import com.rtr.store_manager_api.repository.ProductRepository
 import com.rtr.store_manager_api.repository.StoreRepository
@@ -25,6 +27,7 @@ class ProductServiceImpl(
     private val cardRepository: CardRepository,
     private val storeRepository: StoreRepository,
     private val otherProductRepository: OtherProductRepository,
+    private val inventoryRepository: InventoryRepository
 ) : ProductService {
 
     override fun createProduct(dto: ProductRequestDTO, userId: String): ProductResponseDTO {
@@ -65,6 +68,18 @@ class ProductServiceImpl(
             createdBy = userId
             updatedBy = userId
         }
+
+        val savedProduct = productRepository.save(product)
+
+        val inventory = Inventory(
+            product = savedProduct,
+            quantity = 0
+        ).apply {
+            createdBy = userId
+            updatedBy = userId
+        }
+
+        inventoryRepository.save(inventory)
 
         return productRepository.save(product).toResponseDTO()
     }
